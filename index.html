@@ -443,15 +443,87 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <!-- ===== INNER: NEGÓCIOS TI ===== -->
 <div class="inner-app" id="inner-negociosTI">
   <div class="inner-content" id="negociosTI-content" style="padding:0">
-    <!-- DASHBOARD - preenchido pelo JS -->
-    <div id="ng-dashboard"></div>
+    <div id="ng-dashboard">
+      <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:1.5rem;color:white;border-radius:12px 12px 0 0">
+        <h2 style="margin:0;font-size:1.3rem">Negocios em Informatica</h2>
+        <p style="margin:.3rem 0 0;opacity:.85;font-size:.9rem">Clique em uma etapa para comecar</p>
+      </div>
+      <div style="background:var(--card);border-radius:0 0 12px 12px;padding:1rem">
+
+        <div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">
+          <div style="padding:.8rem 1rem;background:#78350f;color:white;font-weight:600">1. Empreendedorismo e TI</div>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'O que e Empreendedorismo em TI?','Empreendedorismo em TI e a capacidade de identificar oportunidades de negocio na area de tecnologia. Um empreendedor de TI cria solucos inovadoras usando software, hardware ou servicos digitais para resolver problemas reais do mercado.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">O que e Empreendedorismo em TI? <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'Modelos de Negocio em TI','Os principais modelos: SaaS (Software como Servico), desenvolvimento sob demanda, consultoria de TI, e-commerce, aplicativos moveis, suporte tecnico e revenda de equipamentos. Cada modelo tem sua forma de gerar receita e atender clientes.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Modelos de Negocio em TI <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'Plano de Negocio','O plano de negocio descreve o empreendimento: missao, visao, mercado-alvo, servicos, estrategia de marketing e financas. E essencial para buscar investimentos e organizar o crescimento da empresa.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Plano de Negocio <span>&#8594;</span></a>
+        </div>
+
+        <div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">
+          <div style="padding:.8rem 1rem;background:#78350f;color:white;font-weight:600">2. Marketing Digital</div>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'Redes Sociais para Empresas','Instagram, Facebook, LinkedIn e YouTube sao essenciais para divulgar negocios de TI. Crie perfil profissional, poste conteudo relevante com regularidade, use hashtags e interaja com o publico. O LinkedIn e ideal para servicos B2B.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Redes Sociais para Empresas <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'SEO e Presenca Digital','SEO (Search Engine Optimization) e otimizar seu site para aparecer no Google. Use palavras-chave, crie conteudo util, tenha site rapido e responsivo. Google Meu Negocio e gratuito e essencial para empresas locais.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">SEO e Presenca Digital <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'E-mail Marketing','E-mail marketing e enviar mensagens promocionais para uma lista de contatos. Use ferramentas como Mailchimp. Personalize as mensagens, use linhas de assunto atraentes, inclua chamada para acao (CTA) e respeite a LGPD pedindo permissao para enviar emails.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">E-mail Marketing <span>&#8594;</span></a>
+        </div>
+
+        <div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">
+          <div style="padding:.8rem 1rem;background:#78350f;color:white;font-weight:600">3. Gestao Financeira em TI</div>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'Precificacao de Servicos','Para precificar: calcule todos os custos (horas trabalhadas, ferramentas, deslocamento), pesquise o mercado local, adicione margem de lucro de 20-40%. Use planilha para controlar entradas e saidas. Nao trabalhe abaixo do custo.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Precificacao de Servicos <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'Fluxo de Caixa','Fluxo de caixa e o controle de entradas e saidas de dinheiro. Registre todas as receitas e despesas. Separe conta pessoal da empresarial. Mantenha reserva de emergencia equivalente a 3 meses de despesas fixas.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Fluxo de Caixa <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoNG(this,'Impostos e MEI','O MEI (Microempreendedor Individual) permite formalizar o negocio com baixo custo. Limite de faturamento anual: R$81.000. Paga um DAS mensal fixo. Permite emitir nota fiscal e ter CNPJ. Ideal para profissionais de TI autonomos.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Impostos e MEI <span>&#8594;</span></a>
+        </div>
+
+      </div>
+      <!-- Modal de conteudo -->
+      <div id="ng-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:9999;padding:1rem;box-sizing:border-box;overflow-y:auto">
+        <div style="max-width:600px;margin:2rem auto;background:var(--card);border-radius:12px;padding:1.5rem">
+          <h3 id="ng-modal-titulo" style="color:var(--texto);margin:0 0 1rem"></h3>
+          <p id="ng-modal-conteudo" style="color:var(--subtexto);line-height:1.7;margin:0 0 1.5rem"></p>
+          <button onclick="document.getElementById('ng-modal').style.display='none'" style="width:100%;padding:.8rem;background:#b45309;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer;font-weight:600">Fechar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- ===== INNER: CURSO INFORMÁTICA ===== -->
 <div class="inner-app" id="inner-curso">
   <div class="inner-content" id="curso-content" style="padding:0">
-    <!-- DASHBOARD - preenchido pelo JS -->
-    <div id="ib-dashboard"></div>
+    <div id="ib-dashboard">
+      <div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:1.5rem;color:white;border-radius:12px 12px 0 0">
+        <h2 style="margin:0;font-size:1.3rem">Informatica Basica</h2>
+        <p style="margin:.3rem 0 0;opacity:.85;font-size:.9rem">Clique em uma etapa para comecar</p>
+      </div>
+      <div style="background:var(--card);border-radius:0 0 12px 12px;padding:1rem">
+
+        <div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">
+          <div style="padding:.8rem 1rem;background:#1e3a5f;color:white;font-weight:600">1. Introducao a Informatica</div>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'O que e um computador?','Computador e uma maquina capaz de receber, processar, armazenar e transmitir informacoes. E composto por hardware (partes fisicas) e software (programas). Os principais componentes sao: processador (CPU), memoria RAM, disco rigido, placa-mae, dispositivos de entrada (teclado, mouse) e saida (monitor, impressora).')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">O que e um computador? <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'Hardware e Software','Hardware sao todos os componentes fisicos do computador. Software sao os programas e sistemas. O sistema operacional (Windows, Linux) e o software principal que gerencia o computador.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Hardware e Software <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'Dispositivos de Entrada e Saida','Dispositivos de ENTRADA enviam dados ao computador: teclado, mouse, scanner, microfone. Dispositivos de SAIDA recebem dados: monitor, impressora, caixas de som. Alguns sao entrada e saida: pen drive, HD externo, touch screen.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Dispositivos de Entrada e Saida <span>&#8594;</span></a>
+        </div>
+
+        <div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">
+          <div style="padding:.8rem 1rem;background:#1e3a5f;color:white;font-weight:600">2. Sistema Operacional Windows</div>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'Area de Trabalho','A Area de Trabalho e a tela principal do Windows. A Barra de Tarefas fica na parte inferior com o Botao Iniciar, programas abertos e relogio. Para organizar a area de trabalho clique com o botao direito do mouse.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Area de Trabalho e Barra de Tarefas <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'Arquivos e Pastas','O Explorador de Arquivos permite navegar pelos arquivos. Para criar pasta: botao direito > Nova Pasta. Copiar: Ctrl+C. Colar: Ctrl+V. Cortar: Ctrl+X. Renomear: botao direito > Renomear. Deletar: tecla Delete.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Arquivos e Pastas <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'Instalacao de Programas','Para instalar: baixe o .exe e execute seguindo as instrucoes. Para desinstalar: Configuracoes > Aplicativos > Desinstalar. Mantenha o Windows atualizado em Configuracoes > Windows Update.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Instalacao e Desinstalacao de Programas <span>&#8594;</span></a>
+        </div>
+
+        <div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">
+          <div style="padding:.8rem 1rem;background:#1e3a5f;color:white;font-weight:600">3. Internet e Seguranca Digital</div>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'Navegadores e Internet','Navegador e o programa para acessar a internet: Chrome, Firefox, Edge. Para pesquisar use o Google. Use palavras-chave objetivas e aspas para frases exatas.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Navegadores e Pesquisa <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'E-mail','E-mail e comunicacao escrita pela internet. Para criar: gmail.com > Criar conta. Para enviar: clique em Escrever, preencha Para, Assunto e conteudo. Cuidado com emails desconhecidos - podem ser golpes (phishing).')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">E-mail e Comunicacao <span>&#8594;</span></a>
+          <a href="javascript:void(0)" onclick="showConteudoIB(this,'Seguranca Digital','Crie senhas fortes: misture letras, numeros e simbolos. Nunca compartilhe senhas. Ative verificacao em duas etapas. Nao clique em links suspeitos. Mantenha antivirus atualizado. Faca backup dos arquivos.')" style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-top:1px solid var(--borda);color:var(--texto);text-decoration:none">Seguranca Digital e Senhas <span>&#8594;</span></a>
+        </div>
+
+      </div>
+      <!-- Modal de conteudo -->
+      <div id="ib-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:9999;padding:1rem;box-sizing:border-box;overflow-y:auto">
+        <div style="max-width:600px;margin:2rem auto;background:var(--card);border-radius:12px;padding:1.5rem">
+          <h3 id="ib-modal-titulo" style="color:var(--texto);margin:0 0 1rem"></h3>
+          <p id="ib-modal-conteudo" style="color:var(--subtexto);line-height:1.7;margin:0 0 1.5rem"></p>
+          <button onclick="document.getElementById('ib-modal').style.display='none'" style="width:100%;padding:.8rem;background:#1a56db;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer;font-weight:600">Fechar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- ===== INNER: TAREFAS PRONTAS ===== -->
@@ -1810,10 +1882,7 @@ function isNgModuloLiberado(modIdx){
   return negociosModulos[modIdx-1].etapas.every(e=>prog[e.id]===true);
 }
 
-function initNegociosTI(){
-  renderNgDashboard();
-  bindNgEvents();
-}
+function initNegociosTI(){ window.scrollTo(0,0); }
 
 function logoutNegocios(){ localStorage.removeItem('negti_nome'); localStorage.removeItem('negti_progresso'); renderNgLogin(); }
 
@@ -2090,10 +2159,20 @@ function isModuloLiberado(modIdx){
   return cursoModulos[modIdx-1].etapas.every(e=>prog[e.id]===true);
 }
 
-function initCurso(){
-  renderCursoDashboard();
-  bindCursoEvents();
+function showConteudoIB(el, titulo, conteudo){
+  document.getElementById('ib-modal-titulo').textContent = titulo;
+  document.getElementById('ib-modal-conteudo').textContent = conteudo;
+  document.getElementById('ib-modal').style.display = 'block';
+  window.scrollTo(0,0);
 }
+function showConteudoNG(el, titulo, conteudo){
+  document.getElementById('ng-modal-titulo').textContent = titulo;
+  document.getElementById('ng-modal-conteudo').textContent = conteudo;
+  document.getElementById('ng-modal').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function initCurso(){ window.scrollTo(0,0); }
 
 function abrirEtapaCurso(etapaId){
   var etapa = null;
