@@ -1759,66 +1759,35 @@ function isNgModuloLiberado(modIdx){
 function initNegociosTI(){
   var nome = localStorage.getItem('negti_nome');
   if(!nome){ renderNgLogin(); return; }
-  renderNgDashboard();
-  bindNgEvents();
+  renderNgDashboard(); bindNgEvents();
 }
 
 function logoutNegocios(){ localStorage.removeItem('negti_nome'); localStorage.removeItem('negti_progresso'); renderNgLogin(); }
 
 
 function bindNgEvents(){
-  var container = document.getElementById('negociosTI-content');
-  if(!container) return;
-  container.removeEventListener('click', _ngBtnHandler);
-  container.addEventListener('click', _ngBtnHandler);
+  var c = document.getElementById('negociosTI-content');
+  if(!c) return;
+  c.onclick = _ngBtnHandler;
 }
 function _ngBtnHandler(e){
   var id = e.target && e.target.id;
-  if(id === 'ng-btn-login') fazerNgLogin();
-  else if(id === 'ng-btn-cadastro') fazerNgCadastro();
-  else if(id === 'ngtab-login') mostrarNgTabLogin();
-  else if(id === 'ngtab-cadastro') mostrarNgTabCadastro();
-  else if(id === 'ng-btn-logout') logoutNgCurso();
+  if(id === 'ng-btn-entrar'){
+    var input = document.getElementById('ng-nome-input');
+    var nome = input ? input.value.trim() : '';
+    var erro = document.getElementById('ng-nome-erro');
+    if(!nome){ if(erro){erro.textContent='Informe seu nome.';erro.style.display='';} return; }
+    localStorage.setItem('negti_nome', nome);
+    renderNgDashboard(); bindNgEvents();
+  } else if(id === 'ng-btn-logout') logoutNegocios();
 }
 
 function renderNgLogin(){
-  document.getElementById('negociosTI-content').innerHTML = `
-  <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
-    <div style="font-size:2.5rem;margin-bottom:.5rem">💼</div>
-    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Negócios em Informática</h2>
-    <p style="opacity:.85">Digite seu nome para começar</p>
-  </div>
-  <div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px">
-    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
-      <div>
-        <label style="font-size:.9rem;color:var(--subtexto);display:block;margin-bottom:.4rem">Seu nome completo</label>
-        <input id="ng-nome-input" type="text" placeholder="Ex: João da Silva"
-          style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box">
-      </div>
-      <div id="ng-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-      <button id="ng-btn-entrar" class="btn btn-primary"
-        style="width:100%;font-size:1rem;padding:.9rem;background:#b45309;border-color:#b45309">
-        🚀 Começar Curso
-      </button>
-    </div>
-    <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">Seu progresso será salvo neste dispositivo</p>
-  </div>`;
+  var c = document.getElementById('negociosTI-content');
+  if(!c) return;
+  c.innerHTML = '<div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center"><div style="font-size:2.5rem">&#x1F4BC;</div><h2 style="margin:.5rem 0">Neg&oacute;cios em Inform&aacute;tica</h2><p style="opacity:.85">Digite seu nome para come&ccedil;ar</p></div><div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px"><div style="max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem"><label style="font-size:.9rem;color:var(--subtexto)">Seu nome completo</label><input id="ng-nome-input" type="text" placeholder="Ex: Jo&atilde;o da Silva" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box"><div id="ng-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div><button id="ng-btn-entrar" class="btn btn-primary" style="padding:.9rem;font-size:1rem;background:#b45309;border-color:#b45309">Come&ccedil;ar Curso</button></div></div>';
   window.scrollTo(0,0);
-  setTimeout(function(){
-    var btn = document.getElementById('ng-btn-entrar');
-    var input = document.getElementById('ng-nome-input');
-    if(btn) btn.onclick = function(){
-      var nome = input ? input.value.trim() : '';
-      var erro = document.getElementById('ng-nome-erro');
-      if(!nome){ erro.textContent='Informe seu nome.'; erro.style.display=''; return; }
-      localStorage.setItem('negti_nome', nome);
-      renderNgDashboard();
-      bindNgEvents();
-    };
-    if(input) input.addEventListener('keydown', function(e){
-      if(e.key==='Enter') btn && btn.click();
-    });
-  }, 50);
+  bindNgEvents();
 }
 
 
@@ -2090,8 +2059,7 @@ function isModuloLiberado(modIdx){
 function initCurso(){
   var nome = localStorage.getItem('infob_nome');
   if(!nome){ renderCursoLogin(); return; }
-  renderCursoDashboard();
-  bindCursoEvents();
+  renderCursoDashboard(); bindCursoEvents();
 }
 
 function logoutCurso(){ localStorage.removeItem('infob_nome'); localStorage.removeItem('infob_prog'); renderCursoLogin(); }
@@ -2099,59 +2067,29 @@ function logoutCurso(){ localStorage.removeItem('infob_nome'); localStorage.remo
 // ---- TELA DE LOGIN ----
 
 function bindCursoEvents(){
-  var container = document.getElementById('curso-content');
-  if(!container) return;
-  container.removeEventListener('click', _cursoBtnHandler);
-  container.addEventListener('click', _cursoBtnHandler);
+  var c = document.getElementById('curso-content');
+  if(!c) return;
+  c.onclick = _cursoBtnHandler;
 }
 function _cursoBtnHandler(e){
   var id = e.target && e.target.id;
-  if(id === 'ib-btn-login') fazerIbLogin();
-  else if(id === 'ib-btn-cadastro') fazerIbCadastro();
-  else if(id === 'ibtab-login') mostrarIbTabLogin();
-  else if(id === 'ibtab-cadastro') mostrarIbTabCadastro();
-  else if(id === 'ib-btn-logout') logoutCurso();
+  if(id === 'ib-btn-entrar'){
+    var input = document.getElementById('ib-nome-input');
+    var nome = input ? input.value.trim() : '';
+    var erro = document.getElementById('ib-nome-erro');
+    if(!nome){ if(erro){erro.textContent='Informe seu nome.';erro.style.display='';} return; }
+    localStorage.setItem('infob_nome', nome);
+    renderCursoDashboard(); bindCursoEvents();
+  } else if(id === 'ib-btn-logout') logoutCurso();
 }
 
 
 function renderCursoLogin(){
-  document.getElementById('curso-content').innerHTML = `
-  <div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
-    <div style="font-size:2.5rem;margin-bottom:.5rem">🖥️</div>
-    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Informática Básica</h2>
-    <p style="opacity:.85">Digite seu nome para começar</p>
-  </div>
-  <div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px">
-    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
-      <div>
-        <label style="font-size:.9rem;color:var(--subtexto);display:block;margin-bottom:.4rem">Seu nome completo</label>
-        <input id="ib-nome-input" type="text" placeholder="Ex: João da Silva"
-          style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box">
-      </div>
-      <div id="ib-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-      <button id="ib-btn-entrar" class="btn btn-primary"
-        style="width:100%;font-size:1rem;padding:.9rem;background:#1a56db;border-color:#1a56db">
-        🚀 Começar Curso
-      </button>
-    </div>
-    <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">Seu progresso será salvo neste dispositivo</p>
-  </div>`;
+  var c = document.getElementById('curso-content');
+  if(!c) return;
+  c.innerHTML = '<div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center"><div style="font-size:2.5rem">&#x1F5A5;</div><h2 style="margin:.5rem 0">Inform&aacute;tica B&aacute;sica</h2><p style="opacity:.85">Digite seu nome para come&ccedil;ar</p></div><div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px"><div style="max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem"><label style="font-size:.9rem;color:var(--subtexto)">Seu nome completo</label><input id="ib-nome-input" type="text" placeholder="Ex: Jo&atilde;o da Silva" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box"><div id="ib-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div><button id="ib-btn-entrar" class="btn btn-primary" style="padding:.9rem;font-size:1rem;background:#1a56db;border-color:#1a56db">Come&ccedil;ar Curso</button></div></div>';
   window.scrollTo(0,0);
-  setTimeout(function(){
-    var btn = document.getElementById('ib-btn-entrar');
-    var input = document.getElementById('ib-nome-input');
-    if(btn) btn.onclick = function(){
-      var nome = input ? input.value.trim() : '';
-      var erro = document.getElementById('ib-nome-erro');
-      if(!nome){ erro.textContent='Informe seu nome.'; erro.style.display=''; return; }
-      localStorage.setItem('infob_nome', nome);
-      renderCursoDashboard();
-      bindCursoEvents();
-    };
-    if(input) input.addEventListener('keydown', function(e){
-      if(e.key==='Enter') btn && btn.click();
-    });
-  }, 50);
+  bindCursoEvents();
 }
 
 
