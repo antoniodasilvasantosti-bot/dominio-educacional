@@ -205,26 +205,26 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
 <!-- NAVBAR -->
 <nav id="navbar">
-  <a class="nav-logo" href="#" onclick="showHome()">
+  <a class="nav-logo" href="#" data-action="showHome">
     <div class="logo-icon">🎓</div>
     <span>Domínio Educacional</span>
   </a>
   <button class="menu-toggle" onclick="toggleMenu()">☰</button>
   <ul id="navMenu">
-    <li><a href="javascript:void(0)" onclick="showHome()" id="nav-home" class="active">🏠 Início</a></li>
+    <li><a href="javascript:void(0)" data-action="showHome" id="nav-home" class="active">🏠 Início</a></li>
     <li><span class="nav-sep"></span></li>
-    <li><a href="javascript:void(0)" onclick="showInner('logica')" style="color:#93c5fd">💻 Lógica</a></li>
-    <li><a href="javascript:void(0)" onclick="showInner('word')" style="color:#93c5fd">📝 Word</a></li>
-    <li><a href="javascript:void(0)" onclick="showInner('excel')" style="color:#86efac">📊 Excel</a></li>
-    <li><a href="javascript:void(0)" onclick="showInner('ppt')" style="color:#fdba74">📊 PowerPoint</a></li>
+    <li><a href="javascript:void(0)" data-inner="logica" style="color:#93c5fd">💻 Lógica</a></li>
+    <li><a href="javascript:void(0)" data-inner="word" style="color:#93c5fd">📝 Word</a></li>
+    <li><a href="javascript:void(0)" data-inner="excel" style="color:#86efac">📊 Excel</a></li>
+    <li><a href="javascript:void(0)" data-inner="ppt" style="color:#fdba74">📊 PowerPoint</a></li>
     <li><span class="nav-sep"></span></li>
-    <li><a href="javascript:void(0)" onclick="showInner('quizzes')" style="color:#f9a8d4">✏️ Quizzes</a></li>
-    <li><a href="javascript:void(0)" onclick="showInner('bncc')" style="color:#c4b5fd">📘 BNCC</a></li>
-    <li><a href="javascript:void(0)" onclick="showInner('didatico')" style="color:#fb923c">🗂️ Mat. Didático</a></li>
-    <li><a href="javascript:void(0)" onclick="showInner('materiais')" style="color:#34d399">📦 Materiais Prontos</a></li>
-    <li><a href="javascript:void(0)" onclick="showInner('tarefas')" style="color:#fb7185">📝 Tarefas Prontas</a></li>
-    <li class="nav-dropdown"><a href="javascript:void(0)" onclick="toggleDropdown(event)" style="color:#34d399">📚 Cursos ▾</a><ul class="dropdown-menu"><li><a href="javascript:void(0)" onclick="showInner('curso');closeDropdown()">🖥️ Informática Básica</a></li><li><a href="javascript:void(0)" onclick="showInner('negociosTI');closeDropdown()">💼 Negócios em Informática</a></li></ul></li>
-    <li><a href="javascript:void(0)" onclick="showInner('sobre')" style="color:#fde68a">👨‍🏫 Prof.</a></li>
+    <li><a href="javascript:void(0)" data-inner="quizzes" style="color:#f9a8d4">✏️ Quizzes</a></li>
+    <li><a href="javascript:void(0)" data-inner="bncc" style="color:#c4b5fd">📘 BNCC</a></li>
+    <li><a href="javascript:void(0)" data-inner="didatico" style="color:#fb923c">🗂️ Mat. Didático</a></li>
+    <li><a href="javascript:void(0)" data-inner="materiais" style="color:#34d399">📦 Materiais Prontos</a></li>
+    <li><a href="javascript:void(0)" data-inner="tarefas" style="color:#fb7185">📝 Tarefas Prontas</a></li>
+    <li class="nav-dropdown"><a href="javascript:void(0)" onclick="toggleDropdown(event)" style="color:#34d399">📚 Cursos ▾</a><ul class="dropdown-menu"><li><a href="javascript:void(0)" data-inner="curso" data-close-dropdown="1">🖥️ Informática Básica</a></li><li><a href="javascript:void(0)" data-inner="negociosTI" data-close-dropdown="1">💼 Negócios em Informática</a></li></ul></li>
+    <li><a href="javascript:void(0)" data-inner="sobre" style="color:#fde68a">👨‍🏫 Prof.</a></li>
   </ul>
 </nav>
 
@@ -235,15 +235,15 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <h1>Aprenda <span>Lógica de Programação</span><br>e Ferramentas de Escritório</h1>
     <p>Conteúdo gratuito, interativo e completo para o seu desenvolvimento profissional e acadêmico.</p>
     <div class="hero-btns">
-      <button class="btn btn-primary" onclick="showInner('logica')">💻 Lógica de Programação</button>
-      <button class="btn btn-verde" onclick="showInner('quizzes')">✏️ Praticar com Quiz</button>
+      <button class="btn btn-primary" data-inner="logica">💻 Lógica de Programação</button>
+      <button class="btn btn-verde" data-inner="quizzes">✏️ Praticar com Quiz</button>
     </div>
   </section>
 
   <section style="padding:3rem 1.5rem;background:#0d0d14;">
     <div class="section-title"><h2>📚 Módulos do Curso</h2><p>Escolha um módulo para começar</p></div>
     <div class="grade" style="max-width:1100px;margin:0 auto;">
-      <div class="card" style="border-color:rgba(59,130,246,.3);cursor:pointer" onclick="showInner('logica')">
+      <div class="card" style="border-color:rgba(59,130,246,.3);cursor:pointer" data-inner="logica">
         <div class="card-icon">💻</div>
         <h3 style="color:#93c5fd">Lógica de Programação</h3>
         <p>Variáveis, operadores, estruturas de controle, laços, funções, vetores, matrizes e muito mais.</p>
@@ -252,7 +252,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">Quiz livre</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(37,99,235,.3);cursor:pointer" onclick="showInner('word')">
+      <div class="card" style="border-color:rgba(37,99,235,.3);cursor:pointer" data-inner="word">
         <div class="card-icon">📝</div>
         <h3 style="color:#93c5fd">Microsoft Word</h3>
         <p>Formatação, estilos, tabelas, sumário automático, mala direta, revisão e muito mais.</p>
@@ -261,7 +261,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">Quiz livre</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(22,163,74,.3);cursor:pointer" onclick="showInner('excel')">
+      <div class="card" style="border-color:rgba(22,163,74,.3);cursor:pointer" data-inner="excel">
         <div class="card-icon">📊</div>
         <h3 style="color:#86efac">Microsoft Excel</h3>
         <p>Planilhas, fórmulas, funções, gráficos, tabelas dinâmicas, filtros e automação.</p>
@@ -270,7 +270,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">Quiz livre</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(249,115,22,.3);cursor:pointer" onclick="showInner('ppt')">
+      <div class="card" style="border-color:rgba(249,115,22,.3);cursor:pointer" data-inner="ppt">
         <div class="card-icon">🎨</div>
         <h3 style="color:#fdba74">Microsoft PowerPoint</h3>
         <p>Slides, transições, animações, design, apresentação e técnicas de oratória visual.</p>
@@ -279,7 +279,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">Quiz livre</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(168,85,247,.3);cursor:pointer" onclick="showInner('quizzes')">
+      <div class="card" style="border-color:rgba(168,85,247,.3);cursor:pointer" data-inner="quizzes">
         <div class="card-icon">✏️</div>
         <h3 style="color:#d8b4fe">Central de Quizzes</h3>
         <p>Pratique com quizzes interativos de todos os módulos. Acesso livre, sem cadastro.</p>
@@ -288,7 +288,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">150+ questões</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(251,146,60,.3);cursor:pointer" onclick="showInner('didatico')">
+      <div class="card" style="border-color:rgba(251,146,60,.3);cursor:pointer" data-inner="didatico">
         <div class="card-icon">🗂️</div>
         <h3 style="color:#fb923c">Materiais Didáticos</h3>
         <p>Guia completo para professores: como criar aulas, slides, apostilas, quizzes e planos de aula digitais.</p>
@@ -297,7 +297,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">Para professores</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(52,211,153,.35);cursor:pointer" onclick="showInner('cursos_home')">
+      <div class="card" style="border-color:rgba(52,211,153,.35);cursor:pointer" data-inner="cursos_home">
         <div class="card-icon">📚</div>
         <h3 style="color:#34d399">📚 Cursos</h3>
         <p>Cursos interativos passo a passo com avaliação integrada. Cada módulo só libera após aprovação no anterior!</p>
@@ -307,7 +307,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-ciano">Progresso salvo</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(251,113,133,.3);cursor:pointer" onclick="showInner('tarefas')">
+      <div class="card" style="border-color:rgba(251,113,133,.3);cursor:pointer" data-inner="tarefas">
         <div class="card-icon">📝</div>
         <h3 style="color:#fb7185">Tarefas Prontas</h3>
         <p>50 tarefas com cabeçalho para imprimir — Técnico Integrado. Conteúdo atualizado e alinhado à BNCC.</p>
@@ -316,7 +316,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">Cabeçalho em branco</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(52,211,153,.3);cursor:pointer" onclick="showInner('materiais')">
+      <div class="card" style="border-color:rgba(52,211,153,.3);cursor:pointer" data-inner="materiais">
         <div class="card-icon">📦</div>
         <h3 style="color:#34d399">Materiais Prontos por Nível</h3>
         <p>Planos de aula, apostilas, slides e atividades prontas do Maternal ao Ensino Técnico.</p>
@@ -325,7 +325,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <span class="tag tag-verde">Prontos para usar</span>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(168,85,247,.3);cursor:pointer" onclick="showInner('bncc')">
+      <div class="card" style="border-color:rgba(168,85,247,.3);cursor:pointer" data-inner="bncc">
         <div class="card-icon">📘</div>
         <h3 style="color:#c4b5fd">BNCC Computação</h3>
         <p>Base Nacional Comum Curricular — competências digitais e pensamento computacional.</p>
@@ -344,7 +344,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div style="text-align:left;">
         <strong style="font-size:1.1rem">Prof. Antônio da Silva Santos</strong>
         <p style="color:var(--subtexto);font-size:.88rem;margin-top:.3rem">Gestor de TI · Pós-Graduado · Professor de Informática<br>SEMED · Autor · Fundador do <a href="https://carneirosvirtual.com" target="_blank" style="color:#3b82f6;text-decoration:underline">carneirosvirtual.com</a></p>
-        <button class="btn btn-secondary btn-sm" style="margin-top:.8rem" onclick="showInner('sobre')">Ver perfil completo →</button>
+        <button class="btn btn-secondary btn-sm" style="margin-top:.8rem" data-inner="sobre">Ver perfil completo →</button>
       </div>
     </div>
   </section>
@@ -540,7 +540,29 @@ tr:hover td{background:rgba(255,255,255,.02);}
 </div>
 
 <script>
-// ===================== NAVEGAÇÃO =====================
+// ===================== NAVEGAÇÃO
+
+// === EVENT LISTENERS PARA NAVEGAÇÃO (substituindo onclick inline) ===
+document.addEventListener('DOMContentLoaded', function() {
+  // Links de navegação interna
+  document.querySelectorAll('[data-inner]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var page = el.getAttribute('data-inner');
+      showInner(page);
+      if(el.getAttribute('data-close-dropdown')) closeDropdown();
+    });
+  });
+  // Botão home
+  document.querySelectorAll('[data-action="showHome"]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      showHome();
+    });
+  });
+});
+
+// =====================
 function showHome(){
   document.getElementById('home-page').style.display='block';
   document.querySelectorAll('.inner-app').forEach(el=>el.classList.remove('active'));
