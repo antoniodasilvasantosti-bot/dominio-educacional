@@ -1924,7 +1924,7 @@ function renderNgDashboard(){
   <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
       <div>
-        <h2 style="font-size:1.5rem;margin-bottom:.2rem">\uD83D\uDCBC Neg\u00F3cios em Inform\u00E1tica</h2>
+        <h2 style="font-size:1.5rem;margin-bottom:.2rem">\uD83D\uDCBC Inform\u00E1tica B\u00E1sica</h2>
         <p style="opacity:.85;font-size:.9rem">Ol\u00E1, <strong>${user ? user.nome.split(' ')[0] : ''}</strong>! Bons estudos.</p>
       </div>
       <button onclick="logoutNegocios()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:.4rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem">Sair</button>
@@ -2198,8 +2198,8 @@ function isModuloLiberado(modIdx){
 
 function initCurso(){
   const user = getCursoSession();
-  if(!user){ renderCursoLogin(); return; }
-  renderCursoDashboard();
+  if(!user){ renderCursoLogin(); bindCursoEvents(); return; }
+  renderCursoDashboard(); bindCursoEvents();
   apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'})
     .then(function(res){ if(res && res.ok){ saveCursoProgressCache(res.progresso||{}); } })
     .catch(function(){});
@@ -2210,10 +2210,18 @@ function logoutCurso(){ clearCursoSession(); renderCursoLogin(); }
 // ---- TELA DE LOGIN ----
 
 function bindCursoEvents(){
-  // eventos gerenciados via setTimeout em renderCursoLogin
+  var container = document.getElementById('curso-content');
+  if(!container) return;
+  container.removeEventListener('click', _cursoBtnHandler);
+  container.addEventListener('click', _cursoBtnHandler);
 }
 function _cursoBtnHandler(e){
-  // não precisa mais - os onclicks são atribuídos via setTimeout no renderCursoLogin
+  var id = e.target && e.target.id;
+  if(id === 'ib-btn-login') fazerIbLogin();
+  else if(id === 'ib-btn-cadastro') fazerIbCadastro();
+  else if(id === 'ibtab-login') mostrarIbTabLogin();
+  else if(id === 'ibtab-cadastro') mostrarIbTabCadastro();
+  else if(id === 'ib-btn-logout') logoutCurso();
 }
 
 
@@ -2256,16 +2264,6 @@ function renderCursoLogin(){
     <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">\u2601\uFE0F Seu progresso ser\u00E1 salvo na nuvem!</p>
   </div>`;
   window.scrollTo(0,0);
-  setTimeout(function(){
-    var btnLogin = document.getElementById('ib-btn-login');
-    var btnCadastro = document.getElementById('ib-btn-cadastro');
-    var tabLogin = document.getElementById('ibtab-login');
-    var tabCadastro = document.getElementById('ibtab-cadastro');
-    if(btnLogin) btnLogin.onclick = fazerIbLogin;
-    if(btnCadastro) btnCadastro.onclick = fazerIbCadastro;
-    if(tabLogin) tabLogin.onclick = mostrarIbTabLogin;
-    if(tabCadastro) tabCadastro.onclick = mostrarIbTabCadastro;
-  }, 50);
 }
 
 function mostrarIbTabLogin(){
