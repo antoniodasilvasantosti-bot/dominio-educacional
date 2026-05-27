@@ -1809,7 +1809,7 @@ function renderNgLogin(){
   document.getElementById('negociosTI-content').innerHTML = `
   <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
     <div style="font-size:2.5rem;margin-bottom:.5rem">\u{1F4BC}</div>
-    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Neg\u00F3cios em Inform\u00E1tica</h2>
+    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Inform\u00E1tica B\u00E1sica</h2>
     <p style="opacity:.85">Fa\u00E7a login ou cadastre-se para come\u00E7ar</p>
   </div>
   <div style="padding:1.5rem;background:var(--card)">
@@ -2269,107 +2269,25 @@ function renderCursoLogin(){
 }
 
 function mostrarIbTabLogin(){
-  document.getElementById('ngform-login').style.display='';
-  document.getElementById('ngform-cadastro').style.display='none';
-  document.getElementById('ngtab-login').className='btn btn-primary';
-  document.getElementById('ngtab-cadastro').className='btn btn-secondary';
+  document.getElementById('ibform-login').style.display='';
+  document.getElementById('ibform-cadastro').style.display='none';
+  document.getElementById('ibtab-login').className='btn btn-primary';
+  document.getElementById('ibtab-cadastro').className='btn btn-secondary';
 }
 function mostrarIbTabCadastro(){
-  document.getElementById('ngform-login').style.display='none';
-  document.getElementById('ngform-cadastro').style.display='';
-  document.getElementById('ngtab-login').className='btn btn-secondary';
-  document.getElementById('ngtab-cadastro').className='btn btn-primary';
+  document.getElementById('ibform-login').style.display='none';
+  document.getElementById('ibform-cadastro').style.display='';
+  document.getElementById('ibtab-login').className='btn btn-secondary';
+  document.getElementById('ibtab-cadastro').className='btn btn-primary';
 }
 
-async function fazerNgCadastro(){
-  const nome = document.getElementById('ng-cad-nome').value.trim();
-  const email = document.getElementById('ng-cad-email').value.trim();
-  const senha = document.getElementById('ng-cad-senha').value.trim();
-  const conf = document.getElementById('ng-cad-conf').value.trim();
-  const erro = document.getElementById('ng-cad-erro');
-  const btn = document.getElementById('ng-btn-cadastro');
-  if(!nome){ erro.textContent='Informe seu nome completo.'; erro.style.display=''; return; }
-  if(!email||!email.includes('@')){ erro.textContent='E-mail inv\u00E1lido.'; erro.style.display=''; return; }
-  if(!/^\d{4}$/.test(senha)){ erro.textContent='Senha deve ter 4 d\u00EDgitos num\u00E9ricos.'; erro.style.display=''; return; }
-  if(senha!==conf){ erro.textContent='As senhas n\u00E3o conferem.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Cadastrando...'; btn.disabled=true;
-  const res = await apiNegocios({action:'cadastro', nome, email, senha});
-  btn.textContent='Criar Conta e Come\u00E7ar'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveNegociosSession(res.aluno);
-  saveNegociosProgressCache({});
-  showInner('negociosTI');
-  renderNgDashboard();
-  bindNgEvents();
-}
 
-async function fazerNgLogin(){
-  const email = document.getElementById('ng-login-email').value.trim();
-  const senha = document.getElementById('ng-login-senha').value.trim();
-  const erro = document.getElementById('ng-login-erro');
-  const btn = document.getElementById('ng-btn-login');
-  if(!email||!senha){ erro.textContent='Preencha e-mail e senha.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Entrando...'; btn.disabled=true;
-  const res = await apiNegocios({action:'login', email, senha});
-  btn.textContent='Entrar no Curso'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveNegociosSession(res.aluno);
-  saveNegociosProgressCache({});
-  showInner('negociosTI');
-  renderNgDashboard();
-  bindNgEvents();
-  // Atualizar progresso em background
-  apiNegocios({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'negocios_ti'})
-    .then(function(p){ if(p&&p.ok) saveNegociosProgressCache(p.progresso||{}); })
-    .catch(function(){});
-}
 
-async function fazerNgCadastro(){
-  const nome = document.getElementById('ng-cad-nome').value.trim();
-  const email = document.getElementById('ng-cad-email').value.trim();
-  const senha = document.getElementById('ng-cad-senha').value.trim();
-  const conf = document.getElementById('ng-cad-conf').value.trim();
-  const erro = document.getElementById('ng-cad-erro');
-  const btn = document.getElementById('ng-btn-cadastro');
-  if(!nome){ erro.textContent='Informe seu nome completo.'; erro.style.display=''; return; }
-  if(!email||!email.includes('@')){ erro.textContent='E-mail inv\u00E1lido.'; erro.style.display=''; return; }
-  if(!/^\d{4}$/.test(senha)){ erro.textContent='Senha deve ter 4 d\u00EDgitos num\u00E9ricos.'; erro.style.display=''; return; }
-  if(senha!==conf){ erro.textContent='As senhas n\u00E3o conferem.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Cadastrando...'; btn.disabled=true;
-  const res = await apiNegocios({action:'cadastro', nome, email, senha});
-  btn.textContent='Criar Conta e Come\u00E7ar'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveNegociosSession(res.aluno);
-  saveNegociosProgressCache({});
-  showInner('negociosTI');
-  renderNgDashboard();
-  bindNgEvents();
-}
 
-async function fazerNgLogin(){
-  const email = document.getElementById('ng-login-email').value.trim();
-  const senha = document.getElementById('ng-login-senha').value.trim();
-  const erro = document.getElementById('ng-login-erro');
-  const btn = document.getElementById('ng-btn-login');
-  if(!email||!senha){ erro.textContent='Preencha e-mail e senha.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Entrando...'; btn.disabled=true;
-  const res = await apiNegocios({action:'login', email, senha});
-  btn.textContent='Entrar no Curso'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveNegociosSession(res.aluno);
-  saveNegociosProgressCache({});
-  showInner('negociosTI');
-  renderNgDashboard();
-  bindNgEvents();
-  // Atualizar progresso em background
-  apiNegocios({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'negocios_ti'})
-    .then(function(p){ if(p&&p.ok) saveNegociosProgressCache(p.progresso||{}); })
-    .catch(function(){});
-}
+
+
+
+
 
 async function fazerIbCadastro(){
   const nome = document.getElementById('ib-cad-nome').value.trim();
