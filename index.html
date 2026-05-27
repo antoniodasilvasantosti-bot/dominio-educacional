@@ -1726,7 +1726,7 @@ const NG_API = 'https://superagent-93dca18b.base44.app/functions/cursoAuth';
 const NG_SESSION_KEY = 'negti_session';
 const NG_PROG_KEY = 'negti_prog_cache';
 
-async async function apiNegocios(data){
+async function apiNegocios(data){
   try{
     const r = await fetch(NG_API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
     return await r.json();
@@ -1753,7 +1753,7 @@ function isNgModuloLiberado(modIdx){
   return negociosModulos[modIdx-1].etapas.every(e=>prog[e.id]===true);
 }
 
-async async function initNegociosTI(){
+async function initNegociosTI(){
   const user = getNegociosSession();
   if(!user){ renderNgLogin(); return; }
   document.getElementById('negociosTI-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">\u23F3 Carregando seu progresso...</div>';
@@ -2113,7 +2113,7 @@ const CURSO_API = 'https://superagent-93dca18b.base44.app/functions/cursoAuth';
 const CURSO_SESSION_KEY = 'infob_session'; // guarda {id, nome, email} localmente
 const CURSO_PROG_KEY = 'infob_prog_cache'; // cache local do progresso
 
-async async function apiCurso(data){
+async function apiCurso(data){
   try{
     const r = await fetch(CURSO_API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
     return await r.json();
@@ -2140,7 +2140,7 @@ function isModuloLiberado(modIdx){
   return cursoModulos[modIdx-1].etapas.every(e=>prog[e.id]===true);
 }
 
-async async function initCurso(){
+async function initCurso(){
   const user = getCursoSession();
   if(!user){ renderCursoLogin(); return; }
   // Carregar progresso do servidor
