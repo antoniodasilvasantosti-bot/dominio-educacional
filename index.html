@@ -1889,6 +1889,7 @@ async function fazerNgCadastro(){
   saveNegociosProgressCache({});
   showInner('negociosTI');
   renderNgDashboard();
+  bindNgEvents();
 }
 
 async function fazerNgLogin(){
@@ -1903,10 +1904,14 @@ async function fazerNgLogin(){
   btn.textContent='Entrar no Curso'; btn.disabled=false;
   if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
   saveNegociosSession(res.aluno);
-  const prog = await apiNegocios({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'negocios_ti'});
-  saveNegociosProgressCache(prog.ok ? (prog.progresso||{}) : {});
+  saveNegociosProgressCache({});
   showInner('negociosTI');
   renderNgDashboard();
+  bindNgEvents();
+  // Atualizar progresso em background
+  apiNegocios({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'negocios_ti'})
+    .then(function(p){ if(p&&p.ok) saveNegociosProgressCache(p.progresso||{}); })
+    .catch(function(){});
 }
 
 function renderNgDashboard(){
@@ -2328,6 +2333,7 @@ async function fazerCadastro(){
   saveCursoProgressCache({});
   showInner('curso');
   renderCursoDashboard();
+  bindCursoEvents();
 }
 
 async function fazerLogin(){
@@ -2342,11 +2348,14 @@ async function fazerLogin(){
   btn.textContent='🔑 Entrar no Curso'; btn.disabled=false;
   if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
   saveCursoSession(res.aluno);
-  // Carregar progresso do servidor
-  const prog = await apiCurso({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'informatica_basica'});
-  saveCursoProgressCache(prog.ok ? (prog.progresso||{}) : {});
+  saveCursoProgressCache({});
   showInner('curso');
   renderCursoDashboard();
+  bindCursoEvents();
+  // Atualizar progresso em background
+  apiCurso({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'informatica_basica'})
+    .then(function(p){ if(p&&p.ok) saveCursoProgressCache(p.progresso||{}); })
+    .catch(function(){});
 }
 
 // ---- DASHBOARD ----
