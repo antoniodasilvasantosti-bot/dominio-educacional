@@ -1403,6 +1403,54 @@ function setPptTopic(t){
 const NEGOCIOS_KEY = 'negti_progresso';
 const NEGOCIOS_USER_KEY = 'negti_usuario';
 
+const cursoModulos = [
+  {
+    id: 'ib_mod1', titulo: 'Introducao a Informatica',
+    etapas: [
+      { id: 'ib_e1', titulo: 'O que e um computador?', conteudo: 'Computador e uma maquina capaz de receber, processar, armazenar e transmitir informacoes. E composto por hardware (partes fisicas) e software (programas). Os principais componentes sao: processador (CPU), memoria RAM, disco rigido (HD/SSD), placa-mae, dispositivos de entrada (teclado, mouse) e saida (monitor, impressora).' },
+      { id: 'ib_e2', titulo: 'Hardware e Software', conteudo: 'Hardware sao todos os componentes fisicos do computador. Software sao os programas e sistemas. Exemplos de hardware: teclado, monitor, mouse, CPU. Exemplos de software: Windows, Word, Chrome, jogos. O sistema operacional (Windows, Linux, MacOS) e o software principal que gerencia todo o computador.' },
+      { id: 'ib_e3', titulo: 'Dispositivos de Entrada e Saida', conteudo: 'Dispositivos de ENTRADA enviam dados ao computador: teclado, mouse, scanner, microfone, webcam. Dispositivos de SAIDA recebem dados do computador: monitor, impressora, caixas de som, projetor. Alguns dispositivos sao de entrada e saida ao mesmo tempo: pen drive, HD externo, touch screen.' },
+      { id: 'ib_e4', titulo: 'Avaliacao do Modulo 1', avaliacao: true, questoes: [
+        { p: 'O que e hardware?', a: ['Programas do computador','Partes fisicas do computador','A internet','O sistema operacional'], c: 1 },
+        { p: 'Qual e um dispositivo de entrada?', a: ['Monitor','Impressora','Teclado','Caixas de som'], c: 2 },
+        { p: 'O sistema operacional e um exemplo de:', a: ['Hardware','Dispositivo de saida','Software','Memoria fisica'], c: 2 },
+        { p: 'O que faz a memoria RAM?', a: ['Armazena dados permanentemente','Processa calculos matematicos','Guarda dados temporariamente para uso rapido','Conecta a internet'], c: 2 },
+        { p: 'Qual destes e um dispositivo de entrada E saida?', a: ['Teclado','Monitor','Pen drive','Impressora'], c: 2 }
+      ]}
+    ]
+  },
+  {
+    id: 'ib_mod2', titulo: 'Sistema Operacional Windows',
+    etapas: [
+      { id: 'ib_e5', titulo: 'Area de Trabalho e Barra de Tarefas', conteudo: 'A Area de Trabalho (Desktop) e a tela principal do Windows. Contem icones de atalho para programas e arquivos. A Barra de Tarefas fica na parte inferior: tem o Botao Iniciar (logo do Windows), programas abertos, relogio e notificacoes. Para organizar a area de trabalho clique com o botao direito do mouse.' },
+      { id: 'ib_e6', titulo: 'Gerenciamento de Arquivos e Pastas', conteudo: 'O Explorador de Arquivos (pasta amarela) permite navegar pelos arquivos do computador. Para criar uma pasta: clique com botao direito > Nova Pasta. Para copiar: selecione o arquivo > Ctrl+C. Para colar: Ctrl+V. Para cortar (mover): Ctrl+X. Para renomear: clique com botao direito > Renomear. Para deletar: tecla Delete.' },
+      { id: 'ib_e7', titulo: 'Instalacao e Desinstalacao de Programas', conteudo: 'Para instalar um programa: baixe o arquivo .exe e execute-o seguindo as instrucoes. Para desinstalar: va em Configuracoes > Aplicativos > encontre o programa > clique em Desinstalar. Mantenha sempre o Windows atualizado em Configuracoes > Windows Update para ter seguranca e bom desempenho.' },
+      { id: 'ib_e8', titulo: 'Avaliacao do Modulo 2', avaliacao: true, questoes: [
+        { p: 'Onde fica o Botao Iniciar no Windows?', a: ['No canto superior direito','Na Barra de Tarefas','No centro da tela','Na area de trabalho'], c: 1 },
+        { p: 'Qual atalho de teclado e usado para COPIAR?', a: ['Ctrl+V','Ctrl+X','Ctrl+C','Ctrl+Z'], c: 2 },
+        { p: 'Para desinstalar um programa no Windows 10 va em:', a: ['Painel de Controle > Programas','Configuracoes > Aplicativos','Explorador de Arquivos','Barra de Tarefas'], c: 1 },
+        { p: 'O atalho Ctrl+Z serve para:', a: ['Salvar','Copiar','Desfazer a ultima acao','Fechar o programa'], c: 2 },
+        { p: 'Como criar uma nova pasta no Windows?', a: ['Ctrl+N','Clique direito > Nova Pasta','Botao Iniciar > Nova','Alt+F4'], c: 1 }
+      ]}
+    ]
+  },
+  {
+    id: 'ib_mod3', titulo: 'Internet e Seguranca Digital',
+    etapas: [
+      { id: 'ib_e9', titulo: 'Navegadores e Pesquisa na Internet', conteudo: 'Navegador (browser) e o programa usado para acessar a internet: Chrome, Firefox, Edge, Safari. A barra de endereco fica no topo. Para pesquisar use o Google (google.com.br). Dicas de pesquisa: use palavras-chave objetivas, use aspas para frases exatas, adicione "site:" para pesquisar em um site especifico.' },
+      { id: 'ib_e10', titulo: 'E-mail e Comunicacao Online', conteudo: 'E-mail e uma forma de comunicacao escrita pela internet. Para criar: acesse gmail.com e clique em Criar conta. Para enviar: clique em Escrever, preencha Para (destinatario), Assunto e o conteudo. Anexos sao arquivos enviados junto ao email. Cuidado com emails desconhecidos - podem ser golpes (phishing).' },
+      { id: 'ib_e11', titulo: 'Seguranca Digital e Senhas', conteudo: 'Seguranca digital protege suas informacoes na internet. Crie senhas fortes: misture letras maiusculas, minusculas, numeros e simbolos (Ex: Carn3iros@2024). Nunca compartilhe senhas. Ative a verificacao em duas etapas. Nao clique em links suspeitos. Mantenha antivirus atualizado. Faca backup regular dos seus arquivos importantes.' },
+      { id: 'ib_e12', titulo: 'Avaliacao do Modulo 3', avaliacao: true, questoes: [
+        { p: 'Qual destes e um navegador de internet?', a: ['Word','Chrome','Excel','Paint'], c: 1 },
+        { p: 'O que e phishing?', a: ['Um tipo de antivirus','Um navegador seguro','Golpe para roubar dados pessoais','Uma forma de fazer backup'], c: 2 },
+        { p: 'Uma boa senha deve ter:', a: ['Apenas numeros','So o nome do usuario','Letras, numeros e simbolos misturados','Menos de 6 caracteres'], c: 2 },
+        { p: 'Para enviar um arquivo junto a um email, use:', a: ['Copia oculta','Assunto','Anexo','Responder'], c: 2 },
+        { p: 'O que e backup?', a: ['Um tipo de virus','Copia de seguranca dos arquivos','Um programa de email','Uma senha forte'], c: 1 }
+      ]}
+    ]
+  }
+];
+
 const negociosModulos = [
   {
     id: 'ng_empreend',
@@ -1775,8 +1823,18 @@ function bindNgEvents(){
   if(c) c.onclick = _ngBtnHandler;
 }
 function _ngBtnHandler(e){
-  var id = e.target && e.target.id;
-  if(id === 'ng-btn-logout') logoutNegocios();
+  var el = e.target;
+  var id = el && el.id;
+  if(id === 'ng-btn-logout'){ logoutNegocios(); return; }
+  var etapaDiv = el.closest ? el.closest('[id^="ngetapa-"]') : null;
+  if(!etapaDiv && el.id && el.id.startsWith('ngetapa-')) etapaDiv = el;
+  if(etapaDiv){
+    var etapaId = etapaDiv.id.replace('ngetapa-','');
+    abrirEtapaNg(etapaId);
+    return;
+  }
+  if(id === 'ng-btn-voltar'){ renderNgDashboard(); bindNgEvents(); return; }
+  if(id === 'ng-btn-responder'){ submeterAvaliacaoNg(); return; }
 }
 
 function renderNgLogin(){ document.getElementById('ng-tela-nome').style.display=''; document.getElementById('ng-dashboard').style.display='none'; }
@@ -2037,6 +2095,120 @@ function initCurso(){
   bindCursoEvents();
 }
 
+function abrirEtapaCurso(etapaId){
+  var etapa = null;
+  cursoModulos.forEach(function(m){ m.etapas.forEach(function(e){ if(e.id===etapaId) etapa=e; }); });
+  if(!etapa) return;
+  var d = document.getElementById('ib-dashboard');
+  if(!d) return;
+  if(etapa.avaliacao){
+    var qHtml = '<div style="padding:1rem">'
+      + '<button id="ib-btn-voltar" style="background:#334155;border:none;color:white;padding:.5rem 1rem;border-radius:6px;cursor:pointer;margin-bottom:1rem">&#8592; Voltar</button>'
+      + '<h3 style="color:var(--texto);margin-bottom:1rem">'+etapa.titulo+'</h3>';
+    etapa.questoes.forEach(function(q,qi){
+      qHtml += '<div style="margin-bottom:1.2rem;background:var(--card);border:1px solid var(--borda);border-radius:8px;padding:1rem">'
+        + '<p style="color:var(--texto);margin:0 0 .8rem;font-weight:500">'+(qi+1)+'. '+q.p+'</p>';
+      q.a.forEach(function(alt,ai){
+        qHtml += '<label style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;cursor:pointer;color:var(--subtexto)">'
+          + '<input type="radio" name="ib_q'+qi+'" value="'+ai+'"> '+alt+'</label>';
+      });
+      qHtml += '</div>';
+    });
+    qHtml += '<button id="ib-btn-responder" data-etapa="'+etapaId+'" style="width:100%;padding:.9rem;background:#1a56db;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer;font-weight:600">Enviar Respostas</button></div>';
+    d.innerHTML = qHtml;
+    d._etapaAtual = etapa;
+  } else {
+    d.innerHTML = '<div style="padding:1rem">'
+      + '<button id="ib-btn-voltar" style="background:#334155;border:none;color:white;padding:.5rem 1rem;border-radius:6px;cursor:pointer;margin-bottom:1rem">&#8592; Voltar</button>'
+      + '<h3 style="color:var(--texto);margin-bottom:.8rem">'+etapa.titulo+'</h3>'
+      + '<div style="background:var(--card);border:1px solid var(--borda);border-radius:8px;padding:1.2rem;color:var(--texto);line-height:1.7">'+etapa.conteudo+'</div>'
+      + '<button id="ib-btn-voltar" style="width:100%;margin-top:1rem;padding:.8rem;background:#1a56db;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer">&#10003; Concluir e Voltar</button>'
+      + '</div>';
+    var prog = getCursoProgressCache(); prog[etapa.id]=true; saveCursoProgressCache(prog);
+  }
+  bindCursoEvents();
+  window.scrollTo(0,0);
+}
+
+function submeterAvaliacaoCurso(){
+  var d = document.getElementById('ib-dashboard');
+  var etapa = d && d._etapaAtual;
+  if(!etapa || !etapa.questoes) return;
+  var acertos = 0;
+  etapa.questoes.forEach(function(q,qi){
+    var sel = d.querySelector('input[name="ib_q'+qi+'"]:checked');
+    if(sel && parseInt(sel.value)===q.c) acertos++;
+  });
+  var pct = Math.round(acertos/etapa.questoes.length*100);
+  var prog = getCursoProgressCache();
+  if(pct >= 60){ prog[etapa.id]=true; saveCursoProgressCache(prog); }
+  d.innerHTML = '<div style="padding:1.5rem;text-align:center">'
+    + '<div style="font-size:3rem;margin-bottom:1rem">'+(pct>=60?'&#127881;':'&#128515;')+'</div>'
+    + '<h3 style="color:'+(pct>=60?'#34d399':'#f87171')+';margin-bottom:.5rem">'+acertos+' de '+etapa.questoes.length+' acertos ('+pct+'%)</h3>'
+    + '<p style="color:var(--subtexto)">'+(pct>=60?'Parabens! Etapa concluida!':'Tente novamente para liberar o proximo modulo.')+'</p>'
+    + '<button id="ib-btn-voltar" style="margin-top:1rem;padding:.8rem 2rem;background:#1a56db;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer">Voltar ao Curso</button>'
+    + '</div>';
+  bindCursoEvents();
+  window.scrollTo(0,0);
+}
+
+function abrirEtapaNg(etapaId){
+  var etapa = null;
+  negociosModulos.forEach(function(m){ m.etapas.forEach(function(e){ if(e.id===etapaId) etapa=e; }); });
+  if(!etapa) return;
+  var d = document.getElementById('ng-dashboard');
+  if(!d) return;
+  if(etapa.avaliacao){
+    var qHtml = '<div style="padding:1rem">'
+      + '<button id="ng-btn-voltar" style="background:#334155;border:none;color:white;padding:.5rem 1rem;border-radius:6px;cursor:pointer;margin-bottom:1rem">&#8592; Voltar</button>'
+      + '<h3 style="color:var(--texto);margin-bottom:1rem">'+etapa.titulo+'</h3>';
+    etapa.questoes.forEach(function(q,qi){
+      qHtml += '<div style="margin-bottom:1.2rem;background:var(--card);border:1px solid var(--borda);border-radius:8px;padding:1rem">'
+        + '<p style="color:var(--texto);margin:0 0 .8rem;font-weight:500">'+(qi+1)+'. '+q.p+'</p>';
+      q.a.forEach(function(alt,ai){
+        qHtml += '<label style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;cursor:pointer;color:var(--subtexto)">'
+          + '<input type="radio" name="ng_q'+qi+'" value="'+ai+'"> '+alt+'</label>';
+      });
+      qHtml += '</div>';
+    });
+    qHtml += '<button id="ng-btn-responder" data-etapa="'+etapaId+'" style="width:100%;padding:.9rem;background:#b45309;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer;font-weight:600">Enviar Respostas</button></div>';
+    d.innerHTML = qHtml;
+    d._etapaAtual = etapa;
+  } else {
+    d.innerHTML = '<div style="padding:1rem">'
+      + '<button id="ng-btn-voltar" style="background:#334155;border:none;color:white;padding:.5rem 1rem;border-radius:6px;cursor:pointer;margin-bottom:1rem">&#8592; Voltar</button>'
+      + '<h3 style="color:var(--texto);margin-bottom:.8rem">'+etapa.titulo+'</h3>'
+      + '<div style="background:var(--card);border:1px solid var(--borda);border-radius:8px;padding:1.2rem;color:var(--texto);line-height:1.7">'+etapa.conteudo+'</div>'
+      + '<button id="ng-btn-voltar" style="width:100%;margin-top:1rem;padding:.8rem;background:#b45309;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer">&#10003; Concluir e Voltar</button>'
+      + '</div>';
+    var prog = getNegociosProgressCache(); prog[etapa.id]=true; saveNegociosProgressCache(prog);
+  }
+  bindNgEvents();
+  window.scrollTo(0,0);
+}
+
+function submeterAvaliacaoNg(){
+  var d = document.getElementById('ng-dashboard');
+  var etapa = d && d._etapaAtual;
+  if(!etapa || !etapa.questoes) return;
+  var acertos = 0;
+  etapa.questoes.forEach(function(q,qi){
+    var sel = d.querySelector('input[name="ng_q'+qi+'"]:checked');
+    if(sel && parseInt(sel.value)===q.c) acertos++;
+  });
+  var pct = Math.round(acertos/etapa.questoes.length*100);
+  var prog = getNegociosProgressCache();
+  if(pct >= 60){ prog[etapa.id]=true; saveNegociosProgressCache(prog); }
+  d.innerHTML = '<div style="padding:1.5rem;text-align:center">'
+    + '<div style="font-size:3rem;margin-bottom:1rem">'+(pct>=60?'&#127881;':'&#128515;')+'</div>'
+    + '<h3 style="color:'+(pct>=60?'#34d399':'#f87171')+';margin-bottom:.5rem">'+acertos+' de '+etapa.questoes.length+' acertos ('+pct+'%)</h3>'
+    + '<p style="color:var(--subtexto)">'+(pct>=60?'Parabens! Etapa concluida!':'Tente novamente para liberar o proximo modulo.')+'</p>'
+    + '<button id="ng-btn-voltar" style="margin-top:1rem;padding:.8rem 2rem;background:#b45309;border:none;border-radius:8px;color:white;font-size:1rem;cursor:pointer">Voltar ao Curso</button>'
+    + '</div>';
+  bindNgEvents();
+  window.scrollTo(0,0);
+}
+
 function logoutCurso(){ localStorage.removeItem('infob_nome'); localStorage.removeItem('infob_prog'); renderCursoLogin(); }
 
 // ---- TELA DE LOGIN ----
@@ -2046,8 +2218,21 @@ function bindCursoEvents(){
   if(c) c.onclick = _cursoBtnHandler;
 }
 function _cursoBtnHandler(e){
-  var id = e.target && e.target.id;
-  if(id === 'ib-btn-logout') logoutCurso();
+  var el = e.target;
+  var id = el && el.id;
+  if(id === 'ib-btn-logout'){ logoutCurso(); return; }
+  // clique em etapa
+  var etapaDiv = el.closest ? el.closest('[id^="etapa-"]') : null;
+  if(!etapaDiv && el.id && el.id.startsWith('etapa-')) etapaDiv = el;
+  if(etapaDiv){
+    var etapaId = etapaDiv.id.replace('etapa-','');
+    abrirEtapaCurso(etapaId);
+    return;
+  }
+  // botao voltar
+  if(id === 'ib-btn-voltar'){ renderCursoDashboard(); bindCursoEvents(); return; }
+  // botao responder avaliacao
+  if(id === 'ib-btn-responder'){ submeterAvaliacaoCurso(); return; }
 }
 
 
