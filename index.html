@@ -1814,8 +1814,8 @@ function renderNgLogin(){
   </div>
   <div style="padding:1.5rem;background:var(--card)">
     <div style="display:flex;gap:.6rem;margin-bottom:1.5rem">
-      <button id="ngtab-login" class="btn btn-primary" style="flex:1;font-size:.95rem;background:#b45309;border-color:#b45309" onclick="mostrarNgTabLogin()">\uD83D\uDD11 Entrar</button>
-      <button id="ngtab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem" onclick="mostrarNgTabCadastro()">\uD83D\uDCDD Cadastrar</button>
+      <button id="ngtab-login" class="btn btn-primary" style="flex:1;font-size:.95rem;background:#b45309;border-color:#b45309">\uD83D\uDD11 Entrar</button>
+      <button id="ngtab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem">\uD83D\uDCDD Cadastrar</button>
     </div>
     <div id="ngform-login">
       <div style="display:flex;flex-direction:column;gap:.9rem">
@@ -1824,7 +1824,7 @@ function renderNgLogin(){
         <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Senha (4 d\u00EDgitos)</label>
           <input id="ng-login-senha" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
         <div id="ng-login-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="ng-btn-login" onclick="fazerNgLogin()" style="width:100%;font-size:1rem;padding:.85rem;background:#b45309;border-color:#b45309">Entrar no Curso</button>
+        <button class="btn btn-primary" id="ng-btn-login" style="width:100%;font-size:1rem;padding:.85rem;background:#b45309;border-color:#b45309">Entrar no Curso</button>
       </div>
     </div>
     <div id="ngform-cadastro" style="display:none">
@@ -1838,7 +1838,7 @@ function renderNgLogin(){
         <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Confirmar Senha</label>
           <input id="ng-cad-conf" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
         <div id="ng-cad-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="ng-btn-cadastro" onclick="fazerNgCadastro()" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">Criar Conta e Come\u00E7ar</button>
+        <button class="btn btn-primary" id="ng-btn-cadastro" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">Criar Conta e Come\u00E7ar</button>
       </div>
     </div>
     <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">\u2601\uFE0F Seu progresso ser\u00E1 salvo na nuvem!</p>
@@ -2246,8 +2246,8 @@ function renderCursoLogin(){
   </div>
   <div style="padding:1.5rem;background:var(--card)">
     <div style="display:flex;gap:.6rem;margin-bottom:1.5rem">
-      <button id="tab-login" class="btn btn-primary" style="flex:1;font-size:.95rem" onclick="mostrarTabLogin()">🔑 Entrar</button>
-      <button id="tab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem" onclick="mostrarTabCadastro()">📝 Cadastrar</button>
+      <button id="tab-login" class="btn btn-primary" style="flex:1;font-size:.95rem">🔑 Entrar</button>
+      <button id="tab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem">📝 Cadastrar</button>
     </div>
     <div id="form-login">
       <div style="display:flex;flex-direction:column;gap:.9rem">
@@ -2258,7 +2258,7 @@ function renderCursoLogin(){
           <input id="login-senha" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
             style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
         <div id="login-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="btn-login" onclick="fazerLogin()" style="width:100%;font-size:1rem;padding:.85rem">🔑 Entrar no Curso</button>
+        <button class="btn btn-primary" id="btn-login" style="width:100%;font-size:1rem;padding:.85rem">🔑 Entrar no Curso</button>
       </div>
     </div>
     <div id="form-cadastro" style="display:none">
@@ -2276,7 +2276,7 @@ function renderCursoLogin(){
           <input id="cad-conf" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
             style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
         <div id="cad-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="btn-cadastro" onclick="fazerCadastro()" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">📝 Criar Conta e Começar</button>
+        <button class="btn btn-primary" id="btn-cadastro" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">📝 Criar Conta e Começar</button>
       </div>
     </div>
     <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">🔒 Seu progresso será salvo na nuvem — acesse de qualquer dispositivo!</p>
