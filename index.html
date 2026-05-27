@@ -1778,10 +1778,19 @@ function isNgModuloLiberado(modIdx){
 async function initNegociosTI(){
   const user = getNegociosSession();
   if(!user){ renderNgLogin(); bindNgEvents(); return; }
-  document.getElementById('negociosTI-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">\u23F3 Carregando seu progresso...</div>';
-  const res = await apiNegocios({action:'carregar_progresso', aluno_id:user.id, curso:'negocios_ti'});
-  if(res.ok){ saveNegociosProgressCache(res.progresso||{}); }
+  document.getElementById('negociosTI-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">⏳ Carregando seu progresso...</div>';
+  try {
+    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000));
+    const res = await Promise.race([
+      apiNegocios({action:'carregar_progresso', aluno_id:user.id, curso:'negocios_ti'}),
+      timeout
+    ]);
+    if(res && res.ok){ saveNegociosProgressCache(res.progresso||{}); }
+  } catch(e) {
+    console.warn('API demorou, usando cache local:', e.message);
+  }
   renderNgDashboard();
+  bindNgEvents();
 }
 
 function logoutNegocios(){ clearNegociosSession(); showInner('negociosTI'); renderNgLogin(); }
@@ -2191,10 +2200,19 @@ function isModuloLiberado(modIdx){
 async function initCurso(){
   const user = getCursoSession();
   if(!user){ renderCursoLogin(); bindCursoEvents(); return; }
-  // Carregar progresso do servidor
+  // Carregar progresso com timeout de segurança
   document.getElementById('curso-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">⏳ Carregando seu progresso...</div>';
-  const res = await apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'});
-  if(res.ok){ saveCursoProgressCache(res.progresso||{}); }
+  try {
+    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000));
+    const res = await Promise.race([
+      apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'}),
+      timeout
+    ]);
+    if(res && res.ok){ saveCursoProgressCache(res.progresso||{}); }
+  } catch(e) {
+    // Timeout ou erro: usa cache local e continua
+    console.warn('API demorou, usando cache local:', e.message);
+  }
   renderCursoDashboard();
   bindCursoEvents();
 }
