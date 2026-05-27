@@ -1777,7 +1777,7 @@ function isNgModuloLiberado(modIdx){
 
 async function initNegociosTI(){
   const user = getNegociosSession();
-  if(!user){ renderNgLogin(); return; }
+  if(!user){ renderNgLogin(); bindNgEvents(); return; }
   document.getElementById('negociosTI-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">\u23F3 Carregando seu progresso...</div>';
   const res = await apiNegocios({action:'carregar_progresso', aluno_id:user.id, curso:'negocios_ti'});
   if(res.ok){ saveNegociosProgressCache(res.progresso||{}); }
@@ -1785,6 +1785,22 @@ async function initNegociosTI(){
 }
 
 function logoutNegocios(){ clearNegociosSession(); showInner('negociosTI'); renderNgLogin(); }
+
+
+function bindNgEvents(){
+  var container = document.getElementById('negociosTI-content');
+  if(!container) return;
+  container.removeEventListener('click', _ngBtnHandler);
+  container.addEventListener('click', _ngBtnHandler);
+}
+function _ngBtnHandler(e){
+  var id = e.target && e.target.id;
+  if(id === 'ng-btn-login') fazerNgLogin();
+  else if(id === 'ng-btn-cadastro') fazerNgCadastro();
+  else if(id === 'ng-tab-login') mostrarNgTabLogin();
+  else if(id === 'ng-tab-cadastro') mostrarNgTabCadastro();
+  else if(id === 'ng-btn-logout') logoutNgCurso();
+}
 
 function renderNgLogin(){
   document.getElementById('negociosTI-content').innerHTML = `
@@ -2174,17 +2190,44 @@ function isModuloLiberado(modIdx){
 
 async function initCurso(){
   const user = getCursoSession();
-  if(!user){ renderCursoLogin(); return; }
+  if(!user){ renderCursoLogin(); bindCursoEvents(); return; }
   // Carregar progresso do servidor
   document.getElementById('curso-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">⏳ Carregando seu progresso...</div>';
   const res = await apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'});
   if(res.ok){ saveCursoProgressCache(res.progresso||{}); }
   renderCursoDashboard();
+  bindCursoEvents();
 }
 
 function logoutCurso(){ clearCursoSession(); showInner('curso'); renderCursoLogin(); }
 
 // ---- TELA DE LOGIN ----
+
+function bindCursoEvents(){
+  // Usar event delegation no container - funciona com conteúdo dinâmico
+  var container = document.getElementById('curso-content');
+  if(!container) return;
+  // Remover listener antigo para não duplicar
+  container.removeEventListener('click', _cursoBtnHandler);
+  container.addEventListener('click', _cursoBtnHandler);
+  container.removeEventListener('keydown', _cursoKeyHandler);
+  container.addEventListener('keydown', _cursoKeyHandler);
+}
+function _cursoBtnHandler(e){
+  var id = e.target && e.target.id;
+  if(id === 'btn-login') fazerLogin();
+  else if(id === 'btn-cadastro') fazerCadastro();
+  else if(id === 'tab-login') mostrarTabLogin();
+  else if(id === 'tab-cadastro') mostrarTabCadastro();
+  else if(id === 'btn-logout') logoutCurso();
+}
+function _cursoKeyHandler(e){
+  if(e.key === 'Enter'){
+    if(document.getElementById('login-senha') === document.activeElement) fazerLogin();
+    if(document.getElementById('cad-conf') === document.activeElement) fazerCadastro();
+  }
+}
+
 function renderCursoLogin(){
   document.getElementById('curso-content').innerHTML = `
   <div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
