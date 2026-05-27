@@ -1785,7 +1785,29 @@ function _ngBtnHandler(e){
 function renderNgLogin(){
   var c = document.getElementById('negociosTI-content');
   if(!c) return;
-  c.innerHTML = '<div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center"><div style="font-size:2.5rem">&#x1F4BC;</div><h2 style="margin:.5rem 0">Neg&oacute;cios em Inform&aacute;tica</h2><p style="opacity:.85">Digite seu nome para come&ccedil;ar</p></div><div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px"><div style="max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem"><label style="font-size:.9rem;color:var(--subtexto)">Seu nome completo</label><input id="ng-nome-input" type="text" placeholder="Ex: Jo&atilde;o da Silva" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box"><div id="ng-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div><button id="ng-btn-entrar" class="btn btn-primary" style="padding:.9rem;font-size:1rem;background:#b45309;border-color:#b45309">Come&ccedil;ar Curso</button></div></div>';
+  c.innerHTML = '';
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center';
+  hdr.innerHTML = '<div style="font-size:2.5rem;margin-bottom:.3rem">&#128188;</div><h2 style="margin:.3rem 0;font-size:1.4rem">Neg\u00f3cios em Inform\u00e1tica</h2><p style="opacity:.85;margin:0">Digite seu nome para come\u00e7ar</p>';
+  var body = document.createElement('div');
+  body.style.cssText = 'padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px';
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem';
+  var lbl = document.createElement('label');
+  lbl.style.cssText = 'font-size:.9rem;color:var(--subtexto)';
+  lbl.textContent = 'Seu nome completo';
+  var inp = document.createElement('input');
+  inp.id = 'ng-nome-input'; inp.type = 'text'; inp.placeholder = 'Ex: Jo\u00e3o da Silva';
+  inp.style.cssText = 'width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box';
+  var erro = document.createElement('div');
+  erro.id = 'ng-nome-erro'; erro.style.cssText = 'color:#f87171;font-size:.85rem;display:none';
+  var btn = document.createElement('button');
+  btn.id = 'ng-btn-entrar'; btn.textContent = 'Come\u00e7ar Curso';
+  btn.style.cssText = 'padding:.9rem;font-size:1rem;background:#b45309;border:none;border-radius:8px;color:white;cursor:pointer;font-weight:600';
+  wrap.appendChild(lbl); wrap.appendChild(inp); wrap.appendChild(erro); wrap.appendChild(btn);
+  body.appendChild(wrap);
+  c.appendChild(hdr); c.appendChild(body);
+  inp.focus();
   window.scrollTo(0,0);
   bindNgEvents();
 }
@@ -2087,7 +2109,31 @@ function _cursoBtnHandler(e){
 function renderCursoLogin(){
   var c = document.getElementById('curso-content');
   if(!c) return;
-  c.innerHTML = '<div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center"><div style="font-size:2.5rem">&#x1F5A5;</div><h2 style="margin:.5rem 0">Inform&aacute;tica B&aacute;sica</h2><p style="opacity:.85">Digite seu nome para come&ccedil;ar</p></div><div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px"><div style="max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem"><label style="font-size:.9rem;color:var(--subtexto)">Seu nome completo</label><input id="ib-nome-input" type="text" placeholder="Ex: Jo&atilde;o da Silva" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box"><div id="ib-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div><button id="ib-btn-entrar" class="btn btn-primary" style="padding:.9rem;font-size:1rem;background:#1a56db;border-color:#1a56db">Come&ccedil;ar Curso</button></div></div>';
+  c.innerHTML = '';
+  // header
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center';
+  hdr.innerHTML = '<div style="font-size:2.5rem;margin-bottom:.3rem">&#128421;</div><h2 style="margin:.3rem 0;font-size:1.4rem">Inform\u00e1tica B\u00e1sica</h2><p style="opacity:.85;margin:0">Digite seu nome para come\u00e7ar</p>';
+  // body
+  var body = document.createElement('div');
+  body.style.cssText = 'padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px';
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem';
+  var lbl = document.createElement('label');
+  lbl.style.cssText = 'font-size:.9rem;color:var(--subtexto)';
+  lbl.textContent = 'Seu nome completo';
+  var inp = document.createElement('input');
+  inp.id = 'ib-nome-input'; inp.type = 'text'; inp.placeholder = 'Ex: Jo\u00e3o da Silva';
+  inp.style.cssText = 'width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box';
+  var erro = document.createElement('div');
+  erro.id = 'ib-nome-erro'; erro.style.cssText = 'color:#f87171;font-size:.85rem;display:none';
+  var btn = document.createElement('button');
+  btn.id = 'ib-btn-entrar'; btn.textContent = 'Come\u00e7ar Curso';
+  btn.style.cssText = 'padding:.9rem;font-size:1rem;background:#1a56db;border:none;border-radius:8px;color:white;cursor:pointer;font-weight:600';
+  wrap.appendChild(lbl); wrap.appendChild(inp); wrap.appendChild(erro); wrap.appendChild(btn);
+  body.appendChild(wrap);
+  c.appendChild(hdr); c.appendChild(body);
+  inp.focus();
   window.scrollTo(0,0);
   bindCursoEvents();
 }
