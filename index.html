@@ -1800,8 +1800,8 @@ function _ngBtnHandler(e){
   var id = e.target && e.target.id;
   if(id === 'ng-btn-login') fazerNgLogin();
   else if(id === 'ng-btn-cadastro') fazerNgCadastro();
-  else if(id === 'ng-tab-login') mostrarNgTabLogin();
-  else if(id === 'ng-tab-cadastro') mostrarNgTabCadastro();
+  else if(id === 'ngtab-login') mostrarNgTabLogin();
+  else if(id === 'ngtab-cadastro') mostrarNgTabCadastro();
   else if(id === 'ng-btn-logout') logoutNgCurso();
 }
 
@@ -1844,16 +1844,6 @@ function renderNgLogin(){
     <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">\u2601\uFE0F Seu progresso ser\u00E1 salvo na nuvem!</p>
   </div>`;
   window.scrollTo(0,0);
-  setTimeout(function(){
-    var btnLogin = document.getElementById('ng-btn-login');
-    var btnCadastro = document.getElementById('ng-btn-cadastro');
-    var tabLogin = document.getElementById('ng-tab-login');
-    var tabCadastro = document.getElementById('ng-tab-cadastro');
-    if(btnLogin) btnLogin.onclick = fazerNgLogin;
-    if(btnCadastro) btnCadastro.onclick = fazerNgCadastro;
-    if(tabLogin) tabLogin.onclick = mostrarNgTabLogin;
-    if(tabCadastro) tabCadastro.onclick = mostrarNgTabCadastro;
-  }, 50);
 }
 
 function mostrarNgTabLogin(){
