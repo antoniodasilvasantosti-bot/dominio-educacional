@@ -442,11 +442,55 @@ tr:hover td{background:rgba(255,255,255,.02);}
 </div>
 <!-- ===== INNER: NEGÓCIOS TI ===== -->
 <div class="inner-app" id="inner-negociosTI">
-  <div class="inner-content" id="negociosTI-content" style="padding:0"></div>
+  <div class="inner-content" id="negociosTI-content" style="padding:0">
+    <!-- TELA DE NOME - NEGOCIOS TI -->
+    <div id="ng-tela-nome">
+      <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:.3rem">&#128188;</div>
+        <h2 style="margin:.3rem 0;font-size:1.4rem">Neg&#243;cios em Inform&#225;tica</h2>
+        <p style="opacity:.85;margin:0">Digite seu nome para come&#231;ar</p>
+      </div>
+      <div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px">
+        <div style="max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem">
+          <label style="font-size:.9rem;color:var(--subtexto)">Seu nome completo</label>
+          <input id="ng-nome-input" type="text" placeholder="Ex: Jo&#227;o da Silva"
+            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box">
+          <div id="ng-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
+          <button id="ng-btn-entrar" style="padding:.9rem;font-size:1rem;background:#b45309;border:none;border-radius:8px;color:white;cursor:pointer;font-weight:600">
+            &#128640; Come&#231;ar Curso
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- DASHBOARD - preenchido pelo JS -->
+    <div id="ng-dashboard" style="display:none"></div>
+  </div>
 </div>
 <!-- ===== INNER: CURSO INFORMÁTICA ===== -->
 <div class="inner-app" id="inner-curso">
-  <div class="inner-content" id="curso-content" style="padding:0"></div>
+  <div class="inner-content" id="curso-content" style="padding:0">
+    <!-- TELA DE NOME - INFORMATICA BASICA -->
+    <div id="ib-tela-nome">
+      <div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:.3rem">&#128421;</div>
+        <h2 style="margin:.3rem 0;font-size:1.4rem">Inform&#225;tica B&#225;sica</h2>
+        <p style="opacity:.85;margin:0">Digite seu nome para come&#231;ar</p>
+      </div>
+      <div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px">
+        <div style="max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem">
+          <label style="font-size:.9rem;color:var(--subtexto)">Seu nome completo</label>
+          <input id="ib-nome-input" type="text" placeholder="Ex: Jo&#227;o da Silva"
+            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box">
+          <div id="ib-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
+          <button id="ib-btn-entrar" style="padding:.9rem;font-size:1rem;background:#1a56db;border:none;border-radius:8px;color:white;cursor:pointer;font-weight:600">
+            &#128640; Come&#231;ar Curso
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- DASHBOARD - preenchido pelo JS -->
+    <div id="ib-dashboard" style="display:none"></div>
+  </div>
 </div>
 <!-- ===== INNER: TAREFAS PRONTAS ===== -->
 <div class="inner-app" id="inner-tarefas">
@@ -1758,15 +1802,28 @@ function isNgModuloLiberado(modIdx){
 
 function initNegociosTI(){
   var nome = localStorage.getItem('negti_nome');
-  if(!nome){ renderNgLogin(); return; }
-  renderNgDashboard(); bindNgEvents();
+  document.getElementById('ng-tela-nome').style.display = nome ? 'none' : '';
+  document.getElementById('ng-dashboard').style.display = nome ? '' : 'none';
+  if(nome){ renderNgDashboard(); }
+  var btn = document.getElementById('ng-btn-entrar');
+  if(btn) btn.onclick = function(){
+    var v = document.getElementById('ng-nome-input').value.trim();
+    if(!v){ document.getElementById('ng-nome-erro').textContent='Informe seu nome.'; document.getElementById('ng-nome-erro').style.display=''; return; }
+    localStorage.setItem('negti_nome', v);
+    document.getElementById('ng-tela-nome').style.display='none';
+    document.getElementById('ng-dashboard').style.display='';
+    renderNgDashboard();
+    bindNgEvents();
+  };
+  document.getElementById('ng-nome-input').onkeydown = function(e){ if(e.key==='Enter') btn && btn.click(); };
+  if(nome) bindNgEvents();
 }
 
 function logoutNegocios(){ localStorage.removeItem('negti_nome'); localStorage.removeItem('negti_progresso'); renderNgLogin(); }
 
 
 function bindNgEvents(){
-  var c = document.getElementById('negociosTI-content');
+  var c = document.getElementById('ng-dashboard');
   if(!c) return;
   c.onclick = _ngBtnHandler;
 }
@@ -1782,35 +1839,7 @@ function _ngBtnHandler(e){
   } else if(id === 'ng-btn-logout') logoutNegocios();
 }
 
-function renderNgLogin(){
-  var c = document.getElementById('negociosTI-content');
-  if(!c) return;
-  c.innerHTML = '';
-  var hdr = document.createElement('div');
-  hdr.style.cssText = 'background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center';
-  hdr.innerHTML = '<div style="font-size:2.5rem;margin-bottom:.3rem">&#128188;</div><h2 style="margin:.3rem 0;font-size:1.4rem">Neg\u00f3cios em Inform\u00e1tica</h2><p style="opacity:.85;margin:0">Digite seu nome para come\u00e7ar</p>';
-  var body = document.createElement('div');
-  body.style.cssText = 'padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px';
-  var wrap = document.createElement('div');
-  wrap.style.cssText = 'max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem';
-  var lbl = document.createElement('label');
-  lbl.style.cssText = 'font-size:.9rem;color:var(--subtexto)';
-  lbl.textContent = 'Seu nome completo';
-  var inp = document.createElement('input');
-  inp.id = 'ng-nome-input'; inp.type = 'text'; inp.placeholder = 'Ex: Jo\u00e3o da Silva';
-  inp.style.cssText = 'width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box';
-  var erro = document.createElement('div');
-  erro.id = 'ng-nome-erro'; erro.style.cssText = 'color:#f87171;font-size:.85rem;display:none';
-  var btn = document.createElement('button');
-  btn.id = 'ng-btn-entrar'; btn.textContent = 'Come\u00e7ar Curso';
-  btn.style.cssText = 'padding:.9rem;font-size:1rem;background:#b45309;border:none;border-radius:8px;color:white;cursor:pointer;font-weight:600';
-  wrap.appendChild(lbl); wrap.appendChild(inp); wrap.appendChild(erro); wrap.appendChild(btn);
-  body.appendChild(wrap);
-  c.appendChild(hdr); c.appendChild(body);
-  inp.focus();
-  window.scrollTo(0,0);
-  bindNgEvents();
-}
+function renderNgLogin(){ document.getElementById('ng-tela-nome').style.display=''; document.getElementById('ng-dashboard').style.display='none'; }
 
 
 
@@ -1869,7 +1898,7 @@ function renderNgDashboard(){
       <button class="btn btn-primary"  style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
     </div>`:''}
   </div>`;
-  document.getElementById('negociosTI-content').innerHTML = html;
+  document.getElementById('ng-dashboard').innerHTML = html;
   window.scrollTo(0,0);
 }
 
@@ -2080,8 +2109,22 @@ function isModuloLiberado(modIdx){
 
 function initCurso(){
   var nome = localStorage.getItem('infob_nome');
-  if(!nome){ renderCursoLogin(); return; }
-  renderCursoDashboard(); bindCursoEvents();
+  document.getElementById('ib-tela-nome').style.display = nome ? 'none' : '';
+  document.getElementById('ib-dashboard').style.display = nome ? '' : 'none';
+  if(nome){ renderCursoDashboard(); }
+  // vincular bot�o fixo
+  var btn = document.getElementById('ib-btn-entrar');
+  if(btn) btn.onclick = function(){
+    var v = document.getElementById('ib-nome-input').value.trim();
+    if(!v){ document.getElementById('ib-nome-erro').textContent='Informe seu nome.'; document.getElementById('ib-nome-erro').style.display=''; return; }
+    localStorage.setItem('infob_nome', v);
+    document.getElementById('ib-tela-nome').style.display='none';
+    document.getElementById('ib-dashboard').style.display='';
+    renderCursoDashboard();
+    bindCursoEvents();
+  };
+  document.getElementById('ib-nome-input').onkeydown = function(e){ if(e.key==='Enter') btn && btn.click(); };
+  if(nome) bindCursoEvents();
 }
 
 function logoutCurso(){ localStorage.removeItem('infob_nome'); localStorage.removeItem('infob_prog'); renderCursoLogin(); }
@@ -2089,7 +2132,7 @@ function logoutCurso(){ localStorage.removeItem('infob_nome'); localStorage.remo
 // ---- TELA DE LOGIN ----
 
 function bindCursoEvents(){
-  var c = document.getElementById('curso-content');
+  var c = document.getElementById('ib-dashboard');
   if(!c) return;
   c.onclick = _cursoBtnHandler;
 }
@@ -2106,37 +2149,7 @@ function _cursoBtnHandler(e){
 }
 
 
-function renderCursoLogin(){
-  var c = document.getElementById('curso-content');
-  if(!c) return;
-  c.innerHTML = '';
-  // header
-  var hdr = document.createElement('div');
-  hdr.style.cssText = 'background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center';
-  hdr.innerHTML = '<div style="font-size:2.5rem;margin-bottom:.3rem">&#128421;</div><h2 style="margin:.3rem 0;font-size:1.4rem">Inform\u00e1tica B\u00e1sica</h2><p style="opacity:.85;margin:0">Digite seu nome para come\u00e7ar</p>';
-  // body
-  var body = document.createElement('div');
-  body.style.cssText = 'padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px';
-  var wrap = document.createElement('div');
-  wrap.style.cssText = 'max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem';
-  var lbl = document.createElement('label');
-  lbl.style.cssText = 'font-size:.9rem;color:var(--subtexto)';
-  lbl.textContent = 'Seu nome completo';
-  var inp = document.createElement('input');
-  inp.id = 'ib-nome-input'; inp.type = 'text'; inp.placeholder = 'Ex: Jo\u00e3o da Silva';
-  inp.style.cssText = 'width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box';
-  var erro = document.createElement('div');
-  erro.id = 'ib-nome-erro'; erro.style.cssText = 'color:#f87171;font-size:.85rem;display:none';
-  var btn = document.createElement('button');
-  btn.id = 'ib-btn-entrar'; btn.textContent = 'Come\u00e7ar Curso';
-  btn.style.cssText = 'padding:.9rem;font-size:1rem;background:#1a56db;border:none;border-radius:8px;color:white;cursor:pointer;font-weight:600';
-  wrap.appendChild(lbl); wrap.appendChild(inp); wrap.appendChild(erro); wrap.appendChild(btn);
-  body.appendChild(wrap);
-  c.appendChild(hdr); c.appendChild(body);
-  inp.focus();
-  window.scrollTo(0,0);
-  bindCursoEvents();
-}
+function renderCursoLogin(){ document.getElementById('ib-tela-nome').style.display=''; document.getElementById('ib-dashboard').style.display='none'; }
 
 
 
@@ -2203,7 +2216,7 @@ function renderCursoDashboard(){
       <button class="btn btn-primary"  style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
     </div>`:''}
   </div>`;
-  document.getElementById('curso-content').innerHTML = html;
+  document.getElementById('ib-dashboard').innerHTML = html;
   window.scrollTo(0,0);
 }
 
