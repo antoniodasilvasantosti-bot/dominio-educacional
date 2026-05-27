@@ -1748,27 +1748,8 @@ const NG_API = 'https://superagent-93dca18b.base44.app/functions/cursoAuth';
 const NG_SESSION_KEY = 'negti_session';
 const NG_PROG_KEY = 'negti_prog_cache';
 
-async function apiNegocios(data){
-  try{
-    const r = await fetch(NG_API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
-    return await r.json();
-  }catch(e){ return {error:'Sem conexão com o servidor.'}; }
-}
 
-function getNegociosSession(){ try{ return JSON.parse(localStorage.getItem(NG_SESSION_KEY)||'null'); }catch(e){ return null; } }
-function saveNegociosSession(u){ localStorage.setItem(NG_SESSION_KEY, JSON.stringify(u)); }
-function clearNegociosSession(){ localStorage.removeItem(NG_SESSION_KEY); localStorage.removeItem(NG_PROG_KEY); }
-
-function getNegociosProgressCache(){ try{ return JSON.parse(localStorage.getItem(NG_PROG_KEY)||'{}'); }catch(e){ return {}; } }
-function saveNegociosProgressCache(data){ localStorage.setItem(NG_PROG_KEY, JSON.stringify(data)); }
-
-function isNgEtapaLiberada(modId, etapaIdx){
-  if(etapaIdx===0) return true;
-  const prog = getNegociosProgressCache();
-  const mod = negociosModulos.find(m=>m.id===modId);
-  if(!mod) return false;
-  return prog[mod.etapas[etapaIdx-1].id]===true;
-}
+function getNegociosSession(){ var n=localStorage.getItem('negti_nome'); return n ? {nome:n, id:n} : null; }
 function isNgModuloLiberado(modIdx){
   if(modIdx===0) return true;
   const prog = getNegociosProgressCache();
@@ -1776,18 +1757,13 @@ function isNgModuloLiberado(modIdx){
 }
 
 function initNegociosTI(){
-  const user = getNegociosSession();
-  if(!user){ renderNgLogin(); bindNgEvents(); return; }
-  // Mostrar dashboard IMEDIATAMENTE com cache local
+  var nome = localStorage.getItem('negti_nome');
+  if(!nome){ renderNgLogin(); return; }
   renderNgDashboard();
   bindNgEvents();
-  // Atualizar progresso da API em background
-  apiNegocios({action:'carregar_progresso', aluno_id:user.id, curso:'negocios_ti'})
-    .then(function(res){ if(res && res.ok){ saveNegociosProgressCache(res.progresso||{}); } })
-    .catch(function(){});
 }
 
-function logoutNegocios(){ clearNegociosSession(); showInner('negociosTI'); renderNgLogin(); }
+function logoutNegocios(){ localStorage.removeItem('negti_nome'); localStorage.removeItem('negti_progresso'); renderNgLogin(); }
 
 
 function bindNgEvents(){
@@ -1808,101 +1784,45 @@ function _ngBtnHandler(e){
 function renderNgLogin(){
   document.getElementById('negociosTI-content').innerHTML = `
   <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
-    <div style="font-size:2.5rem;margin-bottom:.5rem">\u{1F4BC}</div>
-    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Neg\u00F3cios em Inform\u00E1tica</h2>
-    <p style="opacity:.85">Fa\u00E7a login ou cadastre-se para come\u00E7ar</p>
+    <div style="font-size:2.5rem;margin-bottom:.5rem">💼</div>
+    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Negócios em Informática</h2>
+    <p style="opacity:.85">Digite seu nome para começar</p>
   </div>
-  <div style="padding:1.5rem;background:var(--card)">
-    <div style="display:flex;gap:.6rem;margin-bottom:1.5rem">
-      <button id="ngtab-login" class="btn btn-primary" style="flex:1;font-size:.95rem;background:#b45309;border-color:#b45309">\uD83D\uDD11 Entrar</button>
-      <button id="ngtab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem">\uD83D\uDCDD Cadastrar</button>
-    </div>
-    <div id="ngform-login">
-      <div style="display:flex;flex-direction:column;gap:.9rem">
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">E-mail</label>
-          <input id="ng-login-email" type="email" placeholder="seu@email.com" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Senha (4 d\u00EDgitos)</label>
-          <input id="ng-login-senha" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div id="ng-login-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="ng-btn-login" style="width:100%;font-size:1rem;padding:.85rem;background:#b45309;border-color:#b45309">Entrar no Curso</button>
+  <div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px">
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
+      <div>
+        <label style="font-size:.9rem;color:var(--subtexto);display:block;margin-bottom:.4rem">Seu nome completo</label>
+        <input id="ng-nome-input" type="text" placeholder="Ex: João da Silva"
+          style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box">
       </div>
+      <div id="ng-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
+      <button id="ng-btn-entrar" class="btn btn-primary"
+        style="width:100%;font-size:1rem;padding:.9rem;background:#b45309;border-color:#b45309">
+        🚀 Começar Curso
+      </button>
     </div>
-    <div id="ngform-cadastro" style="display:none">
-      <div style="display:flex;flex-direction:column;gap:.9rem">
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Nome Completo</label>
-          <input id="ng-cad-nome" type="text" placeholder="Ex: Jo\u00E3o da Silva" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">E-mail</label>
-          <input id="ng-cad-email" type="email" placeholder="seu@email.com" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Senha (4 d\u00EDgitos num\u00E9ricos)</label>
-          <input id="ng-cad-senha" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Confirmar Senha</label>
-          <input id="ng-cad-conf" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div id="ng-cad-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="ng-btn-cadastro" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">Criar Conta e Come\u00E7ar</button>
-      </div>
-    </div>
-    <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">\u2601\uFE0F Seu progresso ser\u00E1 salvo na nuvem!</p>
+    <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">Seu progresso será salvo neste dispositivo</p>
   </div>`;
   window.scrollTo(0,0);
+  setTimeout(function(){
+    var btn = document.getElementById('ng-btn-entrar');
+    var input = document.getElementById('ng-nome-input');
+    if(btn) btn.onclick = function(){
+      var nome = input ? input.value.trim() : '';
+      var erro = document.getElementById('ng-nome-erro');
+      if(!nome){ erro.textContent='Informe seu nome.'; erro.style.display=''; return; }
+      localStorage.setItem('negti_nome', nome);
+      renderNgDashboard();
+      bindNgEvents();
+    };
+    if(input) input.addEventListener('keydown', function(e){
+      if(e.key==='Enter') btn && btn.click();
+    });
+  }, 50);
 }
 
-function mostrarNgTabLogin(){
-  document.getElementById('ngform-login').style.display='';
-  document.getElementById('ngform-cadastro').style.display='none';
-  document.getElementById('ngtab-login').className='btn btn-primary';
-  document.getElementById('ngtab-cadastro').className='btn btn-secondary';
-}
-function mostrarNgTabCadastro(){
-  document.getElementById('ngform-login').style.display='none';
-  document.getElementById('ngform-cadastro').style.display='';
-  document.getElementById('ngtab-login').className='btn btn-secondary';
-  document.getElementById('ngtab-cadastro').className='btn btn-primary';
-}
 
-async function fazerNgCadastro(){
-  const nome = document.getElementById('ng-cad-nome').value.trim();
-  const email = document.getElementById('ng-cad-email').value.trim();
-  const senha = document.getElementById('ng-cad-senha').value.trim();
-  const conf = document.getElementById('ng-cad-conf').value.trim();
-  const erro = document.getElementById('ng-cad-erro');
-  const btn = document.getElementById('ng-btn-cadastro');
-  if(!nome){ erro.textContent='Informe seu nome completo.'; erro.style.display=''; return; }
-  if(!email||!email.includes('@')){ erro.textContent='E-mail inv\u00E1lido.'; erro.style.display=''; return; }
-  if(!/^\d{4}$/.test(senha)){ erro.textContent='Senha deve ter 4 d\u00EDgitos num\u00E9ricos.'; erro.style.display=''; return; }
-  if(senha!==conf){ erro.textContent='As senhas n\u00E3o conferem.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Cadastrando...'; btn.disabled=true;
-  const res = await apiNegocios({action:'cadastro', nome, email, senha});
-  btn.textContent='Criar Conta e Come\u00E7ar'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveNegociosSession(res.aluno);
-  saveNegociosProgressCache({});
-  showInner('negociosTI');
-  renderNgDashboard();
-  bindNgEvents();
-}
 
-async function fazerNgLogin(){
-  const email = document.getElementById('ng-login-email').value.trim();
-  const senha = document.getElementById('ng-login-senha').value.trim();
-  const erro = document.getElementById('ng-login-erro');
-  const btn = document.getElementById('ng-btn-login');
-  if(!email||!senha){ erro.textContent='Preencha e-mail e senha.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Entrando...'; btn.disabled=true;
-  const res = await apiNegocios({action:'login', email, senha});
-  btn.textContent='Entrar no Curso'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveNegociosSession(res.aluno);
-  saveNegociosProgressCache({});
-  showInner('negociosTI');
-  renderNgDashboard();
-  bindNgEvents();
-  // Atualizar progresso em background
-  apiNegocios({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'negocios_ti'})
-    .then(function(p){ if(p&&p.ok) saveNegociosProgressCache(p.progresso||{}); })
-    .catch(function(){});
-}
 
 function renderNgDashboard(){
   const user = getNegociosSession();
@@ -1955,7 +1875,7 @@ function renderNgDashboard(){
       <div style="font-size:3rem">\uD83C\uDF93</div>
       <h3 style="color:#fbbf24;margin-bottom:.5rem">Parab\u00E9ns! Curso Conclu\u00EDdo!</h3>
       <p style="color:#fde68a;font-size:.9rem;margin-bottom:1rem">Voc\u00EA completou todas as etapas!</p>
-      <button class="btn btn-primary" onclick="gerarCertificadoNegocios()" style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
+      <button class="btn btn-primary"  style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
     </div>`:''}
   </div>`;
   document.getElementById('negociosTI-content').innerHTML = html;
@@ -2159,27 +2079,8 @@ const CURSO_API = 'https://superagent-93dca18b.base44.app/functions/cursoAuth';
 const CURSO_SESSION_KEY = 'infob_session'; // guarda {id, nome, email} localmente
 const CURSO_PROG_KEY = 'infob_prog_cache'; // cache local do progresso
 
-async function apiCurso(data){
-  try{
-    const r = await fetch(CURSO_API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
-    return await r.json();
-  }catch(e){ return {error:'Sem conexão com o servidor.'}; }
-}
 
-function getCursoSession(){ try{ return JSON.parse(localStorage.getItem(CURSO_SESSION_KEY)||'null'); }catch(e){ return null; } }
-function saveCursoSession(u){ localStorage.setItem(CURSO_SESSION_KEY, JSON.stringify(u)); }
-function clearCursoSession(){ localStorage.removeItem(CURSO_SESSION_KEY); localStorage.removeItem(CURSO_PROG_KEY); }
-
-function getCursoProgressCache(){ try{ return JSON.parse(localStorage.getItem(CURSO_PROG_KEY)||'{}'); }catch(e){ return {}; } }
-function saveCursoProgressCache(data){ localStorage.setItem(CURSO_PROG_KEY, JSON.stringify(data)); }
-
-function isEtapaLiberada(modId, etapaIdx){
-  if(etapaIdx===0) return true;
-  const prog = getCursoProgressCache();
-  const mod = cursoModulos.find(m=>m.id===modId);
-  if(!mod) return false;
-  return prog[mod.etapas[etapaIdx-1].id]===true;
-}
+function getCursoSession(){ var n=localStorage.getItem('infob_nome'); return n ? {nome:n, id:n} : null; }
 function isModuloLiberado(modIdx){
   if(modIdx===0) return true;
   const prog = getCursoProgressCache();
@@ -2187,15 +2088,13 @@ function isModuloLiberado(modIdx){
 }
 
 function initCurso(){
-  const user = getCursoSession();
-  if(!user){ renderCursoLogin(); bindCursoEvents(); return; }
-  renderCursoDashboard(); bindCursoEvents();
-  apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'})
-    .then(function(res){ if(res && res.ok){ saveCursoProgressCache(res.progresso||{}); } })
-    .catch(function(){});
+  var nome = localStorage.getItem('infob_nome');
+  if(!nome){ renderCursoLogin(); return; }
+  renderCursoDashboard();
+  bindCursoEvents();
 }
 
-function logoutCurso(){ clearCursoSession(); renderCursoLogin(); }
+function logoutCurso(){ localStorage.removeItem('infob_nome'); localStorage.removeItem('infob_prog'); renderCursoLogin(); }
 
 // ---- TELA DE LOGIN ----
 
@@ -2219,55 +2118,42 @@ function renderCursoLogin(){
   document.getElementById('curso-content').innerHTML = `
   <div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
     <div style="font-size:2.5rem;margin-bottom:.5rem">🖥️</div>
-    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Inform\u00E1tica B\u00E1sica</h2>
-    <p style="opacity:.85">Fa\u00E7a login ou cadastre-se para come\u00E7ar</p>
+    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Informática Básica</h2>
+    <p style="opacity:.85">Digite seu nome para começar</p>
   </div>
-  <div style="padding:1.5rem;background:var(--card)">
-    <div style="display:flex;gap:.6rem;margin-bottom:1.5rem">
-      <button id="ibtab-login" class="btn btn-primary" style="flex:1;font-size:.95rem;background:#1a56db;border-color:#1a56db">\uD83D\uDD11 Entrar</button>
-      <button id="ibtab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem">\uD83D\uDCDD Cadastrar</button>
-    </div>
-    <div id="ibform-login">
-      <div style="display:flex;flex-direction:column;gap:.9rem">
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">E-mail</label>
-          <input id="ib-login-email" type="email" placeholder="seu@email.com" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Senha (4 d\u00EDgitos)</label>
-          <input id="ib-login-senha" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div id="ib-login-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="ib-btn-login" style="width:100%;font-size:1rem;padding:.85rem;background:#1a56db;border-color:#1a56db">Entrar no Curso</button>
+  <div style="padding:1.5rem;background:var(--card);border-radius:0 0 12px 12px">
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
+      <div>
+        <label style="font-size:.9rem;color:var(--subtexto);display:block;margin-bottom:.4rem">Seu nome completo</label>
+        <input id="ib-nome-input" type="text" placeholder="Ex: João da Silva"
+          style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.8rem 1rem;color:var(--texto);font-size:1rem;box-sizing:border-box">
       </div>
+      <div id="ib-nome-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
+      <button id="ib-btn-entrar" class="btn btn-primary"
+        style="width:100%;font-size:1rem;padding:.9rem;background:#1a56db;border-color:#1a56db">
+        🚀 Começar Curso
+      </button>
     </div>
-    <div id="ibform-cadastro" style="display:none">
-      <div style="display:flex;flex-direction:column;gap:.9rem">
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Nome Completo</label>
-          <input id="ib-cad-nome" type="text" placeholder="Ex: Jo\u00E3o da Silva" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">E-mail</label>
-          <input id="ib-cad-email" type="email" placeholder="seu@email.com" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Senha (4 d\u00EDgitos num\u00E9ricos)</label>
-          <input id="ib-cad-senha" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">Confirmar Senha</label>
-          <input id="ib-cad-conf" type="password" maxlength="4" inputmode="numeric" placeholder="\u2022\u2022\u2022\u2022" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div id="ib-cad-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="ib-btn-cadastro" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">Criar Conta e Come\u00E7ar</button>
-      </div>
-    </div>
-    <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">\u2601\uFE0F Seu progresso ser\u00E1 salvo na nuvem!</p>
+    <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">Seu progresso será salvo neste dispositivo</p>
   </div>`;
   window.scrollTo(0,0);
+  setTimeout(function(){
+    var btn = document.getElementById('ib-btn-entrar');
+    var input = document.getElementById('ib-nome-input');
+    if(btn) btn.onclick = function(){
+      var nome = input ? input.value.trim() : '';
+      var erro = document.getElementById('ib-nome-erro');
+      if(!nome){ erro.textContent='Informe seu nome.'; erro.style.display=''; return; }
+      localStorage.setItem('infob_nome', nome);
+      renderCursoDashboard();
+      bindCursoEvents();
+    };
+    if(input) input.addEventListener('keydown', function(e){
+      if(e.key==='Enter') btn && btn.click();
+    });
+  }, 50);
 }
 
-function mostrarIbTabLogin(){
-  document.getElementById('ibform-login').style.display='';
-  document.getElementById('ibform-cadastro').style.display='none';
-  document.getElementById('ibtab-login').className='btn btn-primary';
-  document.getElementById('ibtab-cadastro').className='btn btn-secondary';
-}
-function mostrarIbTabCadastro(){
-  document.getElementById('ibform-login').style.display='none';
-  document.getElementById('ibform-cadastro').style.display='';
-  document.getElementById('ibtab-login').className='btn btn-secondary';
-  document.getElementById('ibtab-cadastro').className='btn btn-primary';
-}
 
 
 
@@ -2277,50 +2163,7 @@ function mostrarIbTabCadastro(){
 
 
 
-async function fazerIbCadastro(){
-  const nome = document.getElementById('ib-cad-nome').value.trim();
-  const email = document.getElementById('ib-cad-email').value.trim();
-  const senha = document.getElementById('ib-cad-senha').value.trim();
-  const conf = document.getElementById('ib-cad-conf').value.trim();
-  const erro = document.getElementById('ib-cad-erro');
-  const btn = document.getElementById('ib-btn-cadastro');
-  if(!nome){ erro.textContent='Informe seu nome completo.'; erro.style.display=''; return; }
-  if(!email||!email.includes('@')){ erro.textContent='E-mail inv\u00E1lido.'; erro.style.display=''; return; }
-  if(!/^\d{4}$/.test(senha)){ erro.textContent='Senha deve ter 4 d\u00EDgitos num\u00E9ricos.'; erro.style.display=''; return; }
-  if(senha!==conf){ erro.textContent='As senhas n\u00E3o conferem.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Cadastrando...'; btn.disabled=true;
-  const res = await apiCurso({action:'cadastro', nome, email, senha});
-  btn.textContent='Criar Conta e Come\u00E7ar'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveCursoSession(res.aluno);
-  saveCursoProgressCache({});
-  showInner('curso');
-  renderCursoDashboard();
-  bindCursoEvents();
-}
 
-async function fazerIbLogin(){
-  const email = document.getElementById('ib-login-email').value.trim();
-  const senha = document.getElementById('ib-login-senha').value.trim();
-  const erro = document.getElementById('ib-login-erro');
-  const btn = document.getElementById('ib-btn-login');
-  if(!email||!senha){ erro.textContent='Preencha e-mail e senha.'; erro.style.display=''; return; }
-  erro.style.display='none';
-  btn.textContent='Entrando...'; btn.disabled=true;
-  const res = await apiCurso({action:'login', email, senha});
-  btn.textContent='Entrar no Curso'; btn.disabled=false;
-  if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
-  saveCursoSession(res.aluno);
-  saveCursoProgressCache({});
-  showInner('curso');
-  renderCursoDashboard();
-  bindCursoEvents();
-  // Atualizar progresso em background
-  apiCurso({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'informatica_basica'})
-    .then(function(p){ if(p&&p.ok) saveCursoProgressCache(p.progresso||{}); })
-    .catch(function(){});
-}
 
 function renderCursoDashboard(){
   const user = getCursoSession();
@@ -2373,7 +2216,7 @@ function renderCursoDashboard(){
       <div style="font-size:3rem">\uD83C\uDF93</div>
       <h3 style="color:#fbbf24;margin-bottom:.5rem">Parab\u00E9ns! Curso Conclu\u00EDdo!</h3>
       <p style="color:#fde68a;font-size:.9rem;margin-bottom:1rem">Voc\u00EA completou todas as etapas!</p>
-      <button class="btn btn-primary" onclick="gerarCertificadoNegocios()" style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
+      <button class="btn btn-primary"  style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
     </div>`:''}
   </div>`;
   document.getElementById('curso-content').innerHTML = html;
