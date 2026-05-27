@@ -1845,59 +1845,44 @@ function renderNgLogin(){ document.getElementById('ng-tela-nome').style.display=
 
 
 function renderNgDashboard(){
-  const user = getNegociosSession();
-  const prog = getNegociosProgressCache();
-  const totalEtapas = negociosModulos.reduce((s,m)=>s+m.etapas.length,0);
-  const concluidas = Object.values(prog).filter(v=>v===true).length;
-  const pct = Math.round(concluidas/totalEtapas*100);
-  let html = `
-  <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
-      <div>
-        <h2 style="font-size:1.5rem;margin-bottom:.2rem">\uD83D\uDCBC Inform\u00E1tica B\u00E1sica</h2>
-        <p style="opacity:.85;font-size:.9rem">Ol\u00E1, <strong>${user ? user.nome.split(' ')[0] : ''}</strong>! Bons estudos.</p>
-      </div>
-      <button onclick="logoutNegocios()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:.4rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem">Sair</button>
-    </div>
-    <div style="margin-top:1.2rem">
-      <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.4rem">
-        <span>Progresso geral</span><span><strong>${concluidas}/${totalEtapas} etapas</strong> \u2014 ${pct}%</span>
-      </div>
-      <div style="background:rgba(255,255,255,.2);border-radius:20px;height:10px">
-        <div style="background:#fbbf24;height:100%;border-radius:20px;width:${pct}%;transition:width .5s"></div>
-      </div>
-    </div>
-  </div>
-  <div style="padding:1.5rem;background:var(--card)">
-    <p style="color:var(--subtexto);font-size:.88rem;margin-bottom:1.2rem">\uD83D\uDCCC Complete cada etapa! \u2601\uFE0F Progresso salvo na nuvem.</p>
-    <div style="display:flex;flex-direction:column;gap:1rem">`;
-  negociosModulos.forEach((mod,mi)=>{
-    const liberado = isNgModuloLiberado(mi);
-    const etapasConcluidas = mod.etapas.filter(e=>prog[e.id]===true).length;
-    const modPct = Math.round(etapasConcluidas/mod.etapas.length*100);
-    html += `
-    <div style="border:2px solid ${liberado?mod.cor:'#2a2a3a'};border-radius:12px;overflow:hidden;opacity:${liberado?1:.55}">
-      <div style="background:${liberado?mod.cor+'18':'#13131a'};padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;cursor:${liberado?'pointer':'not-allowed'}"
-           onclick="${liberado?('renderNgModulo(\''+mod.id+'\''+')'):'mostrarNgBloqueado()'}">
-        <div style="font-size:1.8rem">${liberado?(etapasConcluidas===mod.etapas.length?'\u2705':'\uD83D\uDCD6'):'\uD83D\uDD12'}</div>
-        <div style="flex:1">
-          <div style="font-weight:700;color:${liberado?mod.cor:'#6b7280'}">${mod.titulo}</div>
-          <div style="font-size:.8rem;color:var(--subtexto);margin-top:.2rem">${mod.descricao}</div>
-        </div>
-        <div style="text-align:right;font-size:.8rem;color:var(--subtexto)">${liberado?`${etapasConcluidas}/${mod.etapas.length} etapas`:'Bloqueado'}</div>
-      </div>
-      ${liberado?`<div style="height:4px;background:#1e293b"><div style="height:100%;background:${mod.cor};width:${modPct}%;transition:width .5s"></div></div>`:''}
-    </div>`;
+  var nome = localStorage.getItem('negti_nome') || 'Aluno';
+  var prog = getNegociosProgressCache();
+  var totalEtapas = negociosModulos.reduce(function(s,m){return s+m.etapas.length;},0);
+  var concluidas = Object.values(prog).filter(function(v){return v===true;}).length;
+  var pct = totalEtapas>0 ? Math.round(concluidas/totalEtapas*100) : 0;
+  var html = '<div style="background:linear-gradient(135deg,#78350f,#b45309);padding:1.5rem;color:white;border-radius:12px 12px 0 0">'
+    + '<h2 style="margin:0 0 .3rem;font-size:1.3rem">Neg&oacute;cios em Inform&aacute;tica</h2>'
+    + '<p style="margin:0;opacity:.85">Ol&aacute;, ' + nome + '!</p>'
+    + '<div style="margin-top:.8rem;background:rgba(255,255,255,.2);border-radius:8px;height:10px">'
+    + '<div style="background:#fbbf24;width:' + pct + '%;height:10px;border-radius:8px;transition:width .4s"></div></div>'
+    + '<small style="opacity:.8">' + concluidas + ' de ' + totalEtapas + ' etapas (' + pct + '%)</small>'
+    + '<div style="text-align:right;margin-top:.5rem"><button id="ng-btn-logout" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:white;padding:.3rem .8rem;border-radius:6px;cursor:pointer;font-size:.85rem">Sair</button></div>'
+    + '</div><div style="background:var(--card);border-radius:0 0 12px 12px;padding:1rem">';
+  negociosModulos.forEach(function(modulo, mi){
+    var etapasConcluidas = modulo.etapas.filter(function(e){return prog[e.id]===true;}).length;
+    var anteriorPct = mi===0 ? 100 : (function(){
+      var ant = negociosModulos[mi-1];
+      var c = ant.etapas.filter(function(e){return prog[e.id]===true;}).length;
+      return Math.round(c/ant.etapas.length*100);
+    })();
+    var bloqueado = mi > 0 && anteriorPct < 60;
+    html += '<div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">'
+      + '<div style="padding:.8rem 1rem;background:' + (bloqueado?'#1e293b':'#78350f') + ';display:flex;justify-content:space-between;align-items:center">'
+      + '<span style="color:white;font-weight:600">' + (bloqueado?'&#128274; ':'&#128275; ') + (mi+1) + '. ' + modulo.titulo + '</span>'
+      + '<span style="color:#94a3b8;font-size:.85rem">' + etapasConcluidas + '/' + modulo.etapas.length + '</span>'
+      + '</div>';
+    if(!bloqueado){
+      modulo.etapas.forEach(function(etapa){
+        var ok = prog[etapa.id]===true;
+        html += '<div id="ngetapa-' + etapa.id + '" style="padding:.7rem 1rem;border-top:1px solid var(--borda);cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:' + (ok?'rgba(16,185,129,.1)':'') + '">'
+          + '<span style="color:' + (ok?'#34d399':'var(--texto)') + '">' + etapa.titulo + '</span>'
+          + '<span>' + (ok?'&#10003;':'&#8594;') + '</span>'
+          + '</div>';
+      });
+    }
+    html += '</div>';
   });
-  html += `</div>
-    ${pct===100?`
-    <div style="margin-top:1.5rem;background:linear-gradient(135deg,#78350f,#92400e);border-radius:12px;padding:1.5rem;text-align:center;border:2px solid #f59e0b">
-      <div style="font-size:3rem">\uD83C\uDF93</div>
-      <h3 style="color:#fbbf24;margin-bottom:.5rem">Parab\u00E9ns! Curso Conclu\u00EDdo!</h3>
-      <p style="color:#fde68a;font-size:.9rem;margin-bottom:1rem">Voc\u00EA completou todas as etapas!</p>
-      <button class="btn btn-primary"  style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
-    </div>`:''}
-  </div>`;
+  html += '</div>';
   document.getElementById('ng-dashboard').innerHTML = html;
   window.scrollTo(0,0);
 }
@@ -2163,59 +2148,46 @@ function renderCursoLogin(){ document.getElementById('ib-tela-nome').style.displ
 
 
 function renderCursoDashboard(){
-  const user = getCursoSession();
-  const prog = getCursoProgressCache();
-  const totalEtapas = cursoModulos.reduce((s,m)=>s+m.etapas.length,0);
-  const concluidas = Object.values(prog).filter(v=>v===true).length;
-  const pct = Math.round(concluidas/totalEtapas*100);
-  let html = `
-  <div style="background:linear-gradient(135deg,#78350f,#b45309);padding:2rem;color:white;border-radius:12px 12px 0 0">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
-      <div>
-        <h2 style="font-size:1.5rem;margin-bottom:.2rem">\uD83D\uDCBC Neg\u00F3cios em Inform\u00E1tica</h2>
-        <p style="opacity:.85;font-size:.9rem">Ol\u00E1, <strong>${user ? user.nome.split(' ')[0] : ''}</strong>! Bons estudos.</p>
-      </div>
-      <button onclick="logoutCurso()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:.4rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem">Sair</button>
-    </div>
-    <div style="margin-top:1.2rem">
-      <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.4rem">
-        <span>Progresso geral</span><span><strong>${concluidas}/${totalEtapas} etapas</strong> \u2014 ${pct}%</span>
-      </div>
-      <div style="background:rgba(255,255,255,.2);border-radius:20px;height:10px">
-        <div style="background:#fbbf24;height:100%;border-radius:20px;width:${pct}%;transition:width .5s"></div>
-      </div>
-    </div>
-  </div>
-  <div style="padding:1.5rem;background:var(--card)">
-    <p style="color:var(--subtexto);font-size:.88rem;margin-bottom:1.2rem">\uD83D\uDCCC Complete cada etapa! \u2601\uFE0F Progresso salvo na nuvem.</p>
-    <div style="display:flex;flex-direction:column;gap:1rem">`;
-  cursoModulos.forEach((mod,mi)=>{
-    const liberado = isNgModuloLiberado(mi);
-    const etapasConcluidas = mod.etapas.filter(e=>prog[e.id]===true).length;
-    const modPct = Math.round(etapasConcluidas/mod.etapas.length*100);
-    html += `
-    <div style="border:2px solid ${liberado?mod.cor:'#2a2a3a'};border-radius:12px;overflow:hidden;opacity:${liberado?1:.55}">
-      <div style="background:${liberado?mod.cor+'18':'#13131a'};padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;cursor:${liberado?'pointer':'not-allowed'}"
-           onclick="${liberado?('renderNgModulo(\''+mod.id+'\''+')'):'mostrarNgBloqueado()'}">
-        <div style="font-size:1.8rem">${liberado?(etapasConcluidas===mod.etapas.length?'\u2705':'\uD83D\uDCD6'):'\uD83D\uDD12'}</div>
-        <div style="flex:1">
-          <div style="font-weight:700;color:${liberado?mod.cor:'#6b7280'}">${mod.titulo}</div>
-          <div style="font-size:.8rem;color:var(--subtexto);margin-top:.2rem">${mod.descricao}</div>
-        </div>
-        <div style="text-align:right;font-size:.8rem;color:var(--subtexto)">${liberado?`${etapasConcluidas}/${mod.etapas.length} etapas`:'Bloqueado'}</div>
-      </div>
-      ${liberado?`<div style="height:4px;background:#1e293b"><div style="height:100%;background:${mod.cor};width:${modPct}%;transition:width .5s"></div></div>`:''}
-    </div>`;
+  var nome = localStorage.getItem('infob_nome') || 'Aluno';
+  var prog = getCursoProgressCache();
+  var totalEtapas = cursoModulos.reduce(function(s,m){return s+m.etapas.length;},0);
+  var concluidas = Object.values(prog).filter(function(v){return v===true;}).length;
+  var pct = totalEtapas>0 ? Math.round(concluidas/totalEtapas*100) : 0;
+  var html = '<div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:1.5rem;color:white;border-radius:12px 12px 0 0">'
+    + '<h2 style="margin:0 0 .3rem;font-size:1.3rem">Inform&aacute;tica B&aacute;sica</h2>'
+    + '<p style="margin:0;opacity:.85">Ol&aacute;, ' + nome + '!</p>'
+    + '<div style="margin-top:.8rem;background:rgba(255,255,255,.2);border-radius:8px;height:10px">'
+    + '<div style="background:#60a5fa;width:' + pct + '%;height:10px;border-radius:8px;transition:width .4s"></div></div>'
+    + '<small style="opacity:.8">' + concluidas + ' de ' + totalEtapas + ' etapas (' + pct + '%)</small>'
+    + '<div style="text-align:right;margin-top:.5rem"><button id="ib-btn-logout" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:white;padding:.3rem .8rem;border-radius:6px;cursor:pointer;font-size:.85rem">Sair</button></div>'
+    + '</div><div style="background:var(--card);border-radius:0 0 12px 12px;padding:1rem">';
+  cursoModulos.forEach(function(modulo, mi){
+    var etapasConcluidas = modulo.etapas.filter(function(e){return prog[e.id]===true;}).length;
+    var bloqueado = mi > 0 && !modulo.etapas.every(function(e,ei){ return ei===0 || prog[modulo.etapas[ei-1].id]===true; });
+    // modulo desbloqueado se anterior tem pelo menos 60%
+    var anteriorPct = mi===0 ? 100 : (function(){
+      var ant = cursoModulos[mi-1];
+      var c = ant.etapas.filter(function(e){return prog[e.id]===true;}).length;
+      return Math.round(c/ant.etapas.length*100);
+    })();
+    bloqueado = mi > 0 && anteriorPct < 60;
+    html += '<div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">'
+      + '<div style="padding:.8rem 1rem;background:' + (bloqueado?'#1e293b':'#1e3a5f') + ';display:flex;justify-content:space-between;align-items:center">'
+      + '<span style="color:white;font-weight:600">' + (bloqueado?'&#128274; ':'&#128275; ') + (mi+1) + '. ' + modulo.titulo + '</span>'
+      + '<span style="color:#94a3b8;font-size:.85rem">' + etapasConcluidas + '/' + modulo.etapas.length + '</span>'
+      + '</div>';
+    if(!bloqueado){
+      modulo.etapas.forEach(function(etapa){
+        var ok = prog[etapa.id]===true;
+        html += '<div id="etapa-' + etapa.id + '" style="padding:.7rem 1rem;border-top:1px solid var(--borda);cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:' + (ok?'rgba(16,185,129,.1)':'') + '">'
+          + '<span style="color:' + (ok?'#34d399':'var(--texto)') + '">' + etapa.titulo + '</span>'
+          + '<span>' + (ok?'&#10003;':'&#8594;') + '</span>'
+          + '</div>';
+      });
+    }
+    html += '</div>';
   });
-  html += `</div>
-    ${pct===100?`
-    <div style="margin-top:1.5rem;background:linear-gradient(135deg,#78350f,#92400e);border-radius:12px;padding:1.5rem;text-align:center;border:2px solid #f59e0b">
-      <div style="font-size:3rem">\uD83C\uDF93</div>
-      <h3 style="color:#fbbf24;margin-bottom:.5rem">Parab\u00E9ns! Curso Conclu\u00EDdo!</h3>
-      <p style="color:#fde68a;font-size:.9rem;margin-bottom:1rem">Voc\u00EA completou todas as etapas!</p>
-      <button class="btn btn-primary"  style="background:#f59e0b;border-color:#f59e0b;font-size:1rem;padding:.8rem 1.8rem">\uD83C\uDFC6 Gerar Certificado</button>
-    </div>`:''}
-  </div>`;
+  html += '</div>';
   document.getElementById('ib-dashboard').innerHTML = html;
   window.scrollTo(0,0);
 }
