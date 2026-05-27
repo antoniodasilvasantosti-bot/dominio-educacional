@@ -1825,6 +1825,16 @@ function renderNgLogin(){
     <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">\u2601\uFE0F Seu progresso ser\u00E1 salvo na nuvem!</p>
   </div>`;
   window.scrollTo(0,0);
+  setTimeout(function(){
+    var btnLogin = document.getElementById('ng-btn-login');
+    var btnCadastro = document.getElementById('ng-btn-cadastro');
+    var tabLogin = document.getElementById('ng-tab-login');
+    var tabCadastro = document.getElementById('ng-tab-cadastro');
+    if(btnLogin) btnLogin.onclick = fazerNgLogin;
+    if(btnCadastro) btnCadastro.onclick = fazerNgCadastro;
+    if(tabLogin) tabLogin.onclick = mostrarNgTabLogin;
+    if(tabCadastro) tabCadastro.onclick = mostrarNgTabCadastro;
+  }, 50);
 }
 
 function mostrarNgTabLogin(){
@@ -2220,6 +2230,22 @@ function renderCursoLogin(){
     <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">🔒 Seu progresso será salvo na nuvem — acesse de qualquer dispositivo!</p>
   </div>`;
   window.scrollTo(0,0);
+  // Bind eventos após render
+  setTimeout(function(){
+    var btnLogin = document.getElementById('btn-login');
+    var btnCadastro = document.getElementById('btn-cadastro');
+    var tabLogin = document.getElementById('tab-login');
+    var tabCadastro = document.getElementById('tab-cadastro');
+    if(btnLogin) btnLogin.onclick = fazerLogin;
+    if(btnCadastro) btnCadastro.onclick = fazerCadastroCurso;
+    if(tabLogin) tabLogin.onclick = mostrarTabLogin;
+    if(tabCadastro) tabCadastro.onclick = mostrarTabCadastro;
+    // Enter nos inputs
+    var inputSenha = document.getElementById('login-senha');
+    if(inputSenha) inputSenha.addEventListener('keydown', function(e){ if(e.key==='Enter') fazerLogin(); });
+    var inputCadSenha = document.getElementById('cad-senha');
+    if(inputCadSenha) inputCadSenha.addEventListener('keydown', function(e){ if(e.key==='Enter') fazerCadastroCurso(); });
+  }, 50);
 }
 
 function mostrarTabLogin(){
