@@ -1775,22 +1775,16 @@ function isNgModuloLiberado(modIdx){
   return negociosModulos[modIdx-1].etapas.every(e=>prog[e.id]===true);
 }
 
-async function initNegociosTI(){
+function initNegociosTI(){
   const user = getNegociosSession();
   if(!user){ renderNgLogin(); bindNgEvents(); return; }
-  document.getElementById('negociosTI-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">⏳ Carregando seu progresso...</div>';
-  try {
-    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000));
-    const res = await Promise.race([
-      apiNegocios({action:'carregar_progresso', aluno_id:user.id, curso:'negocios_ti'}),
-      timeout
-    ]);
-    if(res && res.ok){ saveNegociosProgressCache(res.progresso||{}); }
-  } catch(e) {
-    console.warn('API demorou, usando cache local:', e.message);
-  }
+  // Mostrar dashboard IMEDIATAMENTE com cache local
   renderNgDashboard();
   bindNgEvents();
+  // Atualizar progresso da API em background
+  apiNegocios({action:'carregar_progresso', aluno_id:user.id, curso:'negocios_ti'})
+    .then(function(res){ if(res && res.ok){ saveNegociosProgressCache(res.progresso||{}); } })
+    .catch(function(){});
 }
 
 function logoutNegocios(){ clearNegociosSession(); showInner('negociosTI'); renderNgLogin(); }
@@ -2197,24 +2191,16 @@ function isModuloLiberado(modIdx){
   return cursoModulos[modIdx-1].etapas.every(e=>prog[e.id]===true);
 }
 
-async function initCurso(){
+function initCurso(){
   const user = getCursoSession();
   if(!user){ renderCursoLogin(); bindCursoEvents(); return; }
-  // Carregar progresso com timeout de segurança
-  document.getElementById('curso-content').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--subtexto)">⏳ Carregando seu progresso...</div>';
-  try {
-    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000));
-    const res = await Promise.race([
-      apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'}),
-      timeout
-    ]);
-    if(res && res.ok){ saveCursoProgressCache(res.progresso||{}); }
-  } catch(e) {
-    // Timeout ou erro: usa cache local e continua
-    console.warn('API demorou, usando cache local:', e.message);
-  }
+  // Mostrar dashboard IMEDIATAMENTE com cache local
   renderCursoDashboard();
   bindCursoEvents();
+  // Atualizar progresso da API em background (sem bloquear)
+  apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'})
+    .then(function(res){ if(res && res.ok){ saveCursoProgressCache(res.progresso||{}); } })
+    .catch(function(){});
 }
 
 function logoutCurso(){ clearCursoSession(); showInner('curso'); renderCursoLogin(); }
