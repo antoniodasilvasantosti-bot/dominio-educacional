@@ -446,7 +446,57 @@ tr:hover td{background:rgba(255,255,255,.02);}
 </div>
 <!-- ===== INNER: CURSO INFORMÁTICA ===== -->
 <div class="inner-app" id="inner-curso">
-  <div class="inner-content" id="curso-content" style="padding:0"></div>
+  <!-- TELA DE LOGIN -->
+  <div id="curso-tela-login">
+    <div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:.5rem">🖥️</div>
+      <h2 style="font-size:1.5rem;margin-bottom:.3rem">Curso de Informática Básica</h2>
+      <p style="opacity:.85">Faça login ou cadastre-se para começar</p>
+    </div>
+    <div style="padding:1.5rem;background:var(--card)">
+      <div style="display:flex;gap:.6rem;margin-bottom:1.5rem">
+        <button id="tab-login" class="btn btn-primary" style="flex:1;font-size:.95rem">🔑 Entrar</button>
+        <button id="tab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem">📝 Cadastrar</button>
+      </div>
+      <!-- FORM LOGIN -->
+      <div id="form-login">
+        <div style="display:flex;flex-direction:column;gap:.9rem">
+          <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">📧 E-mail</label>
+            <input id="login-email" type="email" placeholder="seu@email.com"
+              style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
+          <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">🔒 Senha (4 dígitos)</label>
+            <input id="login-senha" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
+              style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
+          <div id="login-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
+          <button class="btn btn-primary" id="btn-login" style="width:100%;font-size:1rem;padding:.85rem">🔑 Entrar no Curso</button>
+          <p style="text-align:center;font-size:.8rem;color:var(--subtexto)">🔒 Seu progresso será salvo na nuvem — acesse de qualquer dispositivo!</p>
+        </div>
+      </div>
+      <!-- FORM CADASTRO -->
+      <div id="form-cadastro" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:.9rem">
+          <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">👤 Nome Completo</label>
+            <input id="cad-nome" type="text" placeholder="Seu nome completo"
+              style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
+          <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">📧 E-mail</label>
+            <input id="cad-email" type="email" placeholder="seu@email.com"
+              style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
+          <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">🔒 Senha (4 dígitos)</label>
+            <input id="cad-senha" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
+              style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
+          <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">🔒 Confirmar Senha</label>
+            <input id="cad-conf" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
+              style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
+          <div id="cad-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
+          <button class="btn btn-primary" id="btn-cadastro" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">📝 Criar Conta e Começar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- TELA DASHBOARD (oculta até login) -->
+  <div id="curso-tela-dashboard" style="display:none">
+    <div id="curso-content" style="padding:0"></div>
+  </div>
 </div>
 <!-- ===== INNER: TAREFAS PRONTAS ===== -->
 <div class="inner-app" id="inner-tarefas">
@@ -2197,26 +2247,33 @@ function isModuloLiberado(modIdx){
 }
 
 function initCurso(){
-  const user = getCursoSession();
-  if(!user){ renderCursoLogin(); bindCursoEvents(); return; }
-  // Mostrar dashboard IMEDIATAMENTE com cache local
-  renderCursoDashboard();
   bindCursoEvents();
-  // Atualizar progresso da API em background (sem bloquear)
+  const user = getCursoSession();
+  if(!user){
+    document.getElementById('curso-tela-login').style.display='';
+    document.getElementById('curso-tela-dashboard').style.display='none';
+    document.getElementById('form-login').style.display='';
+    document.getElementById('form-cadastro').style.display='none';
+    document.getElementById('tab-login').className='btn btn-primary';
+    document.getElementById('tab-cadastro').className='btn btn-secondary';
+    return;
+  }
+  document.getElementById('curso-tela-login').style.display='none';
+  document.getElementById('curso-tela-dashboard').style.display='';
+  renderCursoDashboard();
   apiCurso({action:'carregar_progresso', aluno_id:user.id, curso:'informatica_basica'})
     .then(function(res){ if(res && res.ok){ saveCursoProgressCache(res.progresso||{}); } })
     .catch(function(){});
 }
 
-function logoutCurso(){ clearCursoSession(); showInner('curso'); renderCursoLogin(); }
+function logoutCurso(){ clearCursoSession(); renderCursoLogin(); }
 
 // ---- TELA DE LOGIN ----
 
 function bindCursoEvents(){
-  // Usar event delegation no container - funciona com conteúdo dinâmico
-  var container = document.getElementById('curso-content');
+  // Usar event delegation no container ESTÁTICO (inner-curso)
+  var container = document.getElementById('inner-curso');
   if(!container) return;
-  // Remover listener antigo para não duplicar
   container.removeEventListener('click', _cursoBtnHandler);
   container.addEventListener('click', _cursoBtnHandler);
   container.removeEventListener('keydown', _cursoKeyHandler);
@@ -2238,66 +2295,13 @@ function _cursoKeyHandler(e){
 }
 
 function renderCursoLogin(){
-  document.getElementById('curso-content').innerHTML = `
-  <div style="background:linear-gradient(135deg,#1e3a5f,#1a56db);padding:2rem;color:white;border-radius:12px 12px 0 0;text-align:center">
-    <div style="font-size:2.5rem;margin-bottom:.5rem">🖥️</div>
-    <h2 style="font-size:1.5rem;margin-bottom:.3rem">Curso de Informática Básica</h2>
-    <p style="opacity:.85">Faça login ou cadastre-se para começar</p>
-  </div>
-  <div style="padding:1.5rem;background:var(--card)">
-    <div style="display:flex;gap:.6rem;margin-bottom:1.5rem">
-      <button id="tab-login" class="btn btn-primary" style="flex:1;font-size:.95rem">🔑 Entrar</button>
-      <button id="tab-cadastro" class="btn btn-secondary" style="flex:1;font-size:.95rem">📝 Cadastrar</button>
-    </div>
-    <div id="form-login">
-      <div style="display:flex;flex-direction:column;gap:.9rem">
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">📧 E-mail</label>
-          <input id="login-email" type="email" placeholder="seu@email.com"
-            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">🔒 Senha (4 dígitos)</label>
-          <input id="login-senha" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
-            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div id="login-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="btn-login" style="width:100%;font-size:1rem;padding:.85rem">🔑 Entrar no Curso</button>
-      </div>
-    </div>
-    <div id="form-cadastro" style="display:none">
-      <div style="display:flex;flex-direction:column;gap:.9rem">
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">👤 Nome Completo</label>
-          <input id="cad-nome" type="text" placeholder="Ex: Maria Silva Santos"
-            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">📧 E-mail</label>
-          <input id="cad-email" type="email" placeholder="seu@email.com"
-            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:.95rem;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">🔒 Senha (4 dígitos numéricos)</label>
-          <input id="cad-senha" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
-            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div><label style="font-size:.85rem;color:var(--subtexto);display:block;margin-bottom:.3rem">🔒 Confirmar Senha</label>
-          <input id="cad-conf" type="password" maxlength="4" inputmode="numeric" placeholder="••••"
-            style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:.7rem 1rem;color:var(--texto);font-size:1.2rem;letter-spacing:.4rem;text-align:center;box-sizing:border-box"></div>
-        <div id="cad-erro" style="color:#f87171;font-size:.85rem;display:none"></div>
-        <button class="btn btn-primary" id="btn-cadastro" style="width:100%;font-size:1rem;padding:.85rem;background:#10b981;border-color:#10b981">📝 Criar Conta e Começar</button>
-      </div>
-    </div>
-    <p style="text-align:center;color:var(--subtexto);font-size:.8rem;margin-top:1rem">🔒 Seu progresso será salvo na nuvem — acesse de qualquer dispositivo!</p>
-  </div>`;
-  window.scrollTo(0,0);
-  // Bind eventos após render
-  setTimeout(function(){
-    var btnLogin = document.getElementById('btn-login');
-    var btnCadastro = document.getElementById('btn-cadastro');
-    var tabLogin = document.getElementById('tab-login');
-    var tabCadastro = document.getElementById('tab-cadastro');
-    if(btnLogin) btnLogin.onclick = fazerLogin;
-    if(btnCadastro) btnCadastro.onclick = fazerCadastroCurso;
-    if(tabLogin) tabLogin.onclick = mostrarTabLogin;
-    if(tabCadastro) tabCadastro.onclick = mostrarTabCadastro;
-    // Enter nos inputs
-    var inputSenha = document.getElementById('login-senha');
-    if(inputSenha) inputSenha.addEventListener('keydown', function(e){ if(e.key==='Enter') fazerLogin(); });
-    var inputCadSenha = document.getElementById('cad-senha');
-    if(inputCadSenha) inputCadSenha.addEventListener('keydown', function(e){ if(e.key==='Enter') fazerCadastroCurso(); });
-  }, 50);
+  document.getElementById('curso-tela-login').style.display='';
+  document.getElementById('curso-tela-dashboard').style.display='none';
+  document.getElementById('form-login').style.display='';
+  document.getElementById('form-cadastro').style.display='none';
+  document.getElementById('login-email').value='';
+  document.getElementById('login-senha').value='';
+  document.getElementById('login-erro').style.display='none';
 }
 
 function mostrarTabLogin(){
@@ -2331,9 +2335,9 @@ async function fazerCadastro(){
   if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
   saveCursoSession(res.aluno);
   saveCursoProgressCache({});
-  showInner('curso');
+  document.getElementById('curso-tela-login').style.display='none';
+  document.getElementById('curso-tela-dashboard').style.display='';
   renderCursoDashboard();
-  bindCursoEvents();
 }
 
 async function fazerLogin(){
@@ -2349,12 +2353,11 @@ async function fazerLogin(){
   if(res.error){ erro.textContent=res.error; erro.style.display=''; return; }
   saveCursoSession(res.aluno);
   saveCursoProgressCache({});
-  showInner('curso');
+  document.getElementById('curso-tela-login').style.display='none';
+  document.getElementById('curso-tela-dashboard').style.display='';
   renderCursoDashboard();
-  bindCursoEvents();
-  // Atualizar progresso em background
   apiCurso({action:'carregar_progresso', aluno_id:res.aluno.id, curso:'informatica_basica'})
-    .then(function(p){ if(p&&p.ok) saveCursoProgressCache(p.progresso||{}); })
+    .then(function(p){ if(p&&p.ok){ saveCursoProgressCache(p.progresso||{}); renderCursoDashboard(); } })
     .catch(function(){});
 }
 
