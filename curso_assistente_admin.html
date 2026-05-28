@@ -82,6 +82,21 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0a0f;color:#e2e8f0;li
 .resultado-box p{color:#94a3b8;font-size:.95rem}
 .btn-refazer{background:#1e293b;color:#93c5fd;border:1px solid #3b82f6;padding:10px 24px;border-radius:8px;cursor:pointer;margin-top:12px;font-size:.9rem;transition:background .2s}
 .btn-refazer:hover{background:#1e3a5f}
+
+/* Modo avaliação: oculta módulos */
+.bloco.em-avaliacao .modulo { display: none; }
+.aviso-avaliacao {
+  background: #7c3aed22;
+  border: 1px solid #7c3aed;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 0 0 16px 0;
+  color: #c4b5fd;
+  font-size: .9rem;
+  display: none;
+}
+.bloco.em-avaliacao .aviso-avaliacao { display: block; }
+
 /* Responsivo */
 @media(max-width:600px){
   .topo h1{font-size:1.4rem}
@@ -286,7 +301,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 1: Fundamentos Administrativos</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs1"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs1"></div>
 <button class="btn-enviar" id="btn1" onclick="corrigir(1)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res1"></div>
 </div>
@@ -460,7 +476,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 2: Documentos e Arquivamento</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs2"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs2"></div>
 <button class="btn-enviar" id="btn2" onclick="corrigir(2)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res2"></div>
 </div>
@@ -609,7 +626,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 3: Rotinas Financeiras</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs3"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs3"></div>
 <button class="btn-enviar" id="btn3" onclick="corrigir(3)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res3"></div>
 </div>
@@ -758,7 +776,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 4: Departamento Pessoal e RH</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs4"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs4"></div>
 <button class="btn-enviar" id="btn4" onclick="corrigir(4)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res4"></div>
 </div>
@@ -919,7 +938,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 5: Informática Aplicada ao Escritório</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs5"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs5"></div>
 <button class="btn-enviar" id="btn5" onclick="corrigir(5)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res5"></div>
 </div>
@@ -1077,7 +1097,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 6: Atendimento e Relacionamento</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs6"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs6"></div>
 <button class="btn-enviar" id="btn6" onclick="corrigir(6)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res6"></div>
 </div>
@@ -1223,7 +1244,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 7: Gestão de Processos e Projetos</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs7"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs7"></div>
 <button class="btn-enviar" id="btn7" onclick="corrigir(7)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res7"></div>
 </div>
@@ -1375,7 +1397,8 @@ Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5
 <div class="avaliacao">
 <h3>📝 Avaliação — Bloco 8: Legislação e Ética Profissional</h3>
 <p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
-<div id="qs8"></div>
+<div class="aviso-avaliacao">🔒 O conteúdo dos módulos foi ocultado durante a avaliação. Após concluir, o conteúdo voltará a ficar disponível.</div>
+    <div id="qs8"></div>
 <button class="btn-enviar" id="btn8" onclick="corrigir(8)" style="display:none">✅ Enviar Avaliação</button>
 <div id="res8"></div>
 </div>
@@ -1442,6 +1465,8 @@ function renderQuestoes(n) {
   });
   div.innerHTML = html;
   document.getElementById('btn'+n).style.display = 'block';
+  // Ocultar módulos durante a avaliação
+  document.getElementById('bloco'+n).classList.add('em-avaliacao');
   if (estado[n].aprovado) {
     document.getElementById('btn'+n).disabled = true;
   }
@@ -1488,6 +1513,8 @@ function corrigir(n) {
     document.getElementById('status'+n).className = 'badge-status badge-reprovado';
   }
   document.getElementById('btn'+n).disabled = true;
+  // Remover modo avaliação - mostrar conteúdo novamente
+  document.getElementById('bloco'+n).classList.remove('em-avaliacao');
 }
 
 function refazer(n) {
@@ -1499,6 +1526,7 @@ function refazer(n) {
   document.getElementById('status'+n).className = 'badge-status badge-disponivel';
   renderQuestoes(n);
   document.getElementById('btn'+n).disabled = false;
+  document.getElementById('bloco'+n).classList.add('em-avaliacao');
 }
 
 function atualizarProgresso() {
