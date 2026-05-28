@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Curso Assistente Administrativo — 160h | Domínio Educacional</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0a0f;color:#e2e8f0;line-height:1.7}
+.topo{background:linear-gradient(135deg,#1e3a5f,#0a0a0f);padding:40px 20px;text-align:center;border-bottom:3px solid #3b82f6}
+.topo h1{font-size:2rem;color:#93c5fd;margin-bottom:10px}
+.topo p{color:#94a3b8;font-size:1.1rem}
+.badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.badge{background:#1e293b;border:1px solid #334155;padding:8px 18px;border-radius:20px;font-size:.9rem}
+.badge span{color:#3b82f6;font-weight:700}
+.container{max-width:960px;margin:0 auto;padding:30px 20px}
+/* Barra de progresso geral */
+.prog-geral{background:#1e293b;border-radius:16px;padding:24px;margin-bottom:30px;border:1px solid #334155}
+.prog-geral h3{color:#93c5fd;margin-bottom:14px}
+.barra-ext{background:#0f172a;border-radius:8px;height:18px;overflow:hidden;margin-bottom:8px}
+.barra-int{height:100%;background:linear-gradient(90deg,#3b82f6,#8b5cf6);border-radius:8px;transition:width .6s}
+.prog-texto{font-size:.9rem;color:#64748b}
+/* Blocos */
+.bloco{background:#13131a;border:1px solid #1e293b;border-radius:16px;margin-bottom:28px;overflow:hidden;transition:all .3s}
+.bloco.bloqueado{opacity:.5;pointer-events:none}
+.bloco-header{display:flex;align-items:center;gap:16px;padding:22px 24px;background:#0f172a;border-bottom:1px solid #1e293b;cursor:pointer}
+.bloco-icon{font-size:2.2rem}
+.bloco-header h2{font-size:1.2rem;color:#e2e8f0;margin-bottom:4px}
+.bloco-meta{font-size:.85rem;color:#64748b}
+.bloco-status{margin-left:auto;text-align:right}
+.badge-status{padding:5px 14px;border-radius:12px;font-size:.8rem;font-weight:600}
+.badge-aprovado{background:#16a34a22;color:#4ade80;border:1px solid #166534}
+.badge-reprovado{background:#dc262622;color:#f87171;border:1px solid #7f1d1d}
+.badge-disponivel{background:#3b82f622;color:#93c5fd;border:1px solid #1e3a5f}
+.badge-bloqueado{background:#33333322;color:#64748b;border:1px solid #334155}
+.bloco-corpo{padding:0}
+/* Módulos */
+.modulo{border-bottom:1px solid #1e293b}
+.modulo:last-of-type{border-bottom:none}
+.mod-titulo{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;cursor:pointer;background:#13131a;transition:background .2s}
+.mod-titulo:hover{background:#1a1a2e}
+.mod-titulo span{color:#93c5fd;font-size:.95rem;font-weight:600}
+.toggle{color:#475569;font-size:1.1rem;transition:transform .3s}
+.toggle.aberto{transform:rotate(180deg)}
+.mod-conteudo{display:none;padding:24px;background:#0d1117;border-top:1px solid #1e293b}
+.mod-conteudo.aberto{display:block}
+.mod-conteudo h3{color:#f1f5f9;font-size:1.05rem;margin:18px 0 10px;padding-bottom:5px;border-bottom:1px solid #1e293b}
+.mod-conteudo h3:first-child{margin-top:0}
+.mod-conteudo h4{color:#93c5fd;font-size:.95rem;margin:14px 0 8px}
+.mod-conteudo p{margin-bottom:12px;color:#cbd5e1}
+.mod-conteudo ul,.mod-conteudo ol{margin:0 0 14px 22px;color:#cbd5e1}
+.mod-conteudo li{margin-bottom:6px}
+.mod-conteudo strong{color:#e2e8f0}
+.mod-conteudo code{background:#1e293b;padding:2px 8px;border-radius:4px;font-size:.9rem;color:#86efac}
+.tab{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.tab th{background:#1e3a5f;color:#93c5fd;padding:10px 12px;text-align:left;font-size:.85rem}
+.tab td{padding:9px 12px;border-bottom:1px solid #1e293b;color:#cbd5e1;vertical-align:top}
+.tab tr:hover td{background:#1a1a2e}
+.dica{background:#1e3a5f22;border-left:4px solid #3b82f6;padding:14px 16px;border-radius:0 8px 8px 0;margin:16px 0;color:#93c5fd;font-size:.9rem}
+/* Avaliação */
+.avaliacao{background:#0f172a;border-top:2px solid #3b82f6;padding:24px}
+.avaliacao h3{color:#93c5fd;margin-bottom:6px;font-size:1.1rem}
+.avaliacao p.sub{color:#64748b;font-size:.9rem;margin-bottom:20px}
+.questao{background:#13131a;border:1px solid #1e293b;border-radius:12px;padding:18px;margin-bottom:16px}
+.questao p{color:#e2e8f0;font-size:.95rem;margin-bottom:14px;font-weight:500}
+.questao p span.num{color:#3b82f6;font-weight:700;margin-right:8px}
+.opcoes{display:grid;gap:8px}
+.opc{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:8px;border:1px solid #1e293b;cursor:pointer;transition:all .2s;background:#0d1117;color:#cbd5e1;font-size:.9rem;text-align:left}
+.opc:hover{background:#1e293b;border-color:#3b82f6}
+.opc input{margin-top:2px;accent-color:#3b82f6}
+.opc.correta{background:#16a34a22;border-color:#4ade80;color:#4ade80}
+.opc.errada{background:#dc262622;border-color:#f87171;color:#f87171}
+.btn-enviar{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;padding:14px 32px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:10px;width:100%;transition:opacity .2s}
+.btn-enviar:hover{opacity:.9}
+.btn-enviar:disabled{background:#334155;cursor:not-allowed;opacity:.6}
+.resultado-box{margin-top:20px;padding:20px;border-radius:12px;text-align:center}
+.resultado-box.aprovado{background:#16a34a22;border:2px solid #4ade80}
+.resultado-box.reprovado{background:#dc262622;border:2px solid #f87171}
+.resultado-box h4{font-size:1.4rem;margin-bottom:8px}
+.resultado-box.aprovado h4{color:#4ade80}
+.resultado-box.reprovado h4{color:#f87171}
+.resultado-box p{color:#94a3b8;font-size:.95rem}
+.btn-refazer{background:#1e293b;color:#93c5fd;border:1px solid #3b82f6;padding:10px 24px;border-radius:8px;cursor:pointer;margin-top:12px;font-size:.9rem;transition:background .2s}
+.btn-refazer:hover{background:#1e3a5f}
+/* Responsivo */
+@media(max-width:600px){
+  .topo h1{font-size:1.4rem}
+  .bloco-header h2{font-size:1rem}
+  .tab{font-size:.8rem}
+  .tab th,.tab td{padding:7px 8px}
+}
+</style>
+</head>
+<body>
+<div class="topo">
+  <h1>🗂️ Assistente Administrativo</h1>
+  <p>Curso Completo — Formação Profissional</p>
+  <div class="badges">
+    <div class="badge">⏱️ Carga Horária: <span>160 horas</span></div>
+    <div class="badge">📦 Blocos: <span>8</span></div>
+    <div class="badge">📝 Questões: <span>80</span></div>
+    <div class="badge">🎯 Aprovação por bloco: <span>7/10</span></div>
+  </div>
+</div>
+<div class="container">
+  <div class="prog-geral">
+    <h3>📊 Seu Progresso no Curso</h3>
+    <div class="barra-ext"><div class="barra-int" id="barra-prog" style="width:0%"></div></div>
+    <div class="prog-texto" id="texto-prog">0 de 8 blocos concluídos — 0%</div>
+  </div>
+
+<div class="bloco" id="bloco1">
+<div class="bloco-header" onclick="toggleBloco(1)">
+  <div class="bloco-icon">🏢</div>
+  <div><h2>Bloco 1 — Fundamentos Administrativos</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-disponivel" id="status1">Disponível</span></div>
+</div>
+<div class="bloco-corpo" id="corpo1" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m1_1')">
+  <span>📌 Módulo 1.1 — Conceitos e Funções do Assistente Administrativo</span>
+  <span class="toggle" id="tog-m1_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m1_1">
+
+<h3>🎯 O que é um Assistente Administrativo?</h3>
+<p>O <strong>Assistente Administrativo</strong> é o profissional responsável por apoiar as atividades operacionais e burocráticas de uma organização. Ele atua como elo entre setores, garantindo que os processos internos fluam com eficiência e organização.</p>
+<p>Presente em empresas de todos os portes — desde microempresas até multinacionais — o assistente administrativo é considerado um dos pilares da gestão empresarial moderna.</p>
+<h3>📋 Principais Funções</h3>
+<ul>
+<li><strong>Organização de documentos:</strong> arquivamento, catalogação e controle físico e digital.</li>
+<li><strong>Atendimento:</strong> recepção de visitantes, atendimento telefônico e por e-mail.</li>
+<li><strong>Controle financeiro básico:</strong> lançamentos, conciliações e emissão de documentos fiscais.</li>
+<li><strong>Suporte à gestão:</strong> agendamento de reuniões, organização de agenda, elaboração de relatórios.</li>
+<li><strong>Comunicação interna:</strong> elaboração de memorandos, ofícios, circulares e atas.</li>
+<li><strong>Controle de estoque:</strong> entrada, saída e inventário de materiais de escritório.</li>
+<li><strong>Suporte ao RH:</strong> auxílio no processo de admissão, controle de ponto e benefícios.</li>
+</ul>
+<h3>🏛️ Áreas de Atuação</h3>
+<table class="tab"><tr><th>Área</th><th>Atividades</th></tr>
+<tr><td>🏦 Financeiro</td><td>Contas a pagar/receber, conciliação bancária, notas fiscais</td></tr>
+<tr><td>👥 Recursos Humanos</td><td>Admissão, controle de frequência, férias e benefícios</td></tr>
+<tr><td>📦 Logística</td><td>Controle de estoque, pedidos de compra, fornecedores</td></tr>
+<tr><td>🤝 Comercial</td><td>Suporte à equipe de vendas, propostas, contratos</td></tr>
+<tr><td>⚖️ Jurídico</td><td>Organização de contratos, procurações e documentos legais</td></tr>
+<tr><td>🏫 Educação</td><td>Secretaria escolar, matrículas, históricos, comunicação</td></tr>
+</table>
+<h3>💼 Perfil Profissional Ideal</h3>
+<table class="tab"><tr><th>Competência</th><th>Descrição</th><th>Importância</th></tr>
+<tr><td>Organização</td><td>Manter arquivos, documentos e tarefas em ordem</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>Comunicação</td><td>Expressar-se com clareza verbal e escrita</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>Proatividade</td><td>Antecipar demandas sem esperar ordens</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>Discrição</td><td>Manter sigilo sobre informações confidenciais</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>Informática</td><td>Dominar ferramentas Office e sistemas internos</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>Trabalho em equipe</td><td>Colaborar com diferentes departamentos</td><td>⭐⭐⭐⭐</td></tr>
+</table>
+<h3>📈 Mercado de Trabalho</h3>
+<p>O Assistente Administrativo está entre as <strong>20 profissões mais contratadas no Brasil</strong>. Salário médio de R$ 1.500 a R$ 3.500, podendo superar R$ 5.000 com especialização. Plano de carreira: Assistente → Analista → Coordenador → Gerente → Diretor.</p>
+<div class="dica">💡 <strong>Sabia que?</strong> Empresas de todos os portes contratam assistentes administrativos — de startups a multinacionais.</div>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m1_2')">
+  <span>📌 Módulo 1.2 — Organização do Ambiente de Trabalho</span>
+  <span class="toggle" id="tog-m1_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m1_2">
+
+<h3>🗂️ A Importância da Organização</h3>
+<p>Um ambiente organizado aumenta a produtividade em até <strong>40%</strong> e reduz o estresse. Para o assistente administrativo, organização é uma exigência da função.</p>
+<h3>🔢 Metodologia 5S</h3>
+<table class="tab"><tr><th>S</th><th>Japonês</th><th>Significado</th><th>Aplicação Prática</th></tr>
+<tr><td><strong>1º S</strong></td><td>Seiri</td><td>Utilização</td><td>Separar o útil do inútil; descartar o desnecessário</td></tr>
+<tr><td><strong>2º S</strong></td><td>Seiton</td><td>Ordenação</td><td>Cada coisa no seu lugar; identificar e etiquetar</td></tr>
+<tr><td><strong>3º S</strong></td><td>Seiso</td><td>Limpeza</td><td>Manter o ambiente limpo; identificar fontes de sujeira</td></tr>
+<tr><td><strong>4º S</strong></td><td>Seiketsu</td><td>Padronização</td><td>Criar padrões para manter os 3 primeiros S</td></tr>
+<tr><td><strong>5º S</strong></td><td>Shitsuke</td><td>Disciplina</td><td>Manter os hábitos; autocontrole e melhoria contínua</td></tr>
+</table>
+<h3>🖥️ Organização Digital</h3>
+<ul>
+<li><strong>Nomenclatura:</strong> padrão <code>AAAA-MM-DD_NomeArquivo_v1</code></li>
+<li><strong>Pastas hierárquicas:</strong> estrutura lógica por projeto, cliente ou data</li>
+<li><strong>Backup automático:</strong> Google Drive, OneDrive</li>
+<li><strong>Limpeza semanal:</strong> excluir temporários e duplicatas</li>
+</ul>
+<h3>📁 Arquivo Físico</h3>
+<ul>
+<li>Pastas suspensas para documentos de uso frequente</li>
+<li>Caixas arquivo para documentos de guarda permanente</li>
+<li>Etiquetagem clara com categoria, data e responsável</li>
+<li>Protocolo de entrada/saída de documentos</li>
+</ul>
+<div class="dica">⏱️ <strong>Tabela de Temporalidade Básica:</strong><br>
+Notas Fiscais: 5 anos | Contratos: 5 anos após término | Folha de Pagamento: 5 anos | FGTS: 30 anos | Documentos pessoais: permanente</div>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m1_3')">
+  <span>📌 Módulo 1.3 — Gestão do Tempo e Produtividade</span>
+  <span class="toggle" id="tog-m1_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m1_3">
+
+<h3>⏰ Por que Gerenciar o Tempo?</h3>
+<p>No ambiente administrativo, onde as demandas são múltiplas e simultâneas, dominar o tempo é essencial para a eficiência profissional e para a saúde mental no trabalho.</p>
+<h3>🔴 Matriz de Eisenhower</h3>
+<table class="tab">
+<tr><th></th><th>⚡ URGENTE</th><th>🕐 NÃO URGENTE</th></tr>
+<tr><td><strong>⭐ IMPORTANTE</strong></td><td style="background:#fee2e2;color:#111">🔴 FAZER AGORA<br><small>Crises, prazos, emergências</small></td><td style="background:#dcfce7;color:#111">🟢 PLANEJAR<br><small>Planejamento, desenvolvimento, prevenção</small></td></tr>
+<tr><td><strong>📋 NÃO IMPORTANTE</strong></td><td style="background:#fef3c7;color:#111">🟡 DELEGAR<br><small>Interrupções, reuniões desnecessárias</small></td><td style="background:#f1f5f9;color:#111">⚫ ELIMINAR<br><small>Redes sociais, atividades sem valor</small></td></tr>
+</table>
+<h3>🍅 Técnica Pomodoro</h3>
+<ol>
+<li>Escolha uma tarefa para realizar</li>
+<li>Trabalhe por <strong>25 minutos</strong> sem interrupções (1 pomodoro)</li>
+<li>Faça uma pausa de <strong>5 minutos</strong></li>
+<li>A cada 4 pomodoros, pausa longa de <strong>15–30 minutos</strong></li>
+</ol>
+<h3>📝 Método GTD (Getting Things Done)</h3>
+<ul>
+<li><strong>Capturar:</strong> anotar tudo que precisa ser feito em um sistema confiável</li>
+<li><strong>Esclarecer:</strong> decidir o que cada item significa e o que fazer com ele</li>
+<li><strong>Organizar:</strong> colocar cada coisa no lugar certo</li>
+<li><strong>Refletir:</strong> revisar regularmente suas listas e compromissos</li>
+<li><strong>Engajar:</strong> simplesmente fazer o que precisa ser feito</li>
+</ul>
+<h3>🚫 Ladrões de Tempo</h3>
+<table class="tab"><tr><th>Ladrão</th><th>Impacto</th><th>Solução</th></tr>
+<tr><td>📱 Redes sociais</td><td>Quebra 23 min de foco por notificação</td><td>Silenciar durante o trabalho</td></tr>
+<tr><td>📧 E-mails constantes</td><td>Interrompe o fluxo produtivo</td><td>Verificar 3x ao dia em horário fixo</td></tr>
+<tr><td>💬 Conversas informais</td><td>Consome tempo sem perceber</td><td>Ser cordial e objetivo</td></tr>
+<tr><td>🔁 Multitarefa</td><td>Reduz a qualidade de tudo</td><td>Uma tarefa de cada vez</td></tr>
+</table>
+<h3>📅 Planejamento Semanal Eficaz</h3>
+<table class="tab"><tr><th>Dia</th><th>Atividades Fixas</th><th>Foco</th></tr>
+<tr><td>Segunda</td><td>E-mails, reunião de equipe, programar semana</td><td>Urgentes e importantes</td></tr>
+<tr><td>Terça</td><td>Relatórios, lançamentos financeiros</td><td>Projetos de médio prazo</td></tr>
+<tr><td>Quarta</td><td>Atendimento, organização de documentos</td><td>Tarefas delegadas</td></tr>
+<tr><td>Quinta</td><td>Pendências, reuniões</td><td>Revisão do progresso</td></tr>
+<tr><td>Sexta</td><td>Fechamento semanal, organização geral</td><td>Planejamento da próxima semana</td></tr>
+</table>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m1_4')">
+  <span>📌 Módulo 1.4 — Comunicação Empresarial Escrita e Oral</span>
+  <span class="toggle" id="tog-m1_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m1_4">
+
+<h3>📢 Comunicação como Competência Estratégica</h3>
+<p>Segundo Harvard, a comunicação eficaz responde por <strong>85% do sucesso profissional</strong>. No ambiente administrativo, comunicar-se bem é indispensável.</p>
+<h3>✍️ Princípios da Escrita Corporativa</h3>
+<ul>
+<li><strong>Clareza:</strong> frases curtas e objetivas; evite ambiguidades</li>
+<li><strong>Concisão:</strong> diga o máximo com o mínimo de palavras</li>
+<li><strong>Correção:</strong> revise gramática, ortografia e pontuação</li>
+<li><strong>Coerência:</strong> ideias organizadas de forma lógica</li>
+<li><strong>Cortesia:</strong> tom respeitoso em todas as situações</li>
+</ul>
+<h3>📧 E-mail Profissional: Boas Práticas</h3>
+<table class="tab"><tr><th>Elemento</th><th>Orientação</th><th>Exemplo</th></tr>
+<tr><td>Assunto</td><td>Específico, máx. 60 caracteres</td><td>"Reunião de Planejamento — 15/06 às 14h"</td></tr>
+<tr><td>Saudação</td><td>Formal ou semiformal</td><td>"Prezado(a) Sr./Sra. [Nome],"</td></tr>
+<tr><td>Corpo</td><td>Máx. 3–4 parágrafos curtos</td><td>Apresentação + desenvolvimento + ação esperada</td></tr>
+<tr><td>Encerramento</td><td>Cortesia + nome + cargo</td><td>"Atenciosamente, [Nome], Assistente Administrativo"</td></tr>
+</table>
+<h3>🎤 Comunicação Oral</h3>
+<ul>
+<li><strong>Tom de voz:</strong> moderado, claro e seguro — transmite confiança</li>
+<li><strong>Escuta ativa:</strong> ouvir com atenção plena, sem interromper</li>
+<li><strong>Linguagem não-verbal:</strong> postura ereta, contato visual</li>
+<li><strong>Objetividade:</strong> ir direto ao ponto</li>
+</ul>
+<h3>📞 Roteiro de Atendimento Telefônico</h3>
+<ol>
+<li><strong>Identificação:</strong> "[Empresa], [nome], bom dia/tarde!"</li>
+<li><strong>Recepção:</strong> "Em que posso ajudá-lo(a)?"</li>
+<li><strong>Escuta:</strong> anotar informações importantes</li>
+<li><strong>Encaminhamento:</strong> providências ou transferência</li>
+<li><strong>Encerramento:</strong> "Posso ajudar em mais alguma coisa? Obrigado pelo contato!"</li>
+</ol>
+<div class="dica">🚫 <strong>Trocar:</strong> "Não sei" → "Vou verificar e retorno em breve" | "Impossível" → "Vamos encontrar uma solução" | "Não é meu problema" → "Vou encaminhar ao responsável"</div>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 1: Fundamentos Administrativos</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs1"></div>
+<button class="btn-enviar" id="btn1" onclick="corrigir(1)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res1"></div>
+</div>
+</div>
+</div>
+<div class="bloco bloqueado" id="bloco2">
+<div class="bloco-header" onclick="toggleBloco(2)">
+  <div class="bloco-icon">📁</div>
+  <div><h2>Bloco 2 — Documentos e Arquivamento</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-bloqueado" id="status2">🔒 Bloqueado</span></div>
+</div>
+<div class="bloco-corpo" id="corpo2" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m2_1')">
+  <span>📌 Módulo 2.1 — Tipos de Documentos Empresariais</span>
+  <span class="toggle" id="tog-m2_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m2_1">
+
+<h3>📄 Classificação dos Documentos</h3>
+<p>Os documentos empresariais são classificados quanto à <strong>natureza</strong> (internos/externos), <strong>confidencialidade</strong> (público/restrito/secreto) e <strong>suporte</strong> (físico/digital).</p>
+<h3>📋 Principais Tipos de Documentos</h3>
+<table class="tab"><tr><th>Documento</th><th>Finalidade</th><th>Circulação</th></tr>
+<tr><td>Ofício</td><td>Comunicação formal entre órgãos diferentes</td><td>Externa</td></tr>
+<tr><td>Memorando</td><td>Comunicação interna entre setores</td><td>Interna</td></tr>
+<tr><td>Circular</td><td>Comunicar mesmo assunto a vários destinatários</td><td>Interna/Externa</td></tr>
+<tr><td>Ata</td><td>Registrar o que ocorreu em reunião</td><td>Interna</td></tr>
+<tr><td>Relatório</td><td>Apresentar informações e resultados</td><td>Interna/Externa</td></tr>
+<tr><td>Contrato</td><td>Formalizar acordos entre partes</td><td>Externa</td></tr>
+<tr><td>Procuração</td><td>Delegar poderes a outra pessoa</td><td>Externa/Legal</td></tr>
+<tr><td>Nota Fiscal</td><td>Comprovar operação comercial</td><td>Fiscal/Legal</td></tr>
+<tr><td>Requerimento</td><td>Solicitar formalmente algo a uma autoridade</td><td>Externa</td></tr>
+<tr><td>Declaração</td><td>Atestar ou comprovar uma situação</td><td>Interna/Externa</td></tr>
+</table>
+<h3>🔒 Níveis de Confidencialidade</h3>
+<ul>
+<li><strong>Público:</strong> qualquer pessoa pode acessar</li>
+<li><strong>Interno:</strong> apenas colaboradores da empresa</li>
+<li><strong>Restrito/Confidencial:</strong> apenas pessoas autorizadas</li>
+<li><strong>Secreto:</strong> acesso extremamente limitado (diretoria, jurídico)</li>
+</ul>
+<h3>📑 Estrutura Básica de um Ofício</h3>
+<ol>
+<li>Cabeçalho com nome da instituição e endereço</li>
+<li>Número do ofício, local e data</li>
+<li>Vocativo: "Prezado(a) Senhor(a)..."</li>
+<li>Corpo: exposição objetiva do assunto</li>
+<li>Fecho: "Atenciosamente,"</li>
+<li>Assinatura: nome, cargo e matrícula</li>
+</ol>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m2_2')">
+  <span>📌 Módulo 2.2 — Elaboração de Ofícios, Memorandos e Atas</span>
+  <span class="toggle" id="tog-m2_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m2_2">
+
+<h3>📝 O Memorando Interno</h3>
+<p>O memorando é a principal ferramenta de comunicação interna. Deve ser <strong>objetivo, claro e conciso</strong>.</p>
+<h3>📌 Estrutura do Memorando</h3>
+<table class="tab"><tr><th>Campo</th><th>Conteúdo</th><th>Exemplo</th></tr>
+<tr><td>Para</td><td>Destinatário (nome e cargo)</td><td>Gerente de RH, Carlos Silva</td></tr>
+<tr><td>De</td><td>Remetente (nome e cargo)</td><td>Assistente Administrativo, Maria Santos</td></tr>
+<tr><td>Data</td><td>Dia, mês e ano</td><td>28 de maio de 2026</td></tr>
+<tr><td>Assunto</td><td>Título resumido (máx. 5 palavras)</td><td>Solicitação de Material de Escritório</td></tr>
+<tr><td>Texto</td><td>Objetivo e conciso</td><td>1 a 3 parágrafos no máximo</td></tr>
+<tr><td>Assinatura</td><td>Remetente</td><td>Nome e cargo</td></tr>
+</table>
+<h3>📒 Estrutura da Ata de Reunião</h3>
+<ol>
+<li><strong>Abertura:</strong> "Aos [dia] dias do mês de [mês] de [ano], às [hora], na [local], reuniram-se..."</li>
+<li><strong>Participantes:</strong> lista de todos os presentes com cargos</li>
+<li><strong>Pauta:</strong> assuntos a serem tratados</li>
+<li><strong>Desenvolvimento:</strong> discussões e deliberações de cada pauta</li>
+<li><strong>Encerramento:</strong> hora de encerramento e próxima reunião</li>
+<li><strong>Assinaturas:</strong> presidente e secretário da reunião</li>
+</ol>
+<div class="dica">✏️ <strong>Regra da Ata:</strong> Deve ser redigida de forma impessoal, sem emendas ou rasuras. Erros devem ser corrigidos com "digo" (antes) ou "em tempo" (após o encerramento do texto).</div>
+<h3>📋 Relatório Empresarial</h3>
+<ul>
+<li><strong>Introdução:</strong> objetivo e contexto do relatório</li>
+<li><strong>Desenvolvimento:</strong> dados, análises e informações relevantes</li>
+<li><strong>Conclusão:</strong> síntese dos resultados e recomendações</li>
+<li><strong>Anexos:</strong> documentos de suporte (tabelas, gráficos)</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m2_3')">
+  <span>📌 Módulo 2.3 — Arquivamento Físico e Digital</span>
+  <span class="toggle" id="tog-m2_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m2_3">
+
+<h3>🗄️ Métodos de Arquivamento Físico</h3>
+<table class="tab"><tr><th>Método</th><th>Como Funciona</th><th>Indicado Para</th></tr>
+<tr><td>Alfabético</td><td>Ordem das letras do alfabeto</td><td>Nomes de clientes, fornecedores</td></tr>
+<tr><td>Numérico</td><td>Ordem crescente de números</td><td>Notas fiscais, contratos numerados</td></tr>
+<tr><td>Cronológico</td><td>Ordem das datas</td><td>Correspondências, relatórios mensais</td></tr>
+<tr><td>Geográfico</td><td>Por local/região</td><td>Filiais, representantes regionais</td></tr>
+<tr><td>Temático</td><td>Por assunto ou tema</td><td>Projetos, processos específicos</td></tr>
+<tr><td>Alfanumérico</td><td>Combinação de letras e números</td><td>Sistemas complexos e híbridos</td></tr>
+</table>
+<h3>💾 Boas Práticas do Arquivo Digital</h3>
+<ul>
+<li><strong>Nomenclatura padronizada:</strong> AAAA-MM-DD_Tipo_Descricao</li>
+<li><strong>Estrutura de pastas:</strong> Ano → Mês → Tipo de documento</li>
+<li><strong>Metadados e tags:</strong> palavras-chave para busca rápida</li>
+<li><strong>Controle de versões:</strong> v1, v2, vFinal para evitar confusão</li>
+<li><strong>Permissões de acesso:</strong> conforme nível de confidencialidade</li>
+</ul>
+<h3>♻️ Ciclo de Vida dos Documentos</h3>
+<ol>
+<li><strong>Produção:</strong> criação do documento</li>
+<li><strong>Utilização:</strong> tramitação e uso ativo</li>
+<li><strong>Guarda:</strong> arquivamento para consulta eventual</li>
+<li><strong>Destinação:</strong> eliminação ou guarda permanente</li>
+</ol>
+<h3>⏱️ Tabela de Temporalidade Completa</h3>
+<table class="tab"><tr><th>Documento</th><th>Prazo de Guarda</th><th>Base Legal</th></tr>
+<tr><td>Notas Fiscais</td><td>5 anos</td><td>CTN Art. 174</td></tr>
+<tr><td>Folha de Pagamento</td><td>5 anos</td><td>CLT Art. 451</td></tr>
+<tr><td>Contratos</td><td>5 anos após o término</td><td>CC Art. 206</td></tr>
+<tr><td>FGTS (GFIP)</td><td>30 anos</td><td>Lei 8.036/90</td></tr>
+<tr><td>Documentos de admissão</td><td>5 anos após demissão</td><td>CLT</td></tr>
+<tr><td>Balanços contábeis</td><td>10 anos</td><td>Lei das S.A.</td></tr>
+<tr><td>Documentos societários</td><td>Permanente</td><td>Código Civil</td></tr>
+</table>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m2_4')">
+  <span>📌 Módulo 2.4 — Gestão Eletrônica de Documentos (GED)</span>
+  <span class="toggle" id="tog-m2_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m2_4">
+
+<h3>🖥️ O que é GED?</h3>
+<p>A <strong>Gestão Eletrônica de Documentos (GED)</strong> é o conjunto de tecnologias e processos para capturar, armazenar, gerenciar, preservar e distribuir documentos digitalmente, eliminando o uso excessivo de papel e agilizando o acesso à informação.</p>
+<h3>✅ Vantagens do GED</h3>
+<ul>
+<li>Acesso rápido e simultâneo por múltiplos usuários</li>
+<li>Redução de espaço físico e custos com papel e impressão</li>
+<li>Segurança com controle de acesso e criptografia</li>
+<li>Backup automático e proteção contra sinistros (incêndio, inundação)</li>
+<li>Conformidade com a LGPD e legislação fiscal</li>
+<li>Rastreabilidade e histórico completo de alterações</li>
+</ul>
+<h3>🔧 Ferramentas Comuns de GED</h3>
+<table class="tab"><tr><th>Ferramenta</th><th>Tipo</th><th>Destaques</th></tr>
+<tr><td>Google Drive</td><td>Nuvem gratuita</td><td>Colaboração em tempo real</td></tr>
+<tr><td>SharePoint (Microsoft)</td><td>Corporativo</td><td>Integrado ao Office 365</td></tr>
+<tr><td>DocuWare</td><td>GED Profissional</td><td>Fluxos de aprovação automáticos</td></tr>
+<tr><td>Dropbox Business</td><td>Nuvem corporativa</td><td>Sincronização entre dispositivos</td></tr>
+<tr><td>Alfresco</td><td>Open Source</td><td>Personalizável para grandes volumes</td></tr>
+</table>
+<h3>📋 Implementando o GED na Empresa</h3>
+<ol>
+<li>Mapear e categorizar os documentos existentes</li>
+<li>Definir políticas de nomeação e organização</li>
+<li>Escolher a plataforma adequada ao porte da empresa</li>
+<li>Migrar documentos físicos via escaneamento e OCR</li>
+<li>Treinar a equipe para uso correto</li>
+<li>Monitorar e auditar periodicamente</li>
+</ol>
+<div class="dica">📱 <strong>OCR (Reconhecimento Óptico de Caracteres):</strong> tecnologia que converte imagens de documentos escaneados em texto editável e pesquisável, essencial para o GED moderno.</div>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 2: Documentos e Arquivamento</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs2"></div>
+<button class="btn-enviar" id="btn2" onclick="corrigir(2)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res2"></div>
+</div>
+</div>
+</div>
+<div class="bloco bloqueado" id="bloco3">
+<div class="bloco-header" onclick="toggleBloco(3)">
+  <div class="bloco-icon">💰</div>
+  <div><h2>Bloco 3 — Rotinas Financeiras</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-bloqueado" id="status3">🔒 Bloqueado</span></div>
+</div>
+<div class="bloco-corpo" id="corpo3" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m3_1')">
+  <span>📌 Módulo 3.1 — Conceitos Básicos de Finanças Empresariais</span>
+  <span class="toggle" id="tog-m3_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m3_1">
+
+<h3>💡 Por que o Assistente Deve Entender Finanças?</h3>
+<p>Mesmo não sendo contador, o assistente administrativo executa tarefas financeiras diariamente: emite documentos, lança pagamentos, concilia contas e apoia o gestor financeiro com informações precisas.</p>
+<h3>📊 Conceitos Fundamentais</h3>
+<table class="tab"><tr><th>Conceito</th><th>Definição</th><th>Exemplo Prático</th></tr>
+<tr><td>Receita</td><td>Entradas por vendas ou serviços</td><td>Venda de produto: R$ 5.000</td></tr>
+<tr><td>Custo</td><td>Gasto ligado à produção</td><td>Matéria-prima, mão de obra direta</td></tr>
+<tr><td>Despesa</td><td>Gasto de administração e apoio</td><td>Aluguel, energia, salário administrativo</td></tr>
+<tr><td>Lucro Bruto</td><td>Receita − Custo dos Produtos</td><td>R$ 5.000 − R$ 2.000 = R$ 3.000</td></tr>
+<tr><td>Lucro Líquido</td><td>Lucro Bruto − Despesas − Impostos</td><td>R$ 3.000 − R$ 1.500 = R$ 1.500</td></tr>
+<tr><td>Ativo</td><td>O que a empresa possui</td><td>Caixa, estoque, máquinas, imóveis</td></tr>
+<tr><td>Passivo</td><td>O que a empresa deve</td><td>Empréstimos, fornecedores a pagar</td></tr>
+<tr><td>Capital de Giro</td><td>Recursos para operações do dia a dia</td><td>Ativo Circulante − Passivo Circulante</td></tr>
+</table>
+<h3>📈 Indicadores Financeiros Básicos</h3>
+<ul>
+<li><strong>Margem de Lucro:</strong> (Lucro ÷ Receita) × 100</li>
+<li><strong>Ponto de Equilíbrio:</strong> quando receitas cobrem todos os custos</li>
+<li><strong>Liquidez Corrente:</strong> Ativo Circulante ÷ Passivo Circulante (ideal ≥ 1)</li>
+<li><strong>ROI:</strong> (Retorno − Investimento) ÷ Investimento × 100</li>
+</ul>
+<div class="dica">📊 <strong>DRE:</strong> O Demonstrativo de Resultado do Exercício é o principal relatório financeiro — mostra se a empresa teve lucro ou prejuízo em um período.</div>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m3_2')">
+  <span>📌 Módulo 3.2 — Contas a Pagar e a Receber</span>
+  <span class="toggle" id="tog-m3_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m3_2">
+
+<h3>💳 Rotina de Contas a Pagar (CP)</h3>
+<p>São todas as obrigações financeiras que a empresa deve honrar: fornecedores, prestadores, governo e colaboradores.</p>
+<h3>📥 Fluxo de Contas a Pagar</h3>
+<ol>
+<li>Receber e conferir a nota fiscal ou boleto</li>
+<li>Lançar no sistema com data de vencimento</li>
+<li>Obter aprovação do gestor (valores acima do limite)</li>
+<li>Efetuar o pagamento na data correta</li>
+<li>Arquivar o comprovante de pagamento</li>
+<li>Conciliar com o extrato bancário</li>
+</ol>
+<h3>💰 Rotina de Contas a Receber (CR)</h3>
+<ol>
+<li>Emitir fatura ou boleto após venda ou prestação do serviço</li>
+<li>Registrar no sistema com data de vencimento</li>
+<li>Monitorar vencimentos diariamente</li>
+<li>Realizar cobrança amigável nos casos de atraso</li>
+<li>Confirmar o recebimento e dar baixa no sistema</li>
+<li>Conciliar com o extrato bancário</li>
+</ol>
+<h3>⚠️ Gestão da Inadimplência</h3>
+<table class="tab"><tr><th>Prazo de Atraso</th><th>Ação Recomendada</th></tr>
+<tr><td>1 a 5 dias</td><td>Lembrete amigável por WhatsApp ou e-mail</td></tr>
+<tr><td>6 a 15 dias</td><td>Contato telefônico — verificar se houve esquecimento</td></tr>
+<tr><td>16 a 30 dias</td><td>Cobrança formal com encargos (juros 1% a.m. + multa 2%)</td></tr>
+<tr><td>31 a 60 dias</td><td>Proposta de parcelamento ou renegociação</td></tr>
+<tr><td>Acima de 60 dias</td><td>Encaminhar ao jurídico ou empresa de cobrança</td></tr>
+</table>
+<div class="dica">💡 <strong>Dica:</strong> Configure alertas automáticos no sistema para avisar sobre vencimentos com 3 dias de antecedência — isso evita a maioria dos atrasos.</div>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m3_3')">
+  <span>📌 Módulo 3.3 — Fluxo de Caixa e Conciliação Bancária</span>
+  <span class="toggle" id="tog-m3_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m3_3">
+
+<h3>💵 O que é Fluxo de Caixa?</h3>
+<p>O <strong>Fluxo de Caixa</strong> é o registro cronológico de todas as entradas e saídas de recursos financeiros da empresa. É a ferramenta mais importante para a gestão financeira do dia a dia, pois permite prever necessidades de capital e evitar surpresas.</p>
+<h3>📊 Exemplo de Fluxo de Caixa Semanal</h3>
+<table class="tab"><tr><th>Data</th><th>Descrição</th><th>Entrada (R$)</th><th>Saída (R$)</th><th>Saldo (R$)</th></tr>
+<tr><td>01/06</td><td>Saldo inicial</td><td>—</td><td>—</td><td>10.000,00</td></tr>
+<tr><td>02/06</td><td>Recebimento cliente A</td><td>3.500,00</td><td>—</td><td>13.500,00</td></tr>
+<tr><td>03/06</td><td>Pagamento fornecedor X</td><td>—</td><td>2.200,00</td><td>11.300,00</td></tr>
+<tr><td>05/06</td><td>Pagamento de salários</td><td>—</td><td>8.000,00</td><td>3.300,00</td></tr>
+<tr><td>06/06</td><td>Venda à vista</td><td>4.800,00</td><td>—</td><td>8.100,00</td></tr>
+</table>
+<h3>🔍 Conciliação Bancária — Passo a Passo</h3>
+<ol>
+<li>Obter o extrato bancário do período</li>
+<li>Comparar cada lançamento com o sistema interno</li>
+<li>Identificar itens pendentes (cheques não compensados, depósitos em trânsito)</li>
+<li>Identificar erros de lançamento ou cobranças indevidas</li>
+<li>Fazer os ajustes necessários no sistema</li>
+<li>Assinar e arquivar o relatório de conciliação</li>
+</ol>
+<div class="dica">📅 <strong>Boa Prática:</strong> Realize a conciliação bancária diariamente — evita acúmulo de divergências e facilita a detecção de fraudes e erros.</div>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m3_4')">
+  <span>📌 Módulo 3.4 — Notas Fiscais e Emissão de Boletos</span>
+  <span class="toggle" id="tog-m3_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m3_4">
+
+<h3>🧾 Tipos de Nota Fiscal</h3>
+<table class="tab"><tr><th>Tipo</th><th>Sigla</th><th>Uso</th></tr>
+<tr><td>Nota Fiscal Eletrônica</td><td>NF-e</td><td>Venda de mercadorias</td></tr>
+<tr><td>Nota Fiscal de Serviços Eletrônica</td><td>NFS-e</td><td>Prestação de serviços</td></tr>
+<tr><td>Nota Fiscal do Consumidor Eletrônica</td><td>NFC-e</td><td>Varejo ao consumidor final</td></tr>
+<tr><td>Conhecimento de Transporte Eletrônico</td><td>CT-e</td><td>Transporte de cargas</td></tr>
+<tr><td>Manifesto de Documentos Fiscais</td><td>MDF-e</td><td>Transporte com múltiplas NF-e</td></tr>
+</table>
+<h3>📋 Informações Obrigatórias na NF-e</h3>
+<ul>
+<li>CNPJ e dados completos do emitente e destinatário</li>
+<li>Descrição detalhada dos produtos ou serviços</li>
+<li>Quantidades, unidades de medida e valores unitários e totais</li>
+<li>Impostos incidentes: ICMS, IPI, PIS, COFINS, ISS</li>
+<li>Chave de acesso de 44 dígitos para consulta</li>
+<li>QR Code para validação pelo destinatário</li>
+</ul>
+<h3>📑 Emissão de Boletos Bancários</h3>
+<ol>
+<li>Acessar o sistema bancário ou plataforma de cobranças</li>
+<li>Preencher dados do pagador (nome, CPF/CNPJ, endereço)</li>
+<li>Informar o valor e a data de vencimento</li>
+<li>Configurar juros, multa e desconto para pagamento antecipado</li>
+<li>Gerar e enviar o boleto por e-mail ou WhatsApp</li>
+<li>Registrar no contas a receber e acompanhar o vencimento</li>
+</ol>
+<div class="dica">⚠️ <strong>Atenção:</strong> Desde 2018, todos os boletos precisam ser registrados no sistema bancário antes do envio. O boleto não registrado não pode ser compensado.</div>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 3: Rotinas Financeiras</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs3"></div>
+<button class="btn-enviar" id="btn3" onclick="corrigir(3)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res3"></div>
+</div>
+</div>
+</div>
+<div class="bloco bloqueado" id="bloco4">
+<div class="bloco-header" onclick="toggleBloco(4)">
+  <div class="bloco-icon">👥</div>
+  <div><h2>Bloco 4 — Departamento Pessoal e RH</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-bloqueado" id="status4">🔒 Bloqueado</span></div>
+</div>
+<div class="bloco-corpo" id="corpo4" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m4_1')">
+  <span>📌 Módulo 4.1 — Legislação Trabalhista Básica — CLT</span>
+  <span class="toggle" id="tog-m4_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m4_1">
+
+<h3>⚖️ A Consolidação das Leis do Trabalho</h3>
+<p>A <strong>CLT</strong> (Decreto-Lei nº 5.452/1943) é a principal legislação que rege as relações de trabalho no Brasil. Todo assistente administrativo que atua em DP precisa conhecer seus fundamentos básicos.</p>
+<h3>📋 Direitos Trabalhistas Essenciais</h3>
+<table class="tab"><tr><th>Direito</th><th>Previsão Legal</th><th>Detalhamento</th></tr>
+<tr><td>Salário Mínimo</td><td>Art. 76 CLT</td><td>Nenhum salário pode ser inferior ao mínimo nacional vigente</td></tr>
+<tr><td>Jornada de Trabalho</td><td>Art. 58 CLT</td><td>Máximo 8h/dia e 44h/semana</td></tr>
+<tr><td>Hora Extra</td><td>Art. 59 CLT</td><td>Mínimo +50% nos dias úteis; +100% domingos e feriados</td></tr>
+<tr><td>Descanso Semanal</td><td>Art. 67 CLT</td><td>1 dia de folga por semana, preferencialmente domingo</td></tr>
+<tr><td>Férias</td><td>Art. 129 CLT</td><td>30 dias após 12 meses + 1/3 constitucional</td></tr>
+<tr><td>13º Salário</td><td>Lei 4.090/62</td><td>1 salário adicional por ano trabalhado</td></tr>
+<tr><td>FGTS</td><td>Lei 8.036/90</td><td>8% do salário depositado mensalmente pela empresa</td></tr>
+<tr><td>Aviso Prévio</td><td>Art. 487 CLT</td><td>Mínimo 30 dias (+3 dias por ano trabalhado, máx. 90 dias)</td></tr>
+</table>
+<h3>📑 Tipos de Contrato de Trabalho</h3>
+<ul>
+<li><strong>Por prazo indeterminado:</strong> o mais comum, sem data de encerramento definida</li>
+<li><strong>Por prazo determinado:</strong> máximo 2 anos; casos específicos (safra, obra, serviço transitório)</li>
+<li><strong>Intermitente:</strong> prestação de serviço não contínua, convocado conforme necessidade</li>
+<li><strong>Trabalho Remoto (Home Office):</strong> regulamentado pela Reforma Trabalhista de 2017</li>
+<li><strong>Aprendizagem:</strong> jovens de 14 a 24 anos com carga horária reduzida e FGTS de 2%</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m4_2')">
+  <span>📌 Módulo 4.2 — Admissão e Demissão de Funcionários</span>
+  <span class="toggle" id="tog-m4_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m4_2">
+
+<h3>📝 Processo de Admissão</h3>
+<h4>Documentos obrigatórios na admissão:</h4>
+<ul>
+<li>Carteira de Trabalho (CTPS) física ou digital</li>
+<li>CPF e RG (ou CNH)</li>
+<li>PIS/PASEP (número do cadastro na Previdência)</li>
+<li>Comprovante de residência atualizado</li>
+<li>Certidão de nascimento ou casamento</li>
+<li>Certidão de nascimento dos filhos menores de 14 anos</li>
+<li>Título de eleitor e comprovante de quitação eleitoral</li>
+<li>Certificado de reservista (para homens)</li>
+<li>Foto 3x4 recente</li>
+<li>Exame médico admissional (Atestado de Saúde Ocupacional)</li>
+</ul>
+<div class="dica">📋 <strong>Prazo:</strong> A CTPS deve ser anotada em até <strong>1 dia útil</strong> após a admissão e devolvida ao funcionário em até <strong>48 horas</strong>.</div>
+<h3>🚪 Comparativo dos Tipos de Desligamento</h3>
+<table class="tab"><tr><th>Tipo</th><th>Multa FGTS</th><th>Aviso Prévio</th><th>Saque FGTS</th></tr>
+<tr><td>Sem justa causa</td><td>40%</td><td>Empresa paga ou o funcionário trabalha</td><td>Total</td></tr>
+<tr><td>Com justa causa</td><td>Não tem</td><td>Não tem</td><td>Não saca</td></tr>
+<tr><td>Pedido de demissão</td><td>Não tem</td><td>Funcionário cumpre ou desconta no saldo</td><td>Não saca*</td></tr>
+<tr><td>Acordo mútuo</td><td>20%</td><td>Metade do prazo</td><td>80% do saldo</td></tr>
+</table>
+<h3>💰 Verbas Rescisórias (Sem Justa Causa)</h3>
+<ul>
+<li>Saldo de salário dos dias trabalhados no mês</li>
+<li>Aviso prévio (trabalhado ou indenizado)</li>
+<li>Férias vencidas + 1/3 constitucional</li>
+<li>Férias proporcionais ao período + 1/3</li>
+<li>13º salário proporcional</li>
+<li>Multa de 40% sobre o saldo do FGTS</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m4_3')">
+  <span>📌 Módulo 4.3 — Folha de Pagamento e Benefícios</span>
+  <span class="toggle" id="tog-m4_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m4_3">
+
+<h3>📊 Estrutura da Folha de Pagamento</h3>
+<p>A folha de pagamento registra todos os valores pagos aos colaboradores: salários, adicionais, descontos legais e benefícios.</p>
+<h3>➕ Proventos (Créditos) Comuns</h3>
+<table class="tab"><tr><th>Provento</th><th>Base de Cálculo</th><th>Percentual/Valor</th></tr>
+<tr><td>Salário Base</td><td>Contrato de trabalho</td><td>100% do salário acordado</td></tr>
+<tr><td>Hora Extra (dia útil)</td><td>Valor da hora normal</td><td>+50% sobre hora normal</td></tr>
+<tr><td>Hora Extra (domingo/feriado)</td><td>Valor da hora normal</td><td>+100% sobre hora normal</td></tr>
+<tr><td>Adicional Noturno</td><td>Trabalho entre 22h e 5h</td><td>+20% sobre hora normal</td></tr>
+<tr><td>Adicional de Insalubridade</td><td>Salário mínimo</td><td>10%, 20% ou 40%</td></tr>
+<tr><td>Adicional de Periculosidade</td><td>Salário base</td><td>30%</td></tr>
+</table>
+<h3>➖ Descontos Obrigatórios</h3>
+<table class="tab"><tr><th>Desconto</th><th>Base</th><th>Alíquota</th></tr>
+<tr><td>INSS</td><td>Salário bruto</td><td>7,5% a 14% (tabela progressiva 2024)</td></tr>
+<tr><td>IRRF</td><td>Base após INSS e deduções</td><td>0% a 27,5% (tabela progressiva)</td></tr>
+<tr><td>Vale-transporte</td><td>Salário bruto</td><td>Máximo 6% do salário</td></tr>
+</table>
+<h3>🎁 Benefícios Comuns no Mercado</h3>
+<ul>
+<li><strong>Obrigatórios por lei:</strong> vale-transporte, FGTS, férias, 13º, INSS</li>
+<li><strong>Espontâneos mais comuns:</strong> plano de saúde, odontológico, seguro de vida, vale-refeição, PLR (Participação nos Lucros e Resultados), auxílio-creche, auxílio-educação</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m4_4')">
+  <span>📌 Módulo 4.4 — FGTS, INSS e Obrigações Acessórias</span>
+  <span class="toggle" id="tog-m4_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m4_4">
+
+<h3>🏦 FGTS — Fundo de Garantia do Tempo de Serviço</h3>
+<ul>
+<li><strong>Alíquota geral:</strong> 8% do salário bruto (2% para jovens aprendizes)</li>
+<li><strong>Prazo de recolhimento:</strong> até o dia 7 do mês seguinte</li>
+<li><strong>Depósito em:</strong> conta vinculada na Caixa Econômica Federal</li>
+<li><strong>Hipóteses de saque:</strong> demissão sem justa causa, aposentadoria, doenças graves (câncer, HIV), compra do primeiro imóvel, calamidade pública</li>
+</ul>
+<h3>🏥 Tabela INSS 2024</h3>
+<table class="tab"><tr><th>Faixa Salarial</th><th>Alíquota</th></tr>
+<tr><td>Até R$ 1.412,00</td><td>7,5%</td></tr>
+<tr><td>R$ 1.412,01 a R$ 2.666,68</td><td>9,0%</td></tr>
+<tr><td>R$ 2.666,69 a R$ 4.000,03</td><td>12,0%</td></tr>
+<tr><td>R$ 4.000,04 a R$ 7.786,02</td><td>14,0%</td></tr>
+</table>
+<h3>📋 Principais Obrigações Acessórias do DP</h3>
+<table class="tab"><tr><th>Obrigação</th><th>Descrição</th><th>Prazo</th></tr>
+<tr><td>eSocial</td><td>Declaração digital de todos os eventos trabalhistas</td><td>Conforme tipo do evento</td></tr>
+<tr><td>GFIP/SEFIP</td><td>Declaração de recolhimento do FGTS</td><td>Até dia 7 do mês</td></tr>
+<tr><td>RAIS</td><td>Relação Anual de Informações Sociais</td><td>Janeiro/Fevereiro de cada ano</td></tr>
+<tr><td>CAGED</td><td>Cadastro de admissões e demissões</td><td>Até dia 7 do mês seguinte</td></tr>
+<tr><td>DIRF</td><td>Declaração do IR retido na fonte</td><td>Fevereiro de cada ano</td></tr>
+<tr><td>Informe de Rendimentos</td><td>Documento entregue ao funcionário para declaração do IR</td><td>Até 28 de fevereiro</td></tr>
+</table>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 4: Departamento Pessoal e RH</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs4"></div>
+<button class="btn-enviar" id="btn4" onclick="corrigir(4)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res4"></div>
+</div>
+</div>
+</div>
+<div class="bloco bloqueado" id="bloco5">
+<div class="bloco-header" onclick="toggleBloco(5)">
+  <div class="bloco-icon">💻</div>
+  <div><h2>Bloco 5 — Informática Aplicada ao Escritório</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-bloqueado" id="status5">🔒 Bloqueado</span></div>
+</div>
+<div class="bloco-corpo" id="corpo5" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m5_1')">
+  <span>📌 Módulo 5.1 — Word Avançado para o Escritório</span>
+  <span class="toggle" id="tog-m5_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m5_1">
+
+<h3>📄 Funcionalidades Avançadas do Word</h3>
+<table class="tab"><tr><th>Recurso</th><th>Caminho</th><th>Uso no Escritório</th></tr>
+<tr><td>Estilos e Temas</td><td>Página Inicial → Estilos</td><td>Padronização de documentos corporativos</td></tr>
+<tr><td>Sumário Automático</td><td>Referências → Sumário</td><td>Relatórios e manuais extensos</td></tr>
+<tr><td>Mala Direta</td><td>Correspondências → Iniciar Mala Direta</td><td>Cartas e etiquetas em massa</td></tr>
+<tr><td>Controle de Alterações</td><td>Revisão → Controlar Alterações</td><td>Revisão colaborativa de documentos</td></tr>
+<tr><td>Proteção com Senha</td><td>Arquivo → Informações → Proteger</td><td>Segurança de documentos confidenciais</td></tr>
+<tr><td>Formulários</td><td>Desenvolvedor → Controles</td><td>Formulários preenchíveis em PDF</td></tr>
+<tr><td>Comparar Documentos</td><td>Revisão → Comparar</td><td>Ver diferenças entre versões</td></tr>
+</table>
+<h3>⌨️ Atalhos Essenciais</h3>
+<table class="tab"><tr><th>Atalho</th><th>Função</th><th>Uso Prático</th></tr>
+<tr><td>Ctrl + N</td><td>Novo documento</td><td>Iniciar um documento do zero</td></tr>
+<tr><td>Ctrl + S</td><td>Salvar</td><td>Salvar frequentemente para não perder trabalho</td></tr>
+<tr><td>Ctrl + Z / Y</td><td>Desfazer / Refazer</td><td>Corrigir erros rapidamente</td></tr>
+<tr><td>Ctrl + F</td><td>Localizar</td><td>Buscar palavras em documentos extensos</td></tr>
+<tr><td>Ctrl + H</td><td>Localizar e substituir</td><td>Trocar dados em massa (ex: nome da empresa)</td></tr>
+<tr><td>F7</td><td>Verificar ortografia</td><td>Revisar o documento antes de enviar</td></tr>
+<tr><td>Ctrl + Enter</td><td>Quebra de página</td><td>Iniciar nova página em local específico</td></tr>
+<tr><td>Alt + F4</td><td>Fechar programa</td><td>Encerrar o Word</td></tr>
+</table>
+<h3>📐 Formatação Profissional de Documentos</h3>
+<ul>
+<li><strong>Fonte:</strong> Arial ou Calibri 11–12pts para corpo; 14–16pts para títulos</li>
+<li><strong>Espaçamento:</strong> 1,5 linha no corpo; parágrafo de 6–12pts antes/depois</li>
+<li><strong>Margens:</strong> ABNT recomenda 3cm superior/esquerda; 2cm inferior/direita</li>
+<li><strong>Alinhamento:</strong> justificado para documentos formais</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m5_2')">
+  <span>📌 Módulo 5.2 — Excel para Controles Administrativos</span>
+  <span class="toggle" id="tog-m5_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m5_2">
+
+<h3>📊 Funções Essenciais para o Escritório</h3>
+<table class="tab"><tr><th>Função</th><th>Sintaxe</th><th>Uso Prático</th></tr>
+<tr><td>SOMA</td><td>=SOMA(A1:A10)</td><td>Somar total de contas a pagar do mês</td></tr>
+<tr><td>MÉDIA</td><td>=MÉDIA(B1:B30)</td><td>Calcular média de vendas mensais</td></tr>
+<tr><td>PROCV</td><td>=PROCV(valor;tabela;col;0)</td><td>Buscar dados de clientes pelo CNPJ</td></tr>
+<tr><td>SE</td><td>=SE(cond;"sim";"não")</td><td>Classificar: "Em dia" ou "Atrasado"</td></tr>
+<tr><td>CONT.SE</td><td>=CONT.SE(intervalo;critério)</td><td>Contar quantas faturas estão vencidas</td></tr>
+<tr><td>SOMASE</td><td>=SOMASE(inter;crit;soma)</td><td>Somar despesas de uma categoria específica</td></tr>
+<tr><td>HOJE()</td><td>=HOJE()</td><td>Calcular dias de atraso automaticamente</td></tr>
+<tr><td>TEXTO</td><td>=TEXTO(val;"DD/MM/AAAA")</td><td>Formatar datas corretamente em relatórios</td></tr>
+<tr><td>CONCATENAR</td><td>=CONCATENAR(A1;" ";B1)</td><td>Unir nome e sobrenome em uma célula</td></tr>
+<tr><td>SEERRO</td><td>=SEERRO(fórmula;0)</td><td>Evitar erros #N/D e #DIV/0! visíveis</td></tr>
+</table>
+<h3>📈 Gráficos para Relatórios Gerenciais</h3>
+<ul>
+<li><strong>Colunas/Barras:</strong> comparar categorias (despesas por departamento)</li>
+<li><strong>Linhas:</strong> evolução ao longo do tempo (faturamento mensal)</li>
+<li><strong>Pizza:</strong> proporção de partes (distribuição do orçamento)</li>
+<li><strong>Tabela Dinâmica:</strong> resumir e analisar grandes volumes de dados de forma interativa</li>
+</ul>
+<h3>🔒 Referências Absolutas e Relativas</h3>
+<table class="tab"><tr><th>Tipo</th><th>Sintaxe</th><th>Comportamento ao Copiar</th></tr>
+<tr><td>Relativa</td><td>A1</td><td>Muda linha e coluna ao copiar</td></tr>
+<tr><td>Absoluta</td><td>$A$1</td><td>Não muda — use para tabelas de referência</td></tr>
+<tr><td>Mista (linha fixa)</td><td>A$1</td><td>Mantém a linha; muda a coluna</td></tr>
+<tr><td>Mista (coluna fixa)</td><td>$A1</td><td>Mantém a coluna; muda a linha</td></tr>
+</table>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m5_3')">
+  <span>📌 Módulo 5.3 — E-mail Profissional e Agenda Digital</span>
+  <span class="toggle" id="tog-m5_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m5_3">
+
+<h3>📧 Boas Práticas de E-mail Corporativo</h3>
+<table class="tab"><tr><th>Elemento</th><th>Boa Prática</th><th>Por quê</th></tr>
+<tr><td>Assunto</td><td>Específico, máx. 60 caracteres</td><td>Facilita triagem e busca futura</td></tr>
+<tr><td>Frequência de verificação</td><td>3x ao dia em horários fixos</td><td>Mantém o foco nas tarefas principais</td></tr>
+<tr><td>Tempo de resposta</td><td>Até 24 horas úteis</td><td>Padrão de profissionalismo</td></tr>
+<tr><td>CC vs CCO</td><td>CC: todos veem; CCO: destinatários ocultos</td><td>Privacidade e protocolo</td></tr>
+<tr><td>Assinatura</td><td>Nome, cargo, telefone, e-mail, site</td><td>Identidade profissional</td></tr>
+<tr><td>Anexos</td><td>Mencionar no corpo; compactar arquivos grandes</td><td>Evitar surpresas e blocqueios</td></tr>
+</table>
+<h3>📅 Gerenciamento de Agenda Digital</h3>
+<table class="tab"><tr><th>Funcionalidade</th><th>Ferramenta</th><th>Benefício</th></tr>
+<tr><td>Reuniões com múltiplos participantes</td><td>Google Calendar / Outlook</td><td>Sincronização automática e convites</td></tr>
+<tr><td>Lembretes de prazos</td><td>Qualquer agenda digital</td><td>Nunca perder vencimentos importantes</td></tr>
+<tr><td>Agenda da equipe compartilhada</td><td>Google Calendar compartilhado</td><td>Toda equipe vê disponibilidade</td></tr>
+<tr><td>Integração com videoconferência</td><td>Google Meet / Teams</td><td>Link automático no evento</td></tr>
+<tr><td>Tarefas e to-do list</td><td>Google Tasks / Todoist / Trello</td><td>Checklist integrado à agenda</td></tr>
+</table>
+<h3>💬 Comunicação Corporativa por Mensagens</h3>
+<ul>
+<li><strong>Microsoft Teams:</strong> chat, videochamadas e integração com Office 365</li>
+<li><strong>Slack:</strong> canais por projeto, integrações com outras ferramentas</li>
+<li><strong>WhatsApp Business:</strong> amplamente usado em PMEs brasileiras</li>
+</ul>
+<div class="dica">📵 <strong>Etiqueta Digital:</strong> Não envie mensagens corporativas fora do horário de trabalho sem urgência real. Respeite o tempo de descanso dos colegas.</div>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m5_4')">
+  <span>📌 Módulo 5.4 — Sistemas de Gestão (ERP) — Conceitos</span>
+  <span class="toggle" id="tog-m5_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m5_4">
+
+<h3>🖥️ O que é ERP?</h3>
+<p>ERP (Enterprise Resource Planning — Planejamento dos Recursos da Empresa) é um sistema integrado que unifica processos de diferentes departamentos em uma única plataforma: financeiro, RH, estoque, vendas, compras, produção e contabilidade.</p>
+<h3>✅ Por que as Empresas Usam ERP?</h3>
+<ul>
+<li>Elimina retrabalho e duplicidade de lançamentos</li>
+<li>Relatórios em tempo real para tomada de decisão</li>
+<li>Integração entre todos os departamentos</li>
+<li>Redução de erros operacionais</li>
+<li>Rastreabilidade de todas as operações</li>
+<li>Conformidade fiscal gerada automaticamente</li>
+</ul>
+<h3>🏢 ERPs Mais Usados no Brasil</h3>
+<table class="tab"><tr><th>Sistema</th><th>Porte Ideal</th><th>Destaques</th></tr>
+<tr><td>TOTVS (Protheus/RM)</td><td>Médio/Grande</td><td>Líder absoluto no mercado nacional</td></tr>
+<tr><td>SAP</td><td>Grande</td><td>Padrão mundial para grandes corporações</td></tr>
+<tr><td>Oracle NetSuite</td><td>Médio/Grande</td><td>Solução completa em nuvem</td></tr>
+<tr><td>Sankhya</td><td>Médio</td><td>Muito adotado em empresas brasileiras</td></tr>
+<tr><td>Omie</td><td>Pequeno/Médio</td><td>ERP em nuvem acessível para PMEs</td></tr>
+<tr><td>Conta Azul</td><td>Pequeno/MEI</td><td>Financeiro e NF-e simplificados</td></tr>
+</table>
+<h3>📋 Módulos Principais de um ERP</h3>
+<ul>
+<li>📊 Financeiro (Contas a Pagar, Contas a Receber, Fluxo de Caixa)</li>
+<li>📒 Contabilidade e Fiscal (SPED, NF-e, obrigações acessórias)</li>
+<li>👥 Recursos Humanos e Folha de Pagamento</li>
+<li>📦 Estoque e Almoxarifado</li>
+<li>🤝 Vendas e CRM (Gestão de Relacionamento com o Cliente)</li>
+<li>🛒 Compras e Suprimentos</li>
+<li>🏭 Produção e PCP (para indústrias)</li>
+</ul>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 5: Informática Aplicada ao Escritório</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs5"></div>
+<button class="btn-enviar" id="btn5" onclick="corrigir(5)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res5"></div>
+</div>
+</div>
+</div>
+<div class="bloco bloqueado" id="bloco6">
+<div class="bloco-header" onclick="toggleBloco(6)">
+  <div class="bloco-icon">🤝</div>
+  <div><h2>Bloco 6 — Atendimento e Relacionamento</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-bloqueado" id="status6">🔒 Bloqueado</span></div>
+</div>
+<div class="bloco-corpo" id="corpo6" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m6_1')">
+  <span>📌 Módulo 6.1 — Técnicas de Atendimento ao Cliente</span>
+  <span class="toggle" id="tog-m6_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m6_1">
+
+<h3>🎯 A Importância do Atendimento de Qualidade</h3>
+<p>Segundo pesquisas da consultoria Bain & Company, <strong>89% dos clientes</strong> migram para a concorrência após uma experiência ruim. Por outro lado, clientes satisfeitos gastam em média <strong>67% mais</strong> e indicam a empresa espontaneamente.</p>
+<h3>🌟 Pilares do Atendimento de Excelência</h3>
+<table class="tab"><tr><th>Pilar</th><th>O que Significa</th><th>Como Aplicar</th></tr>
+<tr><td>Rapidez</td><td>Resolver no menor tempo possível</td><td>Processos ágeis, informação acessível</td></tr>
+<tr><td>Empatia</td><td>Colocar-se no lugar do cliente</td><td>Escuta ativa, linguagem adequada</td></tr>
+<tr><td>Competência</td><td>Conhecer produtos, serviços e processos</td><td>Treinamento contínuo</td></tr>
+<tr><td>Personalização</td><td>Tratar cada cliente como único</td><td>Usar o nome, histórico de contatos</td></tr>
+<tr><td>Proatividade</td><td>Antecipar necessidades</td><td>Sugerir soluções antes de serem pedidas</td></tr>
+</table>
+<h3>📞 Atendimento Multicanal</h3>
+<table class="tab"><tr><th>Canal</th><th>Tempo de Resposta Ideal</th><th>Tom</th></tr>
+<tr><td>Presencial</td><td>Imediato</td><td>Formal e caloroso</td></tr>
+<tr><td>Telefone</td><td>Atender em até 3 toques</td><td>Formal e profissional</td></tr>
+<tr><td>E-mail</td><td>Até 4 horas úteis</td><td>Formal e objetivo</td></tr>
+<tr><td>WhatsApp/Chat</td><td>Até 30 minutos</td><td>Semiformal e ágil</td></tr>
+<tr><td>Redes Sociais</td><td>Até 1 hora</td><td>Semiformal e amigável</td></tr>
+</table>
+<h3>🔄 Ciclo Completo do Atendimento</h3>
+<ol>
+<li><strong>Acolher:</strong> receber com atenção, simpatia e contato visual</li>
+<li><strong>Identificar:</strong> entender a real necessidade do cliente</li>
+<li><strong>Resolver:</strong> apresentar a solução mais adequada</li>
+<li><strong>Confirmar:</strong> verificar se o cliente ficou satisfeito</li>
+<li><strong>Fidelizar:</strong> pós-atendimento e follow-up</li>
+</ol>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m6_2')">
+  <span>📌 Módulo 6.2 — Recepção e Protocolo Empresarial</span>
+  <span class="toggle" id="tog-m6_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m6_2">
+
+<h3>🏢 A Recepção como Primeiro Impacto</h3>
+<p>A recepção é o primeiro ponto de contato entre visitantes e a empresa. Estudos mostram que a primeira impressão é formada nos <strong>primeiros 7 segundos</strong> de contato e é difícil de reverter.</p>
+<h3>👋 Protocolo de Recepção de Visitantes</h3>
+<ol>
+<li><strong>Cumprimentar:</strong> levantar-se, fazer contato visual, sorrir e cumprimentar cordialmente</li>
+<li><strong>Identificar:</strong> solicitar nome completo e empresa do visitante</li>
+<li><strong>Registrar:</strong> anotar no livro ou sistema de controle de visitantes</li>
+<li><strong>Comunicar:</strong> avisar o anfitrião imediatamente da chegada</li>
+<li><strong>Acomodar:</strong> oferecer assento confortável, água e/ou café</li>
+<li><strong>Acompanhar:</strong> conduzir ao local da reunião quando solicitado</li>
+</ol>
+<h3>📋 Livro/Sistema de Controle de Visitantes</h3>
+<table class="tab"><tr><th>Campo</th><th>Por quê é Importante</th></tr>
+<tr><td>Nome completo e empresa</td><td>Identificação e rastreabilidade</td></tr>
+<tr><td>Documento de identidade</td><td>Segurança patrimonial</td></tr>
+<tr><td>Anfitrião a ser visitado</td><td>Encaminhamento correto</td></tr>
+<tr><td>Motivo da visita</td><td>Registro e controle de acesso</td></tr>
+<tr><td>Data e hora de entrada/saída</td><td>Controle de presença no local</td></tr>
+</table>
+<h3>☕ Etiqueta no Serviço de Recepção</h3>
+<ul>
+<li>Oferecer água e café sempre como cortesia</li>
+<li>Informar o tempo estimado de espera</li>
+<li>Retornar ao visitante após 10 minutos se houver demora</li>
+<li>Manter sigilo absoluto sobre informações internas</li>
+<li>Nunca deixar visitantes sem supervisão em áreas restritas</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m6_3')">
+  <span>📌 Módulo 6.3 — Gestão de Conflitos e Negociação</span>
+  <span class="toggle" id="tog-m6_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m6_3">
+
+<h3>⚔️ Conflito no Ambiente de Trabalho</h3>
+<p>Conflito é o resultado de incompatibilidade de objetivos, valores ou percepções. No ambiente administrativo, conflitos são inevitáveis — o que diferencia um bom profissional é sua capacidade de gerenciá-los de forma construtiva.</p>
+<h3>🔍 Causas Mais Comuns</h3>
+<ul>
+<li>Falhas de comunicação e ruídos na informação</li>
+<li>Escassez de recursos (orçamento, equipamentos, espaço)</li>
+<li>Diferenças de valores, personalidades e estilos de trabalho</li>
+<li>Ambiguidade de responsabilidades e papéis</li>
+<li>Pressão excessiva de prazos e metas</li>
+</ul>
+<h3>🛠️ Estilos de Gestão de Conflitos</h3>
+<table class="tab"><tr><th>Estilo</th><th>Quando Usar</th><th>Risco</th></tr>
+<tr><td>Colaboração (ganha-ganha)</td><td>Quando ambas as partes precisam sair satisfeitas</td><td>Demora mais tempo</td></tr>
+<tr><td>Compromisso</td><td>Situações onde cada parte cede um pouco</td><td>Ninguém fica totalmente satisfeito</td></tr>
+<tr><td>Acomodação</td><td>Quando o relacionamento é mais importante que o resultado</td><td>Acumula ressentimentos a longo prazo</td></tr>
+<tr><td>Competição</td><td>Decisões urgentes que exigem autoridade</td><td>Gera ressentimentos e desmotivação</td></tr>
+<tr><td>Evitação</td><td>Conflitos menores que se resolvem sozinhos</td><td>Conflito pode crescer e se agravar</td></tr>
+</table>
+<h3>🤝 Princípios de Negociação (Harvard)</h3>
+<ul>
+<li><strong>Separar pessoas do problema:</strong> atacar o problema, não a pessoa</li>
+<li><strong>Focar em interesses, não em posições:</strong> entender o que cada parte realmente precisa</li>
+<li><strong>Criar opções de ganho mútuo:</strong> gerar alternativas antes de decidir</li>
+<li><strong>Usar critérios objetivos:</strong> basear o acordo em dados e fatos, não em emoções</li>
+<li><strong>BATNA:</strong> sempre conheça sua melhor alternativa antes de negociar</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m6_4')">
+  <span>📌 Módulo 6.4 — Etiqueta Profissional e Corporativa</span>
+  <span class="toggle" id="tog-m6_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m6_4">
+
+<h3>👔 Etiqueta no Ambiente de Trabalho</h3>
+<p>A etiqueta profissional é o conjunto de comportamentos, normas e atitudes que garantem harmonia, respeito e eficiência no ambiente corporativo. Vai muito além da aparência — envolve postura, comunicação e relacionamentos.</p>
+<h3>👗 Dress Code Corporativo</h3>
+<table class="tab"><tr><th>Tipo</th><th>Descrição</th><th>Onde é Comum</th></tr>
+<tr><td>Formal</td><td>Terno/blazer completo, conservador</td><td>Bancos, advocacia, consultoria, governo</td></tr>
+<tr><td>Business Casual</td><td>Semiformal, confortável e elegante</td><td>Escritórios corporativos em geral</td></tr>
+<tr><td>Smart Casual</td><td>Casual com toque de profissionalismo</td><td>Agências criativas, startups</td></tr>
+<tr><td>Casual</td><td>Muito relaxado, geralmente às sextas</td><td>Empresas de tecnologia</td></tr>
+</table>
+<h3>🍽️ Etiqueta em Reuniões de Trabalho</h3>
+<ul>
+<li>Chegar 5 minutos antes do horário marcado</li>
+<li>Celular no modo silencioso — idealmente guardado</li>
+<li>Não interromper quem está falando</li>
+<li>Ser objetivo e respeitar o tempo de todos</li>
+<li>Registrar os pontos principais (ata ou anotações)</li>
+<li>Cumprir os compromissos assumidos na reunião</li>
+</ul>
+<h3>💼 Etiqueta Digital no Trabalho Remoto</h3>
+<ul>
+<li>Não enviar mensagens corporativas após horário comercial sem urgência</li>
+<li>Fundo virtual neutro e iluminação adequada em videochamadas</li>
+<li>Microfone no mudo quando não estiver falando</li>
+<li>Evitar emojis e gírias em comunicações formais</li>
+<li>Não gravar reuniões sem consentimento dos participantes</li>
+</ul>
+<div class="dica">🌟 <strong>Regra de Ouro:</strong> Trate a todos com o mesmo respeito — do porteiro ao CEO. Postura profissional não tem hierarquia.</div>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 6: Atendimento e Relacionamento</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs6"></div>
+<button class="btn-enviar" id="btn6" onclick="corrigir(6)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res6"></div>
+</div>
+</div>
+</div>
+<div class="bloco bloqueado" id="bloco7">
+<div class="bloco-header" onclick="toggleBloco(7)">
+  <div class="bloco-icon">📊</div>
+  <div><h2>Bloco 7 — Gestão de Processos e Projetos</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-bloqueado" id="status7">🔒 Bloqueado</span></div>
+</div>
+<div class="bloco-corpo" id="corpo7" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m7_1')">
+  <span>📌 Módulo 7.1 — Mapeamento e Fluxograma de Processos</span>
+  <span class="toggle" id="tog-m7_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m7_1">
+
+<h3>🗺️ O que é Mapeamento de Processos?</h3>
+<p>Mapeamento de processos é a documentação visual e estruturada de como as atividades de uma organização são realizadas, identificando entradas, atividades, responsáveis e saídas de cada processo. É o primeiro passo para qualquer projeto de melhoria.</p>
+<h3>📐 Símbolos do Fluxograma ABNT/ISO</h3>
+<table class="tab"><tr><th>Símbolo</th><th>Nome</th><th>Uso</th></tr>
+<tr><td>⬭ Oval/Elipse</td><td>Terminal</td><td>Início ou fim do processo</td></tr>
+<tr><td>▭ Retângulo</td><td>Processo/Atividade</td><td>Ação que deve ser executada</td></tr>
+<tr><td>◇ Losango</td><td>Decisão</td><td>Ponto de decisão binária (Sim/Não)</td></tr>
+<tr><td>▱ Paralelogramo</td><td>Entrada/Saída de Dados</td><td>Dados recebidos ou gerados</td></tr>
+<tr><td>→ Seta</td><td>Fluxo/Seta de Conexão</td><td>Direção e sequência do processo</td></tr>
+<tr><td>🗋 Documento</td><td>Documento</td><td>Documento gerado ou consultado no processo</td></tr>
+</table>
+<h3>🔍 Benefícios do Mapeamento</h3>
+<ul>
+<li>Identificar gargalos e atividades sem valor agregado</li>
+<li>Padronizar a execução e garantir qualidade consistente</li>
+<li>Facilitar o treinamento de novos colaboradores</li>
+<li>Dar base para automação de processos repetitivos</li>
+<li>Garantir conformidade com normas, auditorias e certificações</li>
+</ul>
+<h3>🛠️ Ferramentas para Criar Fluxogramas</h3>
+<ul>
+<li><strong>Gratuitas:</strong> draw.io (diagrams.net), Lucidchart (free), Canva</li>
+<li><strong>Microsoft:</strong> Visio (profissional), PowerPoint (formas básicas)</li>
+<li><strong>Colaborativas:</strong> Miro, Figma, Notion</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m7_2')">
+  <span>📌 Módulo 7.2 — Gestão de Projetos Básica</span>
+  <span class="toggle" id="tog-m7_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m7_2">
+
+<h3>📋 Projeto × Processo</h3>
+<table class="tab"><tr><th>Característica</th><th>Projeto</th><th>Processo</th></tr>
+<tr><td>Duração</td><td>Temporário — tem início e fim</td><td>Contínuo e repetitivo</td></tr>
+<tr><td>Resultado</td><td>Único e específico</td><td>Padronizado e recorrente</td></tr>
+<tr><td>Exemplo</td><td>Implantar novo sistema de gestão</td><td>Emitir folha de pagamento mensalmente</td></tr>
+</table>
+<h3>📅 Ciclo de Vida de um Projeto</h3>
+<ol>
+<li><strong>Iniciação:</strong> definir objetivo, escopo, partes interessadas e viabilidade</li>
+<li><strong>Planejamento:</strong> cronograma, orçamento, recursos e riscos</li>
+<li><strong>Execução:</strong> realizar as atividades planejadas com a equipe</li>
+<li><strong>Monitoramento e Controle:</strong> acompanhar progresso, gerenciar mudanças e riscos</li>
+<li><strong>Encerramento:</strong> entregar o resultado, documentar lições aprendidas</li>
+</ol>
+<h3>🗂️ Ferramentas de Gerenciamento de Projetos</h3>
+<table class="tab"><tr><th>Ferramenta</th><th>Tipo</th><th>Indicada Para</th></tr>
+<tr><td>Trello</td><td>Kanban visual</td><td>Projetos simples, pequenas equipes</td></tr>
+<tr><td>Asana</td><td>Tarefas e projetos</td><td>Equipes de médio porte</td></tr>
+<tr><td>Microsoft Project</td><td>Gerenciamento completo</td><td>Projetos corporativos complexos</td></tr>
+<tr><td>Monday.com</td><td>Visual e flexível</td><td>Múltiplos tipos de projeto</td></tr>
+<tr><td>Notion</td><td>All-in-one</td><td>Documentação integrada ao projeto</td></tr>
+</table>
+<h3>⚠️ Principais Causas de Fracasso em Projetos</h3>
+<ul>
+<li>Escopo mal definido ou mudanças constantes (scope creep)</li>
+<li>Falta de comunicação entre as partes interessadas</li>
+<li>Recursos insuficientes (tempo, orçamento, equipe)</li>
+<li>Riscos não identificados e não gerenciados</li>
+<li>Falta de patrocínio da liderança</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m7_3')">
+  <span>📌 Módulo 7.3 — Indicadores de Desempenho (KPIs)</span>
+  <span class="toggle" id="tog-m7_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m7_3">
+
+<h3>📏 O que são KPIs?</h3>
+<p>KPIs (Key Performance Indicators — Indicadores-Chave de Desempenho) são métricas quantificáveis que medem o progresso em direção aos objetivos estratégicos. Como dizia Peter Drucker: <em>"O que não é medido, não pode ser gerenciado."</em></p>
+<h3>✅ Critérios SMART para KPIs</h3>
+<table class="tab"><tr><th>Letra</th><th>Inglês</th><th>Português</th><th>Exemplo</th></tr>
+<tr><td>S</td><td>Specific</td><td>Específico</td><td>"Taxa de atendimento no prazo"</td></tr>
+<tr><td>M</td><td>Measurable</td><td>Mensurável</td><td>"Percentual de 0% a 100%"</td></tr>
+<tr><td>A</td><td>Achievable</td><td>Atingível</td><td>"Meta de 95% (atual: 87%)"</td></tr>
+<tr><td>R</td><td>Relevant</td><td>Relevante</td><td>"Impacta diretamente a satisfação do cliente"</td></tr>
+<tr><td>T</td><td>Time-bound</td><td>Temporal</td><td>"Até o final do trimestre"</td></tr>
+</table>
+<h3>📊 KPIs por Área Administrativa</h3>
+<table class="tab"><tr><th>Área</th><th>KPI</th><th>Fórmula</th><th>Meta Típica</th></tr>
+<tr><td>Financeiro</td><td>Margem de Lucro Líquida</td><td>(Lucro Líq. ÷ Receita) × 100</td><td>≥ 15%</td></tr>
+<tr><td>Atendimento</td><td>NPS (Satisfação)</td><td>% Promotores − % Detratores</td><td>≥ 50</td></tr>
+<tr><td>RH</td><td>Turnover (Rotatividade)</td><td>(Demissões ÷ Headcount) × 100</td><td>≤ 5% a.a.</td></tr>
+<tr><td>DP</td><td>Prazo de Fechamento da Folha</td><td>Dias até o fechamento</td><td>≤ 2 dias úteis</td></tr>
+<tr><td>Qualidade</td><td>Taxa de Retrabalho</td><td>(Itens refeitos ÷ Total) × 100</td><td>≤ 3%</td></tr>
+<tr><td>Projetos</td><td>On-Time Delivery</td><td>(Entregas no prazo ÷ Total) × 100</td><td>≥ 90%</td></tr>
+</table>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m7_4')">
+  <span>📌 Módulo 7.4 — Qualidade e Melhoria Contínua</span>
+  <span class="toggle" id="tog-m7_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m7_4">
+
+<h3>🏆 Gestão da Qualidade Total (TQM)</h3>
+<p>A Gestão da Qualidade Total é uma abordagem centrada na melhoria contínua de todos os processos, produtos e pessoas para superar as expectativas dos clientes. Surgiu no Japão do pós-guerra e revolucionou a administração global.</p>
+<h3>🔄 Ciclo PDCA — A Ferramenta Mais Importante da Qualidade</h3>
+<table class="tab"><tr><th>Fase</th><th>Inglês</th><th>O que fazer</th><th>Ferramentas</th></tr>
+<tr><td><strong>P</strong>lanejar</td><td>Plan</td><td>Identificar o problema, analisar causas, definir meta e plano de ação</td><td>Ishikawa, 5 Porquês, Pareto</td></tr>
+<tr><td><strong>D</strong>o</td><td>Do</td><td>Executar o plano conforme programado e coletar dados</td><td>Folha de verificação, cronograma</td></tr>
+<tr><td><strong>C</strong>heck</td><td>Check</td><td>Analisar os resultados e comparar com a meta estabelecida</td><td>Gráficos, indicadores, dashboard</td></tr>
+<tr><td><strong>A</strong>ct</td><td>Act</td><td>Se atingiu: padronizar. Se não atingiu: recomeçar o ciclo com novas hipóteses</td><td>POP, procedimentos, treinamento</td></tr>
+</table>
+<h3>🛠️ Sete Ferramentas da Qualidade</h3>
+<ul>
+<li><strong>Diagrama de Ishikawa (Espinha de Peixe):</strong> identifica causas por categoria (6M: Método, Máquina, Mão de obra, Material, Meio ambiente, Medição)</li>
+<li><strong>Diagrama de Pareto:</strong> 80% dos problemas têm 20% das causas — priorize o que mais impacta</li>
+<li><strong>5 Porquês:</strong> perguntar "Por quê?" 5 vezes consecutivas até chegar à causa raiz</li>
+<li><strong>Histograma:</strong> visualizar distribuição e frequência de dados</li>
+<li><strong>Folha de Verificação:</strong> coletar dados de forma estruturada e sistemática</li>
+<li><strong>Gráfico de Controle:</strong> monitorar a estabilidade de um processo ao longo do tempo</li>
+<li><strong>Diagrama de Dispersão:</strong> identificar correlação entre duas variáveis</li>
+</ul>
+<div class="dica">🌸 <strong>Kaizen:</strong> filosofia japonesa que significa "mudança para melhor" — a ideia de que pequenas melhorias diárias geram grandes transformações ao longo do tempo. Todo colaborador é agente de melhoria.</div>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 7: Gestão de Processos e Projetos</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs7"></div>
+<button class="btn-enviar" id="btn7" onclick="corrigir(7)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res7"></div>
+</div>
+</div>
+</div>
+<div class="bloco bloqueado" id="bloco8">
+<div class="bloco-header" onclick="toggleBloco(8)">
+  <div class="bloco-icon">⚖️</div>
+  <div><h2>Bloco 8 — Legislação e Ética Profissional</h2><div class="bloco-meta">📚 20h • 4 Módulos &nbsp;|&nbsp; Nota mínima: 7/10</div></div>
+  <div class="bloco-status"><span class="badge-status badge-bloqueado" id="status8">🔒 Bloqueado</span></div>
+</div>
+<div class="bloco-corpo" id="corpo8" style="display:none">
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m8_1')">
+  <span>📌 Módulo 8.1 — Direito Empresarial Básico</span>
+  <span class="toggle" id="tog-m8_1">▼</span>
+</div>
+<div class="mod-conteudo" id="m8_1">
+
+<h3>⚖️ O Direito Empresarial no Dia a Dia Administrativo</h3>
+<p>O Direito Empresarial regula as atividades das empresas e suas relações com clientes, fornecedores, empregados e o Estado. O assistente administrativo não precisa ser advogado, mas precisa conhecer os elementos básicos para atuar com segurança jurídica.</p>
+<h3>🏢 Tipos de Empresas no Brasil</h3>
+<table class="tab"><tr><th>Tipo</th><th>Sigla</th><th>Características Principais</th></tr>
+<tr><td>Microempreendedor Individual</td><td>MEI</td><td>Faturamento até R$ 81 mil/ano; 1 empregado; tributação simplificada</td></tr>
+<tr><td>Microempresa</td><td>ME</td><td>Faturamento até R$ 360 mil/ano; pode ter Simples Nacional</td></tr>
+<tr><td>Empresa de Pequeno Porte</td><td>EPP</td><td>Faturamento até R$ 4,8 milhões/ano</td></tr>
+<tr><td>Empresa Individual de Resp. Limitada</td><td>EIRELI</td><td>Um único titular com responsabilidade limitada</td></tr>
+<tr><td>Sociedade Limitada</td><td>LTDA</td><td>Dois ou mais sócios; responsabilidade limitada ao capital</td></tr>
+<tr><td>Sociedade Anônima</td><td>S.A.</td><td>Capital dividido em ações; pode abrir capital na bolsa</td></tr>
+</table>
+<h3>📋 Processo de Formalização</h3>
+<ol>
+<li>Elaborar o Contrato Social ou Estatuto</li>
+<li>Registrar na Junta Comercial (empresas) ou Cartório (sociedades simples)</li>
+<li>Obter o CNPJ na Receita Federal</li>
+<li>Obter a Inscrição Estadual (se trabalhar com mercadorias)</li>
+<li>Requerer o Alvará de Funcionamento na Prefeitura</li>
+<li>Registros específicos (Vigilância Sanitária, CRM, CREA, etc.)</li>
+</ol>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m8_2')">
+  <span>📌 Módulo 8.2 — Contratos e Documentos Jurídicos</span>
+  <span class="toggle" id="tog-m8_2">▼</span>
+</div>
+<div class="mod-conteudo" id="m8_2">
+
+<h3>📃 Elementos Essenciais de um Contrato Válido</h3>
+<p>Para ter validade jurídica, um contrato precisa atender a três requisitos básicos do Código Civil: <strong>agente capaz</strong> (partes com capacidade legal), <strong>objeto lícito</strong> (não proibido por lei) e <strong>forma prescrita em lei</strong>.</p>
+<h3>📋 Cláusulas Fundamentais de Todo Contrato</h3>
+<table class="tab"><tr><th>Cláusula</th><th>O que deve conter</th></tr>
+<tr><td>Identificação das Partes</td><td>Nome completo, CPF/CNPJ, endereço, representante legal</td></tr>
+<tr><td>Objeto do Contrato</td><td>Descrição clara e detalhada do que está sendo contratado</td></tr>
+<tr><td>Valor e Pagamento</td><td>Preço, forma de pagamento, prazo e encargos por atraso</td></tr>
+<tr><td>Prazo de Vigência</td><td>Data de início, término e condições de renovação</td></tr>
+<tr><td>Obrigações das Partes</td><td>O que cada parte deve fazer e o que não deve fazer</td></tr>
+<tr><td>Penalidades</td><td>Multas e consequências por descumprimento</td></tr>
+<tr><td>Rescisão</td><td>Condições para encerramento antecipado do contrato</td></tr>
+<tr><td>Foro</td><td>Cidade e Comarca para resolução judicial de conflitos</td></tr>
+</table>
+<h3>📑 Contratos Mais Comuns no Escritório Administrativo</h3>
+<ul>
+<li><strong>Prestação de Serviços:</strong> formaliza a contratação de serviços autônomos</li>
+<li><strong>Locação Comercial:</strong> aluguel de imóvel para fins comerciais</li>
+<li><strong>Compra e Venda:</strong> transferência de propriedade de bem</li>
+<li><strong>Fornecimento:</strong> entrega contínua e regular de produtos</li>
+<li><strong>NDA (Confidencialidade):</strong> proteção de informações sigilosas</li>
+<li><strong>Parceria/Franquia:</strong> acordos de cooperação empresarial</li>
+</ul>
+<div class="dica">⚠️ <strong>Regra prática:</strong> Antes de assinar qualquer contrato, leia atentamente todas as cláusulas, verifique os prazos e valores, e tire dúvidas com o departamento jurídico ou um advogado de confiança.</div>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m8_3')">
+  <span>📌 Módulo 8.3 — LGPD e Proteção de Dados</span>
+  <span class="toggle" id="tog-m8_3">▼</span>
+</div>
+<div class="mod-conteudo" id="m8_3">
+
+<h3>🔒 O que é a LGPD?</h3>
+<p>A <strong>Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018)</strong> estabelece regras sobre como dados pessoais devem ser coletados, armazenados, tratados e compartilhados por empresas e órgãos públicos no Brasil. Entrou em vigor em setembro de 2020.</p>
+<h3>👤 Conceitos Fundamentais da LGPD</h3>
+<table class="tab"><tr><th>Conceito</th><th>Definição Prática</th></tr>
+<tr><td>Dado Pessoal</td><td>Qualquer informação que identifique uma pessoa: nome, CPF, e-mail, telefone, IP, localização</td></tr>
+<tr><td>Dado Sensível</td><td>Origem racial/étnica, religião, saúde, biometria, orientação sexual, opinião política, filiação sindical</td></tr>
+<tr><td>Titular dos Dados</td><td>A pessoa física a quem os dados pertencem</td></tr>
+<tr><td>Controlador</td><td>A empresa ou pessoa que decide como e por que os dados serão tratados</td></tr>
+<tr><td>Operador</td><td>Quem realiza o tratamento dos dados em nome do controlador</td></tr>
+<tr><td>DPO (Encarregado)</td><td>Profissional responsável por garantir a conformidade com a LGPD na empresa</td></tr>
+</table>
+<h3>✅ Direitos do Titular dos Dados</h3>
+<ul>
+<li>Confirmar se a empresa possui seus dados e quais são</li>
+<li>Acessar seus dados em formato legível</li>
+<li>Solicitar correção de informações incorretas ou desatualizadas</li>
+<li>Solicitar a exclusão dos dados ("direito ao esquecimento")</li>
+<li>Revogar o consentimento dado anteriormente</li>
+<li>Portabilidade para outro fornecedor de serviço</li>
+</ul>
+<h3>⚠️ Sanções por Descumprimento (ANPD)</h3>
+<ul>
+<li>Advertência com prazo para adoção de medidas corretivas</li>
+<li>Multa simples de até <strong>2% do faturamento</strong> — máximo R$ 50 milhões por infração</li>
+<li>Publicização da infração nos meios de comunicação</li>
+<li>Bloqueio ou eliminação dos dados pessoais</li>
+<li>Suspensão parcial do banco de dados por até 6 meses</li>
+</ul>
+
+</div></div>
+<div class="modulo">
+<div class="mod-titulo" onclick="toggleMod('m8_4')">
+  <span>📌 Módulo 8.4 — Ética e Postura Profissional</span>
+  <span class="toggle" id="tog-m8_4">▼</span>
+</div>
+<div class="mod-conteudo" id="m8_4">
+
+<h3>🌟 Ética Profissional: a Base da Confiança</h3>
+<p>Ética profissional é o conjunto de princípios morais que orientam a conduta no exercício de uma profissão. No âmbito administrativo, a ética é o alicerce da confiança entre colaborador, empresa e clientes — e também o maior patrimônio de um profissional.</p>
+<h3>📋 Princípios Éticos Fundamentais</h3>
+<table class="tab"><tr><th>Princípio</th><th>Significado Prático</th><th>Como Aplicar no Dia a Dia</th></tr>
+<tr><td>Honestidade</td><td>Não omitir, falsificar ou distorcer informações</td><td>Reportar erros sem omissão, mesmo que prejudique</td></tr>
+<tr><td>Confidencialidade</td><td>Guardar sigilo sobre informações sensíveis</td><td>Não comentar dados de clientes ou empresa fora do trabalho</td></tr>
+<tr><td>Responsabilidade</td><td>Cumprir compromissos e assumir consequências</td><td>Entregar no prazo e avisar quando houver impedimentos</td></tr>
+<tr><td>Imparcialidade</td><td>Tratar todos com igualdade, sem favoritismos</td><td>Aplicar as mesmas regras a todos, independente de hierarquia</td></tr>
+<tr><td>Transparência</td><td>Agir de forma clara e aberta</td><td>Documentar decisões e comunicar mudanças proativamente</td></tr>
+<tr><td>Respeito</td><td>Tratar a todos com dignidade</td><td>Ouvir opiniões diferentes sem julgamento</td></tr>
+</table>
+<h3>🚨 Situações de Risco Ético no Escritório</h3>
+<ul>
+<li><strong>Conflito de interesses:</strong> usar o cargo para benefício pessoal (ex: contratar fornecedor por vínculo de amizade)</li>
+<li><strong>Vazamento de informações:</strong> compartilhar dados sigilosos indevidamente</li>
+<li><strong>Assédio moral:</strong> expor colegas a situações humilhantes de forma repetida</li>
+<li><strong>Assédio sexual:</strong> condutas de natureza sexual indesejadas</li>
+<li><strong>Fraude:</strong> falsificação de documentos, adulteração de dados ou registros</li>
+<li><strong>Corrupção:</strong> oferecer ou aceitar vantagens indevidas</li>
+</ul>
+<h3>💼 Construindo uma Reputação Sólida</h3>
+<ul>
+<li>Pontualidade e assiduidade demonstram comprometimento</li>
+<li>Cumprir o que promete — mesmo o que não foi prometido ao chefe</li>
+<li>Aprender continuamente — o profissional que para de aprender, regride</li>
+<li>Ser proativo nas soluções, não apenas nos problemas</li>
+<li>Valorizar cada membro da equipe independentemente do cargo</li>
+</ul>
+<div class="dica">🌟 <strong>Lembre-se:</strong> A reputação profissional leva anos para ser construída e pode ser destruída em minutos por uma única atitude antiética. Integridade é inegociável.</div>
+
+</div></div>
+<div class="avaliacao">
+<h3>📝 Avaliação — Bloco 8: Legislação e Ética Profissional</h3>
+<p class="sub">10 questões de múltipla escolha &nbsp;•&nbsp; Nota mínima para passar: <strong>7/10</strong></p>
+<div id="qs8"></div>
+<button class="btn-enviar" id="btn8" onclick="corrigir(8)" style="display:none">✅ Enviar Avaliação</button>
+<div id="res8"></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+// Estado do curso
+var estado = {};
+estado[1] = {aprovado:false, tentativas:0};
+estado[2] = {aprovado:false, tentativas:0};
+estado[3] = {aprovado:false, tentativas:0};
+estado[4] = {aprovado:false, tentativas:0};
+estado[5] = {aprovado:false, tentativas:0};
+estado[6] = {aprovado:false, tentativas:0};
+estado[7] = {aprovado:false, tentativas:0};
+estado[8] = {aprovado:false, tentativas:0};
+var banco = {};
+banco[1] = [{id:1, texto:'Qual é a principal característica que define o perfil de um Assistente Administrativo de sucesso?', opcoes:["Apenas ter diploma universitário", "Organização, comunicação e proatividade", "Saber apenas usar computador", "Ter mais de 5 anos de experiência"], correta:1}, {id:2, texto:'O que significa a metodologia 5S?', opcoes:["5 Sistemas de Segurança", "5 sensos: Utilização, Ordenação, Limpeza, Padronização e Disciplina", "5 Setores de uma empresa", "5 Softwares essenciais"], correta:1}, {id:3, texto:'Qual é o prazo legal de guarda para Notas Fiscais?', opcoes:["1 ano", "2 anos", "5 anos", "10 anos"], correta:2}, {id:4, texto:'Na Matriz de Eisenhower, tarefas URGENTES e IMPORTANTES devem ser:', opcoes:["Delegadas", "Eliminadas", "Feitas imediatamente", "Planejadas para o futuro"], correta:2}, {id:5, texto:'A Técnica Pomodoro define blocos de trabalho focado de quanto tempo?', opcoes:["10 minutos", "25 minutos", "45 minutos", "60 minutos"], correta:1}, {id:6, texto:"Qual expressão substitui adequadamente 'Não sei' no atendimento profissional?", opcoes:["'Não tenho ideia'", "'Isso não é comigo'", "'Vou verificar e retornarei em breve'", "'Pergunte a outra pessoa'"], correta:2}, {id:7, texto:'O método GTD inclui qual das seguintes sequências corretas?', opcoes:["Ignorar, Delegar, Arquivar", "Capturar, Esclarecer, Organizar, Refletir e Engajar", "Planejar, Executar e Avaliar", "Reunir, Distribuir e Descartar"], correta:1}, {id:8, texto:'Qual padrão de nomenclatura é recomendado para arquivos digitais profissionais?', opcoes:["Qualquer nome que lembre o conteúdo", "AAAA-MM-DD_NomeArquivo_versão", "Número sequencial simples", "Apenas o nome do responsável"], correta:1}, {id:9, texto:'No atendimento telefônico corporativo, qual deve ser a primeira ação?', opcoes:["Perguntar quem está ligando", "Identificar a empresa e seu nome", "Colocar em espera", "Pedir para ligar mais tarde"], correta:1}, {id:10, texto:'A comunicação eficaz responde por qual percentual do sucesso profissional?', opcoes:["40%", "60%", "75%", "85%"], correta:3}];
+banco[2] = [{id:1, texto:'O que é um Memorando no contexto empresarial?', opcoes:["Documento de comunicação externa", "Comunicação interna entre setores da mesma organização", "Relatório financeiro", "Contrato com fornecedor"], correta:1}, {id:2, texto:'Qual documento NÃO é um tipo de documento empresarial típico?', opcoes:["Ofício", "Ata de Reunião", "Nota Promissória", "Cardápio de Restaurante"], correta:3}, {id:3, texto:'A GED (Gestão Eletrônica de Documentos) tem como objetivo principal:', opcoes:["Apenas escanear documentos", "Digitalizar, organizar, controlar e preservar documentos eletronicamente", "Substituir funcionários do arquivo", "Criar e-mails automaticamente"], correta:1}, {id:4, texto:'Em uma Ata de Reunião, qual informação NÃO é obrigatória?', opcoes:["Data e local da reunião", "Nome dos participantes", "Assuntos tratados", "A roupa de cada participante"], correta:3}, {id:5, texto:'O Ofício é um documento de comunicação:', opcoes:["Exclusivamente interna", "Externa, entre diferentes órgãos ou empresas", "Apenas entre funcionários do mesmo setor", "Só em órgãos públicos federais"], correta:1}, {id:6, texto:'Qual é o prazo legal de guarda para Folha de Pagamento?', opcoes:["1 ano", "3 anos", "5 anos", "Permanente"], correta:2}, {id:7, texto:'Pastas suspensas são indicadas para:', opcoes:["Documentos históricos e antigos", "Documentos de uso frequente e corrente", "Apenas contratos encerrados", "Documentos pessoais"], correta:1}, {id:8, texto:'O que é um Protocolo de Documentos?', opcoes:["Uma senha de acesso ao arquivo", "Sistema de registro e controle de entrada e saída de documentos", "Tipo especial de pasta", "Relatório de auditoria"], correta:1}, {id:9, texto:'Qual o principal risco de não usar uma Tabela de Temporalidade?', opcoes:["Gastar muito papel", "Guardar documentos por tempo insuficiente ou excessivo, gerando problemas legais", "O arquivo ficar bagunçado", "Perder acesso ao computador"], correta:1}, {id:10, texto:'Uma Circular empresarial é caracterizada por ser enviada:', opcoes:["Para uma única pessoa", "Para múltiplos destinatários com o mesmo conteúdo", "Apenas para clientes externos", "Somente para o diretor"], correta:1}];
+banco[3] = [{id:1, texto:'O que é Fluxo de Caixa?', opcoes:["Apenas o saldo bancário atual", "Registro de todas as entradas e saídas financeiras em um período", "O lucro líquido mensal", "A diferença entre ativos e passivos"], correta:1}, {id:2, texto:'Contas a Receber representa:', opcoes:["Valores que a empresa deve a fornecedores", "Salários dos funcionários", "Valores que clientes devem à empresa", "Impostos a recolher"], correta:2}, {id:3, texto:'A Conciliação Bancária consiste em:', opcoes:["Negociar dívidas com bancos", "Comparar os registros internos com o extrato bancário", "Abrir novas contas", "Calcular juros bancários"], correta:1}, {id:4, texto:'O que é uma Nota Fiscal Eletrônica (NF-e)?', opcoes:["Nota impressa com código de barras", "Documento fiscal digital com validade jurídica que substitui a nota em papel", "Comprovante de pagamento bancário", "Recibo simples de transação"], correta:1}, {id:5, texto:'Qual é a função do DRE?', opcoes:["Controlar o estoque", "Mostrar se a empresa teve lucro ou prejuízo no período", "Registrar entradas de funcionários", "Listar os fornecedores"], correta:1}, {id:6, texto:'O que é um Boleto Bancário?', opcoes:["Um tipo de cheque especial", "Documento de cobrança que permite pagamento em qualquer banco", "Um extrato bancário mensal", "Uma ordem de pagamento internacional"], correta:1}, {id:7, texto:'O CNPJ é o número de identificação de:', opcoes:["Pessoas físicas na Receita Federal", "Pessoas jurídicas (empresas) perante a Receita Federal", "Funcionários no sistema de RH", "Produtos no sistema tributário"], correta:1}, {id:8, texto:'Qual é a diferença entre Custo e Despesa?', opcoes:["São a mesma coisa", "Custo é ligado à produção; Despesa é ligada à administração e vendas", "Custo é sempre maior que Despesa", "Despesa é sempre fixa"], correta:1}, {id:9, texto:'O prazo médio de pagamento de fornecedores mede:', opcoes:["Quantos dias para receber dos clientes", "Quantos dias em média a empresa leva para pagar fornecedores", "A taxa de juros dos empréstimos", "O lucro bruto"], correta:1}, {id:10, texto:'Para atraso de 1 a 5 dias em Contas a Receber, o que é recomendado?', opcoes:["Encaminhar ao jurídico imediatamente", "Enviar lembrete amigável por WhatsApp ou e-mail", "Cobrar juros imediatamente", "Cancelar o crédito do cliente"], correta:1}];
+banco[4] = [{id:1, texto:'O que é a CLT?', opcoes:["Código de Licitações e Tributação", "Consolidação das Leis do Trabalho — principal legislação trabalhista brasileira", "Conselho de Licenças Trabalhistas", "Coordenação de Leis Tributárias"], correta:1}, {id:2, texto:'Qual é o prazo para pagamento do salário ao trabalhador?', opcoes:["Até o 5º dia útil do mês seguinte", "Até o 10º dia do mês seguinte", "Qualquer dia do mês", "Somente às sextas-feiras"], correta:0}, {id:3, texto:'O FGTS corresponde a qual percentual do salário?', opcoes:["4%", "6%", "8%", "11%"], correta:2}, {id:4, texto:'O que é a CTPS?', opcoes:["Um benefício do INSS", "Documento obrigatório para formalização do vínculo empregatício", "Comprovante de pagamento de salário", "Relatório de frequência"], correta:1}, {id:5, texto:'O aviso prévio mínimo para quem tem até 1 ano de empresa é:', opcoes:["15 dias", "30 dias", "45 dias", "60 dias"], correta:1}, {id:6, texto:'O 13º salário é pago em:', opcoes:["Uma única parcela em dezembro", "Duas parcelas: 1ª até 30/11 e 2ª até 20/12", "Três parcelas mensais", "Uma parcela em novembro"], correta:1}, {id:7, texto:'São benefícios OBRIGATÓRIOS por lei:', opcoes:["Vale-refeição e plano de saúde", "FGTS, INSS, 13º, férias e vale-transporte (quando necessário)", "Apenas férias e 13º", "Somente o vale-transporte"], correta:1}, {id:8, texto:'A admissão deve ser registrada em até:', opcoes:["1 dia útil", "3 dias úteis", "5 dias úteis", "30 dias"], correta:0}, {id:9, texto:'O eSocial é:', opcoes:["Uma rede social para empresas", "Sistema digital unificado para transmissão de informações trabalhistas ao governo", "Um aplicativo de folha de pagamento", "Um benefício social"], correta:1}, {id:10, texto:'Na demissão sem justa causa, a multa sobre o FGTS é de:', opcoes:["10%", "20%", "30%", "40%"], correta:3}];
+banco[5] = [{id:1, texto:'No Word, qual atalho cria um novo documento?', opcoes:["Ctrl+O", "Ctrl+N", "Ctrl+A", "Ctrl+T"], correta:1}, {id:2, texto:'No Excel, o que faz a função PROCV?', opcoes:["Busca um valor verticalmente em uma tabela e retorna dado na mesma linha", "Formata células verticalmente", "Cria gráficos de barras", "Ordena dados"], correta:0}, {id:3, texto:'O que é um ERP?', opcoes:["Um antivírus corporativo", "Sistema integrado de gestão empresarial que unifica processos de vários departamentos", "Um tipo de planilha avançada", "Um programa de e-mail"], correta:1}, {id:4, texto:'Qual é a extensão padrão de um arquivo Excel moderno?', opcoes:[".doc", ".xlsx", ".ppt", ".pdf"], correta:1}, {id:5, texto:"No e-mail corporativo, o campo 'CC' significa:", opcoes:["Cópia Confidencial", "Com Cuidado", "Com Cópia — todos os destinatários ficam visíveis", "Cópia Cancelada"], correta:2}, {id:6, texto:'Qual função do Excel calcula a média de um intervalo?', opcoes:["=SOMA()", "=MED()", "=MÉDIA()", "=CALC()"], correta:2}, {id:7, texto:"O recurso 'Mala Direta' do Word serve para:", opcoes:["Uma pasta especial de e-mails", "Personalizar documentos em massa usando dados de uma lista", "Criptografar documentos", "Criar cabeçalhos especiais"], correta:1}, {id:8, texto:'No Excel, para fixar uma célula na fórmula (referência absoluta), usa-se:', opcoes:["&", "$", "@", "#"], correta:1}, {id:9, texto:'A principal vantagem do PDF no ambiente profissional é:', opcoes:["Só abre no Word", "Mantém a formatação independentemente do dispositivo ou sistema", "É um tipo de planilha", "Formato exclusivo para imagens"], correta:1}, {id:10, texto:'Qual ferramenta é mais adequada para criar um cronograma de projeto?', opcoes:["Bloco de notas", "Excel ou ferramentas como Trello e Asana", "Word", "Paint"], correta:1}];
+banco[6] = [{id:1, texto:'O que é atendimento com empatia?', opcoes:["Concordar com tudo que o cliente diz", "Colocar-se no lugar do cliente, compreendendo suas necessidades", "Ser excessivamente formal", "Resolver apenas quando solicitado"], correta:1}, {id:2, texto:'Qual técnica é eficaz na gestão de conflitos?', opcoes:["Ignorar o problema", "Escuta ativa e busca de solução colaborativa", "Impor a solução sem ouvir", "Transferir sempre para a chefia"], correta:1}, {id:3, texto:'O protocolo de recepção de visitas inclui:', opcoes:["Apenas abrir a porta", "Recepcionar com cortesia, identificar, comunicar o anfitrião e acomodar", "Pedir que aguarde do lado de fora", "Ignorar visitantes sem agendamento"], correta:1}, {id:4, texto:'Etiqueta profissional em reuniões exige:', opcoes:["Chegar a qualquer horário", "Pontualidade, celular no silencioso e respeito à fala dos outros", "Interromper quando discordar", "Usar o computador para outras tarefas"], correta:1}, {id:5, texto:'Qual é a postura correta diante de uma reclamação de cliente?', opcoes:["Defender a empresa a qualquer custo", "Ouvir, pedir desculpas e apresentar solução", "Dizer que o erro foi do cliente", "Transferir sem dar retorno"], correta:1}, {id:6, texto:'O rapport no atendimento refere-se a:', opcoes:["Um relatório de atendimento", "A criação de uma conexão positiva e de confiança com o interlocutor", "Uma técnica de vendas agressiva", "O registro no sistema"], correta:1}, {id:7, texto:'A comunicação não-verbal representa aproximadamente:', opcoes:["7% da comunicação", "38% da comunicação", "55% a 65% da comunicação", "90% da comunicação"], correta:2}, {id:8, texto:'Qual o principal objetivo do follow-up?', opcoes:["Vender mais produtos", "Verificar a satisfação e reforçar o relacionamento", "Cobrar o pagamento", "Solicitar avaliações positivas"], correta:1}, {id:9, texto:'A abordagem ganha-ganha na negociação significa:', opcoes:["Apenas uma parte sai satisfeita", "Ambas as partes chegam a acordo mutuamente benéfico", "A empresa sempre leva vantagem", "Ceder em todos os pontos"], correta:1}, {id:10, texto:'O que é SLA no contexto de atendimento?', opcoes:["Um software de atendimento", "Acordo de nível de serviço que define prazos e padrões de qualidade", "Um tipo de treinamento", "Um formulário de avaliação"], correta:1}];
+banco[7] = [{id:1, texto:'O que é um fluxograma de processo?', opcoes:["Um gráfico de barras", "Representação visual e sequencial das etapas de um processo com símbolos padronizados", "Uma lista de tarefas", "Um mapa geográfico"], correta:1}, {id:2, texto:'O ciclo PDCA é uma ferramenta de:', opcoes:["Contratação de pessoal", "Melhoria contínua de processos e qualidade", "Cálculo de folha de pagamento", "Atendimento ao cliente"], correta:1}, {id:3, texto:'O que é um KPI?', opcoes:["Um tipo de relatório financeiro", "Indicador-chave de desempenho que mede o progresso em relação a metas", "Um software de gestão", "Uma técnica de negociação"], correta:1}, {id:4, texto:'No gerenciamento de projetos, escopo é:', opcoes:["O orçamento total", "A definição clara do que será entregue pelo projeto", "A equipe responsável", "O prazo final"], correta:1}, {id:5, texto:'O Diagrama de Ishikawa serve para:', opcoes:["Criar cronogramas", "Identificar causas raízes de um problema", "Planejar o orçamento", "Elaborar organogramas"], correta:1}, {id:6, texto:'O Diagrama de Gantt é:', opcoes:["Um gráfico de pizza", "Ferramenta visual de cronograma com tarefas, responsáveis e prazos", "Um organograma de equipe", "Uma análise de mercado"], correta:1}, {id:7, texto:'A metodologia Lean tem como objetivo principal:', opcoes:["Aumentar o número de funcionários", "Eliminar desperdícios e criar mais valor com menos recursos", "Expandir o portfólio", "Reduzir salários"], correta:1}, {id:8, texto:'O que é Benchmarking?', opcoes:["Um tipo de reunião", "Comparar práticas e desempenho com os melhores do mercado", "Um software financeiro", "Uma técnica de arquivamento"], correta:1}, {id:9, texto:'Na gestão de processos, gargalo é:', opcoes:["Um tipo de relatório", "Ponto onde ocorre acúmulo de trabalho, reduzindo a eficiência do processo", "Uma reunião de planejamento", "Um indicador financeiro"], correta:1}, {id:10, texto:'O que diferencia eficiência de eficácia?', opcoes:["São sinônimos", "Eficiência é fazer certo; eficácia é fazer a coisa certa (atingir o objetivo)", "Eficácia é relevante só em produção", "Eficiência se aplica só ao financeiro"], correta:1}];
+banco[8] = [{id:1, texto:'A LGPD foi criada para proteger:', opcoes:["Dados financeiros das empresas", "Dados pessoais de pessoas físicas no Brasil", "Documentos de patente", "Registros contábeis"], correta:1}, {id:2, texto:'São considerados dados sensíveis pela LGPD:', opcoes:["Apenas nome e CPF", "Dados sobre origem racial, saúde, biometria e religião, entre outros", "Qualquer informação sobre vendas", "Dados financeiros da empresa"], correta:1}, {id:3, texto:'O que é um Contrato de Trabalho?', opcoes:["Uma lista de tarefas", "Acordo formal entre empregador e empregado com direitos, deveres e condições", "Um recibo de salário", "Um formulário de admissão"], correta:1}, {id:4, texto:'Ética profissional no ambiente administrativo inclui:', opcoes:["Compartilhar dados confidenciais", "Manter sigilo, honestidade, respeito e responsabilidade na função", "Priorizar interesses pessoais", "Evitar comunicação com outros setores"], correta:1}, {id:5, texto:'O que é procuração no direito empresarial?', opcoes:["Um contrato de compra e venda", "Documento que concede poderes a uma pessoa para agir em nome de outra", "Uma certidão judicial", "Um comprovante de registro"], correta:1}, {id:6, texto:'Qual órgão registra empresas comerciais (LTDA, S.A.) no Brasil?', opcoes:["Receita Federal", "Junta Comercial", "Ministério do Trabalho", "INSS"], correta:1}, {id:7, texto:'O que é uma NDA (Non-Disclosure Agreement)?', opcoes:["Um contrato de trabalho padrão", "Acordo legal que impede as partes de divulgar informações confidenciais", "Um relatório de auditoria", "Um tipo de procuração"], correta:1}, {id:8, texto:'Whistleblowing corporativo refere-se a:', opcoes:["Uma técnica de apresentação", "Denunciar irregularidades ou comportamentos antiéticos na organização", "Um tipo de treinamento", "Uma estratégia de marketing"], correta:1}, {id:9, texto:'O Código de Ética de uma empresa serve para:', opcoes:["Definir salários", "Estabelecer princípios e normas de conduta que orientam o comportamento", "Substituir o contrato de trabalho", "Definir o organograma"], correta:1}, {id:10, texto:'O que caracteriza assédio moral no trabalho?', opcoes:["Feedback construtivo", "Expor o funcionário a situações humilhantes de forma repetida", "Cobrar metas de desempenho", "Determinar horários de trabalho"], correta:1}];
+
+function toggleBloco(n) {
+  var corpo = document.getElementById('corpo'+n);
+  if (corpo.style.display === 'none') {
+    corpo.style.display = 'block';
+    renderQuestoes(n);
+  } else {
+    corpo.style.display = 'none';
+  }
+}
+
+function toggleMod(id) {
+  var el = document.getElementById(id);
+  var tog = document.getElementById('tog-'+id);
+  if (el.classList.contains('aberto')) {
+    el.classList.remove('aberto');
+    tog.classList.remove('aberto');
+  } else {
+    el.classList.add('aberto');
+    tog.classList.add('aberto');
+  }
+}
+
+function renderQuestoes(n) {
+  var div = document.getElementById('qs'+n);
+  if (div.innerHTML !== '') return;
+  var html = '';
+  banco[n].forEach(function(q, i) {
+    html += '<div class="questao" id="q'+n+'_'+(i+1)+'">';
+    html += '<p><span class="num">'+(i+1)+'.</span>'+q.texto+'</p>';
+    html += '<div class="opcoes">';
+    q.opcoes.forEach(function(op, j) {
+      html += '<label class="opc" id="opc'+n+'_'+(i+1)+'_'+j+'">';
+      html += '<input type="radio" name="q'+n+'_'+(i+1)+'" value="'+j+'"> '+op;
+      html += '</label>';
+    });
+    html += '</div></div>';
+  });
+  div.innerHTML = html;
+  document.getElementById('btn'+n).style.display = 'block';
+  if (estado[n].aprovado) {
+    document.getElementById('btn'+n).disabled = true;
+  }
+}
+
+function corrigir(n) {
+  var acertos = 0;
+  banco[n].forEach(function(q, i) {
+    var radios = document.querySelectorAll('input[name="q'+n+'_'+(i+1)+'"]');
+    var selecionado = -1;
+    radios.forEach(function(r) { if (r.checked) selecionado = parseInt(r.value); });
+    // Desabilitar após resposta
+    radios.forEach(function(r) { r.disabled = true; });
+    // Colorir
+    for (var j = 0; j < q.opcoes.length; j++) {
+      var opc = document.getElementById('opc'+n+'_'+(i+1)+'_'+j);
+      if (j === q.correta) { opc.classList.add('correta'); }
+      else if (j === selecionado && selecionado !== q.correta) { opc.classList.add('errada'); }
+    }
+    if (selecionado === q.correta) acertos++;
+  });
+
+  estado[n].tentativas++;
+  var aprovado = acertos >= 7;
+  estado[n].aprovado = aprovado;
+
+  var resDiv = document.getElementById('res'+n);
+  if (aprovado) {
+    resDiv.innerHTML = '<div class="resultado-box aprovado"><h4>🎉 Aprovado! '+acertos+'/10</h4><p>Parabéns! Você foi aprovado neste bloco. Continue para o próximo!</p></div>';
+    document.getElementById('status'+n).textContent = '✅ Aprovado';
+    document.getElementById('status'+n).className = 'badge-status badge-aprovado';
+    // Liberar próximo bloco
+    var prox = n + 1;
+    if (prox <= 8) {
+      var proxBloco = document.getElementById('bloco'+prox);
+      proxBloco.classList.remove('bloqueado');
+      document.getElementById('status'+prox).textContent = 'Disponível';
+      document.getElementById('status'+prox).className = 'badge-status badge-disponivel';
+    }
+    atualizarProgresso();
+  } else {
+    resDiv.innerHTML = '<div class="resultado-box reprovado"><h4>😔 Não aprovado: '+acertos+'/10</h4><p>Você precisa de pelo menos 7 acertos para avançar. Revise o conteúdo e tente novamente.</p><button class="btn-refazer" onclick="refazer('+n+')">🔁 Refazer Avaliação</button></div>';
+    document.getElementById('status'+n).textContent = '❌ Reprovado';
+    document.getElementById('status'+n).className = 'badge-status badge-reprovado';
+  }
+  document.getElementById('btn'+n).disabled = true;
+}
+
+function refazer(n) {
+  var div = document.getElementById('qs'+n);
+  div.innerHTML = '';
+  document.getElementById('res'+n).innerHTML = '';
+  estado[n].aprovado = false;
+  document.getElementById('status'+n).textContent = 'Disponível';
+  document.getElementById('status'+n).className = 'badge-status badge-disponivel';
+  renderQuestoes(n);
+  document.getElementById('btn'+n).disabled = false;
+}
+
+function atualizarProgresso() {
+  var total = 0;
+  for (var i = 1; i <= 8; i++) { if (estado[i].aprovado) total++; }
+  var pct = Math.round((total/8)*100);
+  document.getElementById('barra-prog').style.width = pct+'%';
+  document.getElementById('texto-prog').textContent = total+' de 8 blocos concluídos — '+pct+'%';
+}
+
+// Abrir bloco 1 automaticamente
+window.onload = function() { toggleBloco(1); };
+
+</script>
+</body></html>
