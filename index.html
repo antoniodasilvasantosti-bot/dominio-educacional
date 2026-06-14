@@ -1855,7 +1855,7 @@ function renderNgDashboard(){
       var c = ant.etapas.filter(function(e){return prog[e.id]===true;}).length;
       return Math.round(c/ant.etapas.length*100);
     })();
-    var bloqueado = mi > 0 && anteriorPct < 60;
+    var bloqueado = false; // todos os módulos liberados
     html += '<div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">'
       + '<div style="padding:.8rem 1rem;background:' + (bloqueado?'#1e293b':'#78350f') + ';display:flex;justify-content:space-between;align-items:center">'
       + '<span style="color:white;font-weight:600">' + (bloqueado?'&#128274; ':'&#128275; ') + (mi+1) + '. ' + modulo.titulo + '</span>'
@@ -2267,14 +2267,14 @@ function renderCursoDashboard(){
     + '</div><div style="background:var(--card);border-radius:0 0 12px 12px;padding:1rem">';
   cursoModulos.forEach(function(modulo, mi){
     var etapasConcluidas = modulo.etapas.filter(function(e){return prog[e.id]===true;}).length;
-    var bloqueado = mi > 0 && !modulo.etapas.every(function(e,ei){ return ei===0 || prog[modulo.etapas[ei-1].id]===true; });
+    var bloqueado = false; // todos os módulos liberados
     // modulo desbloqueado se anterior tem pelo menos 60%
     var anteriorPct = mi===0 ? 100 : (function(){
       var ant = cursoModulos[mi-1];
       var c = ant.etapas.filter(function(e){return prog[e.id]===true;}).length;
       return Math.round(c/ant.etapas.length*100);
     })();
-    bloqueado = mi > 0 && anteriorPct < 60;
+    bloqueado = false; // todos os módulos liberados
     html += '<div style="margin-bottom:1rem;border:1px solid var(--borda);border-radius:8px;overflow:hidden">'
       + '<div style="padding:.8rem 1rem;background:' + (bloqueado?'#1e293b':'#1e3a5f') + ';display:flex;justify-content:space-between;align-items:center">'
       + '<span style="color:white;font-weight:600">' + (bloqueado?'&#128274; ':'&#128275; ') + (mi+1) + '. ' + modulo.titulo + '</span>'
